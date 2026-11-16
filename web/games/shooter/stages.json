@@ -1,0 +1,222 @@
+{
+  "heroine": {
+    "id": "rina",
+    "name": {
+      "en": "RINA",
+      "ja": "リナ",
+      "zh": "莉娜"
+    }
+  },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), pc-98 (style), pixel art, dithering, limited palette, anime coloring",
+    "character": "1girl, solo, long blue hair, ponytail, amber eyes, white uniform, red accents, headset, gentle smile",
+    "ending": "space station control room, large window, looking at viewer, upper body, starry space through window, explosion in distance, light particles",
+    "negative": "3d, realistic, photorealistic, blurry, modern"
+  },
+  "stages": [
+    {
+      "id": 1,
+      "name": {
+        "en": "Nebula Gate",
+        "ja": "星雲の門",
+        "zh": "星云之门"
+      },
+      "color": "#e858e8",
+      "clear_prompt": "purple nebula",
+      "dive_interval": 3.4,
+      "enemy_fire": 0.5,
+      "story_before": [
+        {
+          "speaker": "narr",
+          "text": {
+            "en": "Space Era 0088. A machine fleet crossed the Nebula Gate and began its invasion.",
+            "ja": "宇宙暦0088年。謎の機械艦隊が星雲の門を越え、侵攻を開始した。",
+            "zh": "宇宙历0088年。神秘的机械舰队越过星云之门，开始了侵攻。"
+          }
+        },
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "This is Rina at control. Can you hear me? Your ship is all that's left of the defense line.",
+            "ja": "こちら管制のリナ。聞こえる？防衛ラインに残っているのは、もうあなたの機体だけよ。",
+            "zh": "这里是管制员莉娜。听得到吗？防线上只剩下你的机体了。"
+          }
+        },
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "Break through the Nebula Gate... and come back to me. Promise.",
+            "ja": "星雲の門を突破して。……必ず、帰ってきてね。",
+            "zh": "突破星云之门……一定要回来，约好了。"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "You did it! We're through the gate. The asteroid belt is next. Watch out for the rocks!",
+            "ja": "やった！門を突破したわ。この先は小惑星帯……岩に気をつけて！",
+            "zh": "成功了！我们穿过了星门。前面是小行星带……小心岩石！"
+          }
+        }
+      ],
+      "waves": [
+        {
+          "path": "left_arc",
+          "enemy": "scout",
+          "count": 6
+        },
+        {
+          "path": "right_arc",
+          "enemy": "scout",
+          "count": 6
+        },
+        {
+          "path": "top_left_loop",
+          "enemy": "guard",
+          "count": 4
+        },
+        {
+          "path": "top_right_loop",
+          "enemy": "guard",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": {
+        "en": "Asteroid Belt",
+        "ja": "小惑星帯",
+        "zh": "小行星带"
+      },
+      "color": "#f89838",
+      "clear_prompt": "asteroid field, distant planet",
+      "dive_interval": 2.6,
+      "enemy_fire": 0.7,
+      "story_before": [
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "I intercepted their signal. Their mothership is hiding beyond the belt.",
+            "ja": "敵の通信を傍受したわ。この奥に母艦が隠れているみたい。",
+            "zh": "我截获了敌人的通信。他们的母舰好像就藏在小行星带深处。"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "There it is... the mothership. It's huge...",
+            "ja": "見えた……あれが母艦。なんて大きいの……。",
+            "zh": "看到了……那就是母舰。好大啊……"
+          }
+        },
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "But you can do it. I'll guide you all the way!",
+            "ja": "でも大丈夫。あなたならできる。私が最後までナビするから！",
+            "zh": "不过没关系，你一定能做到。我会一直为你导航！"
+          }
+        }
+      ],
+      "waves": [
+        {
+          "path": "top_left_loop",
+          "enemy": "scout",
+          "count": 8
+        },
+        {
+          "path": "top_right_loop",
+          "enemy": "scout",
+          "count": 8
+        },
+        {
+          "path": "left_arc",
+          "enemy": "guard",
+          "count": 4
+        },
+        {
+          "path": "right_arc",
+          "enemy": "guard",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": {
+        "en": "Mothership",
+        "ja": "母艦",
+        "zh": "母舰"
+      },
+      "color": "#58e858",
+      "clear_prompt": "giant alien mothership exploding",
+      "dive_interval": 2.0,
+      "enemy_fire": 0.9,
+      "story_before": [
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "This is the final battle. Aim for the core of the mothership!",
+            "ja": "これが最後の戦いよ。母艦の中枢を狙って！",
+            "zh": "这是最后一战。瞄准母舰的核心！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "narr",
+          "text": {
+            "en": "Wrapped in light, the mothership slowly fell apart.",
+            "ja": "母艦は光に包まれ、静かに崩れていった。",
+            "zh": "母舰被光芒包围，静静地崩塌了。"
+          }
+        },
+        {
+          "speaker": "rina",
+          "text": {
+            "en": "...Welcome home. I've been waiting for you all this time.",
+            "ja": "……おかえりなさい。ずっと、待ってたんだから。",
+            "zh": "……欢迎回来。我一直在等你。"
+          }
+        }
+      ],
+      "waves": [
+        {
+          "path": "left_arc",
+          "enemy": "scout",
+          "count": 8
+        },
+        {
+          "path": "right_arc",
+          "enemy": "scout",
+          "count": 8
+        },
+        {
+          "path": "top_left_loop",
+          "enemy": "guard",
+          "count": 4
+        },
+        {
+          "path": "top_right_loop",
+          "enemy": "guard",
+          "count": 4
+        },
+        {
+          "path": "top_left_loop",
+          "enemy": "commander",
+          "count": 2
+        },
+        {
+          "path": "top_right_loop",
+          "enemy": "commander",
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

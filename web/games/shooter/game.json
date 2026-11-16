@@ -1,0 +1,18 @@
+{
+  "name": {
+    "en": "Star Formation",
+    "ja": "スターフォーメーション",
+    "zh": "星际编队"
+  },
+  "description": {
+    "en": "A 1980s-style vertical shooter (arcade / MSX2 / PC-8801 look, chiptune music). Enemy squadrons fly in, line up, then dive at you. Navigator Rina guides you between stages; clear all 3 to generate the ending scene with her.",
+    "ja": "80年代(アーケード / MSX2 / PC-8801)風の縦シューティング。チップチューン風BGM付き。編隊で飛来して急降下してくる敵を撃ち落とそう。ステージの合間にナビゲーターのリナが登場し、全3ステージをクリアすると彼女のエンディングシーンを生成します。",
+    "zh": "80年代(街机 / MSX2 / PC-8801)风格的纵向射击游戏，带芯片音乐风格的背景音乐。击落编队飞入并俯冲的敌机。关卡之间导航员莉娜会登场，通过全部 3 关后生成她的结局画面。"
+  },
+  "version": "0.2.0",
+  "entry": "index.js",
+  "modes": [
+    "clear"
+  ],
+  "order": 10
+}
