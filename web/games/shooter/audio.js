@@ -208,6 +208,11 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
                 case "playerDown": noise(d, t, 0.9, 0.3, 150); tone(d, "square", 330, t, 0.8, 0.07, { slide: 0.12 }); break;
                 case "dive": tone(d, "pulse12", 900, t, 0.35, 0.025, { slide: 0.4 }); break;
                 case "text": tone(d, "pulse12", 1800, t, 0.02, 0.02); break;
+                case "warning": [0, 0.3, 0.6].forEach((dt) => { tone(d, "square", 880, t + dt, 0.14, 0.05); tone(d, "square", 660, t + dt + 0.15, 0.14, 0.05); }); break;
+                case "bossDown": noise(d, t, 1.6, 0.35, 120); tone(d, "sawtooth", 260, t, 1.4, 0.08, { slide: 0.1 }); break;
+                case "charge": tone(d, "pulse25", 200, t, 0.5, 0.05, { slide: 4 }); break;
+                case "item": [1047, 1319, 1568, 2093].forEach((f, i) => tone(d, "pulse25", f, t + i * 0.05, 0.06, 0.04)); break;
+                case "perfect": [784, 988, 1175, 1568, 1976].forEach((f, i) => tone(d, "square", f, t + i * 0.08, 0.1, 0.045)); break;
                 case "start": [523, 784, 1047].forEach((f, i) => tone(d, "square", f, t + i * 0.07, 0.07, 0.05)); break;
                 default: break;
             }

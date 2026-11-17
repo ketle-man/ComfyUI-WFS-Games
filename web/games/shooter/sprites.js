@@ -89,6 +89,17 @@ export const SPRITES = {
         ".KWWWWRRRWWWWK..",
         ".KWWWWWRWWWWWK..",
     ],
+    // アイテム「思い出のハート」(リナの写真データ)
+    heart: [
+        ".MM...MM.",
+        "MPPM.MPPM",
+        "MPWPMPPPM",
+        "MPPPPPPPM",
+        ".MPPPPPM.",
+        "..MPPPM..",
+        "...MPM...",
+        "....M....",
+    ],
     shot: ["Y", "Y", "W", "W", "W"],
     ebullet: [".R.", "RWR", ".R."],
     spark: ["W"],
@@ -97,8 +108,9 @@ export const SPRITES = {
 
 export function makePixelTextures(scene, scale = 2) {
     const g = scene.add.graphics();
-    const scales = { rina: 3, star: 1, spark: 2 };
-    for (const [key, rows] of Object.entries(SPRITES)) {
+    const scales = { rina: 3, star: 1, spark: 2, heart_s: 1 };
+    const all = { ...SPRITES, heart_s: SPRITES.heart }; // HUD 用の小さいハート
+    for (const [key, rows] of Object.entries(all)) {
         if (scene.textures.exists(key)) continue;
         const s = scales[key] ?? scale;
         g.clear();

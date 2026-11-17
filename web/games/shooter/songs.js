@@ -114,6 +114,32 @@ export const SONGS = {
         ],
     },
 
+    // ボス戦: Em - Em - C - D (速く、せわしなく)。ステージごとに移調して使う
+    boss: {
+        bpm: 172,
+        loop: true,
+        tracks: [
+            {
+                wave: "pulse25", vol: 0.055,
+                notes: [
+                    "E5 . E5 . G5 . E5 . B5 . . . A5 . G5 .",
+                    "F#5 . . . E5 . . . D5 . E5 . F#5 . . .",
+                    "G5 . G5 . E5 . G5 . C6 . . . B5 . A5 .",
+                    "B5 . . . A5 . . . F#5 . . . D5 . . .",
+                ].join(" "),
+            },
+            {
+                wave: "pulse12", vol: 0.022, gate: 0.6,
+                notes: [arp("E4", "G4", "B4", "G4"), arp("E4", "G4", "B4", "G4"), arp("C4", "E4", "G4", "E4"), arp("D4", "F#4", "A4", "F#4")].join(" "),
+            },
+            {
+                wave: "triangle", vol: 0.15, gate: 0.6,
+                notes: [octBass("E2", "E3"), octBass("E2", "E3"), octBass("C2", "C3"), octBass("D2", "D3")].join(" "),
+            },
+            { wave: "drum", vol: 0.13, notes: rep("k h s h k h s h k h s h k k s h", 4) },
+        ],
+    },
+
     // ステージクリアのジングル
     clear: {
         bpm: 140,

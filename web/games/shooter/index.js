@@ -8,9 +8,11 @@
  *   host.apiVersion  ... 1
  *   host.lang        ... "en" | "ja" | "zh"
  *   host.settings    ... { difficulty: "easy"|"normal"|"hard", sound: bool, bgm: bool }
- *   host.finish(result) ... ゲーム終了時に1回だけ呼ぶ
+ *   host.runStart()      ... (任意) タイトルから新しいプレイを始めたとき
+ *   host.stageClear(result) ... (任意) ステージをクリアするたびに呼ぶ(WFS がそのステージの画像を生成する)
+ *   host.finish(result)  ... ゲーム終了時に1回だけ呼ぶ(全クリアならエンディング画像を生成する)
  *
- * result: { gameId, cleared, score, stage, stagesTotal, negative,
+ * result: { gameId, kind: "stage"|"ending"|"gameover", cleared, score, stage, stagesTotal, stageName, negative,
  *           rewards: [{ type: "prompt", text, weight, source: "style"|"character"|"scene"|"clear", stage? }] }
  *
  * 当たり判定・移動は Phaser の物理エンジンを使わず自前で計算する(円判定)。
@@ -37,6 +39,10 @@ const TEXT = {
         controls: "MOVE ← →/A D   SHOT SPACE/Z   PAUSE ESC",
         stage: (n) => `STAGE ${n}`,
         stageClear: "STAGE CLEAR",
+        warning: "WARNING",
+        boss: "BOSS",
+        item: "ITEM",
+        perfect: "PERFECT!",
         promptGet: "PROMPT GET",
         allClear: "ALL CLEAR!",
         gameOver: "GAME OVER",
@@ -45,6 +51,7 @@ const TEXT = {
         next: "SPACE / CLICK",
         difficulty: { easy: "EASY", normal: "NORMAL", hard: "HARD" },
         narr: "",
+        privatePhoto: "ALL ITEMS: PRIVATE PHOTO",
     },
     ja: {
         title: "STAR FORMATION",
@@ -52,6 +59,10 @@ const TEXT = {
         controls: "移動 ← →/A D   ショット SPACE/Z   一時停止 ESC",
         stage: (n) => `STAGE ${n}`,
         stageClear: "STAGE CLEAR",
+        warning: "WARNING",
+        boss: "BOSS",
+        item: "ITEM",
+        perfect: "PERFECT!",
         promptGet: "プロンプト獲得",
         allClear: "ALL CLEAR!",
         gameOver: "GAME OVER",
@@ -60,6 +71,7 @@ const TEXT = {
         next: "SPACE / クリック",
         difficulty: { easy: "やさしい", normal: "ふつう", hard: "むずかしい" },
         narr: "",
+        privatePhoto: "アイテム全部獲得: プライベート写真",
     },
     zh: {
         title: "STAR FORMATION",
@@ -67,6 +79,10 @@ const TEXT = {
         controls: "移动 ← →/A D   射击 SPACE/Z   暂停 ESC",
         stage: (n) => `STAGE ${n}`,
         stageClear: "STAGE CLEAR",
+        warning: "WARNING",
+        boss: "BOSS",
+        item: "ITEM",
+        perfect: "PERFECT!",
         promptGet: "获得提示词",
         allClear: "ALL CLEAR!",
         gameOver: "GAME OVER",
@@ -75,6 +91,7 @@ const TEXT = {
         next: "SPACE / 点击",
         difficulty: { easy: "简单", normal: "普通", hard: "困难" },
         narr: "",
+        privatePhoto: "全部道具获得: 私人照片",
     },
 };
 
@@ -93,8 +110,10 @@ const ENEMY_TYPES = {
 // ステージごとの BGM (同じ曲を移調・テンポ違いで使う)
 const STAGE_MUSIC = [
     { transpose: 0, bpm: 150 },
-    { transpose: 2, bpm: 156 },
-    { transpose: 5, bpm: 166 },
+    { transpose: 2, bpm: 154 },
+    { transpose: 3, bpm: 158 },
+    { transpose: 5, bpm: 162 },
+    { transpose: 7, bpm: 168 },
 ];
 
 // 隊列: 8列 x 4行。commander は上段中央、guard は2段目、scout は3〜4段目
@@ -104,6 +123,9 @@ const SLOT_DY = 40;
 const FORMATION_Y = 96;
 const CENTER_OUT = [3, 4, 2, 5, 1, 6, 0, 7];
 const SLOT_ROWS = { commander: [0], guard: [1], scout: [2, 3] };
+
+// 1ステージに出るアイテム(思い出のハート)の数。全部取るとプライベート写真になる
+const ITEMS_PER_STAGE = 5;
 
 const GAME_KEYS = new Set(["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Space", "KeyA", "KeyD", "KeyZ", "KeyP", "Escape", "Enter"]);
 
@@ -171,6 +193,17 @@ function makeStarfield(scene) {
 
 function txt(scene, x, y, str, size = 16, color = COL.white) {
     return scene.add.text(x, y, str, { fontFamily: `"${FONT_NAME}", monospace`, fontSize: `${size}px`, color, align: "center", lineSpacing: 6 });
+}
+
+// 被弾時に一瞬白く光らせる(Phaser 4 では setTintFill が廃止され、塗りつぶしは TintModes.FILL)
+function flashWhite(scene, sprite, ms, baseTint = null) {
+    sprite.setTint(0xffffff).setTintMode(Phaser.TintModes.FILL);
+    scene.time.delayedCall(ms, () => {
+        if (!sprite.active) return;
+        sprite.setTintMode(Phaser.TintModes.MULTIPLY);
+        if (baseTint !== null) sprite.setTint(baseTint);
+        else sprite.clearTint();
+    });
 }
 
 const pad6 = (n) => String(Math.max(0, Math.floor(n))).padStart(6, "0");
@@ -286,6 +319,7 @@ export async function mount(container, host = {}) {
             this.started = true;
             audio.unlock();
             audio.sfx("start");
+            try { host.runStart?.(); } catch (e) { console.error("[shooter] host.runStart failed", e); }
             this.scene.start("play", { stageIndex: 0, score: 0, lives: diff.lives });
         }
         update(_t, delta) {
@@ -330,11 +364,30 @@ export async function mount(container, host = {}) {
             this.player = this.add.image(W / 2, H - 56, "ship");
             this.playerAlive = true;
 
+            // ボス: 雑魚を全滅させると WARNING のあとに登場する
+            this.boss = null;
+            this.bossSpawned = false;
+            this.bossDefeated = !this.stage.boss;
+            this.bossWarning = 0;
+            this.bossBar = this.add.graphics().setDepth(15);
+            this.bossLabel = null;
+
+            // アイテム: 雑魚のうち5機(黄色く点滅)が持っていて、倒すと落ちてくる
+            this.items = [];
+            this.itemsGot = 0;
+            this.spawnCount = 0;
+            const total = (this.stage.waves || []).reduce((n, w) => n + (w.count || 1), 0);
+            this.carrierIdx = new Set(Phaser.Utils.Array.Shuffle([...Array(total).keys()]).slice(0, Math.min(ITEMS_PER_STAGE, total)));
+
             // HUD
             this.scoreText = txt(this, 12, 8, "", 16, COL.white);
             this.hiText = txt(this, W / 2, 8, "", 16, COL.yellow).setOrigin(0.5, 0);
             this.stageText = txt(this, W - 12, 8, tr("stage", this.stageIndex + 1), 16, this.stage.color || COL.white).setOrigin(1, 0);
             this.lifeIcons = [];
+            this.heartIcons = [];
+            for (let i = 0; i < ITEMS_PER_STAGE; i++) {
+                this.heartIcons.push(this.add.image(W - 12 - (ITEMS_PER_STAGE - 1 - i) * 12 - 5, 38, "heart_s").setDepth(16));
+            }
             this.updateHud();
 
             this.banner = txt(this, W / 2, H / 2 - 40, "", 32, COL.yellow).setOrigin(0.5).setDepth(10).setVisible(false);
@@ -361,6 +414,7 @@ export async function mount(container, host = {}) {
             for (let i = 0; i < Math.max(0, this.lives - 1); i++) {
                 this.lifeIcons.push(this.add.image(20 + i * 22, H - 16, "ship").setScale(0.6));
             }
+            (this.heartIcons || []).forEach((h, i) => h.setAlpha(i < (this.itemsGot || 0) ? 1 : 0.2));
         }
         showBanner(main, sub = "") {
             this.banner.setText(main).setVisible(true);
@@ -389,11 +443,11 @@ export async function mount(container, host = {}) {
             box.add([g, face, name, body, cursor, hint]);
             this.story = { box, face, name, body, cursor, hint, top, lines: [], idx: -1, pos: 0, full: "", done: null, blink: 0 };
         }
-        startStory(lines, done) {
+        startStory(lines, done, music = "story") {
             this.state = "story";
             this.hideBanner();
             ctx.advance = false;
-            audio.playMusic("story");
+            audio.playMusic(music);
             Object.assign(this.story, { lines, idx: -1, done });
             this.story.box.setVisible(true);
             this.nextLine();
@@ -474,7 +528,9 @@ export async function mount(container, host = {}) {
             const def = ENEMY_TYPES[type] || ENEMY_TYPES.scout;
             const path = ENTRY_PATHS[pathName] || ENTRY_PATHS.left_arc;
             const sprite = this.add.image(path[0].x, path[0].y, def.tex);
-            this.enemies.push({ sprite, type, def, hp: def.hp, slot: this.takeSlot(type), state: "enter", path, u: 0, dur: 2.3, fired: 0 });
+            const carrier = this.carrierIdx?.has(this.spawnCount) || false;
+            this.spawnCount++;
+            this.enemies.push({ sprite, type, def, hp: def.hp, slot: this.takeSlot(type), state: "enter", path, u: 0, dur: 2.3, fired: 0, carrier });
         }
         updateSpawning(dt) {
             if (this.spawnQueue.length) {
@@ -525,8 +581,14 @@ export async function mount(container, host = {}) {
             this.ebullets.push({ sprite: b, vx: (dx / len) * sp, vy: Math.max(0.5, dy / len) * sp });
         }
         updateEnemies(dt) {
+            const blinkOn = Math.floor(this.time0 * 5) % 2 === 0;
             for (const e of this.enemies) {
                 const s = e.sprite;
+                // アイテム持ちは黄色一色で点滅(色を掛け合わせると元の色と混ざって分かりにくいので塗りつぶし)
+                if (e.carrier) {
+                    if (blinkOn) s.setTint(0xf8f048).setTintMode(Phaser.TintModes.FILL);
+                    else s.setTintMode(Phaser.TintModes.MULTIPLY).clearTint();
+                }
                 if (e.state === "enter" || e.state === "dive") {
                     e.u += dt / e.dur;
                     const prev = { x: s.x, y: s.y };
@@ -578,6 +640,196 @@ export async function mount(container, host = {}) {
             }
         }
 
+        // ---------- boss ----------
+        startBoss() {
+            this.bossSpawned = true;
+            this.bossWarning = 2.2;
+            this.banner.setColor(COL.red);
+            this.showBanner(tr("warning"), "");
+            audio.sfx("warning");
+            const m = STAGE_MUSIC[this.stageIndex] || STAGE_MUSIC[0];
+            audio.playMusic("boss", { transpose: m.transpose });
+        }
+        spawnBoss() {
+            const def = this.stage.boss;
+            const tex = (ENEMY_TYPES[def.sprite] || ENEMY_TYPES.commander).tex;
+            const sprite = this.add.image(W / 2, -90, tex).setScale(def.scale || 2).setDepth(5);
+            const tint = def.tint ? parseInt(String(def.tint).replace("#", ""), 16) : null;
+            if (tint !== null) sprite.setTint(tint);
+            const hp = Math.max(1, Math.round(def.hp || 20));
+            this.boss = {
+                def, sprite, tint, hp, maxHp: hp, mode: "enter",
+                homeY: (def.scale || 2) >= 5 ? 150 : 130,
+                r: sprite.displayWidth * 0.42,
+                swayT: 0, fireT: 1.6, radialT: def.radial_interval || 2.5, radialRot: 0, phaseT: 0,
+                minionWavesDone: 0, dash: null,
+            };
+            this.bossLabel = txt(this, 12, 30, tr("boss"), 16, COL.red).setDepth(15);
+        }
+        bossBullet(x, y, angle, speedMul) {
+            const sp = 200 * diff.bulletSpeed * speedMul;
+            const b = this.add.image(x, y, "ebullet");
+            this.ebullets.push({ sprite: b, vx: Math.cos(angle) * sp, vy: Math.sin(angle) * sp });
+        }
+        bossAimed(b) {
+            if (!this.playerAlive) return;
+            const s = b.sprite;
+            const a = Math.atan2(this.player.y - s.y, this.player.x - s.x);
+            const spread = b.def.type === "carrier" ? [-0.25, 0, 0.25] : [0];
+            spread.forEach((da) => this.bossBullet(s.x, s.y + s.displayHeight * 0.35, a + da, b.def.bullet_speed || 1));
+        }
+        bossRadial(b) {
+            const n = b.def.radial_count || 12;
+            b.radialRot += 0.26;
+            for (let i = 0; i < n; i++) {
+                this.bossBullet(b.sprite.x, b.sprite.y, b.radialRot + (i / n) * Math.PI * 2, (b.def.bullet_speed || 1) * 0.75);
+            }
+        }
+        spawnMinions(n) {
+            for (let i = 0; i < n; i++) this.spawnQueue.push({ enemy: "scout", path: i % 2 ? "right_arc" : "left_arc" });
+        }
+        drawBossBar() {
+            const g = this.bossBar;
+            g.clear();
+            const b = this.boss;
+            if (!b) return;
+            const x = 64, y = 34, w = W - 128, h = 8;
+            g.fillStyle(0x200000, 1).fillRect(x, y, w, h);
+            g.fillStyle(0xf83838, 1).fillRect(x, y, Math.round(w * (b.hp / b.maxHp)), h);
+            g.lineStyle(1, 0xf8f8f8, 1).strokeRect(x - 1, y - 1, w + 2, h + 2);
+        }
+        updateBoss(dt) {
+            if (this.bossWarning > 0) {
+                this.bossWarning -= dt;
+                this.banner.setVisible(Math.floor(this.bossWarning * 4) % 2 === 0);
+                if (this.bossWarning <= 0) {
+                    this.hideBanner();
+                    this.banner.setColor(COL.yellow);
+                    this.spawnBoss();
+                }
+                return;
+            }
+            const b = this.boss;
+            if (!b) return;
+            const def = b.def;
+            const s = b.sprite;
+            const speed = def.speed || 1;
+            if (b.mode === "enter") {
+                s.y += 100 * dt;
+                if (s.y >= b.homeY) { s.y = b.homeY; b.mode = "fight"; b.phaseT = 0; }
+            } else if (b.mode === "fight") {
+                b.swayT += dt * speed;
+                const amp = Math.max(0, W / 2 - s.displayWidth / 2 - 16);
+                s.x = W / 2 + Math.sin(b.swayT * 0.9) * amp;
+                s.y = b.homeY + Math.sin(b.swayT * 1.7) * 10;
+                b.fireT -= dt * diff.fire;
+                if (b.fireT <= 0) { b.fireT = def.fire_interval || 1.2; this.bossAimed(b); }
+                if (def.type === "radial") {
+                    b.radialT -= dt * diff.fire;
+                    if (b.radialT <= 0) { b.radialT = def.radial_interval || 2.5; this.bossRadial(b); }
+                }
+                if (def.type === "charge") {
+                    b.phaseT += dt;
+                    if (b.phaseT > 2.6) { b.mode = "blink"; b.phaseT = 0; audio.sfx("charge"); }
+                }
+                if (def.type === "carrier") {
+                    // 小型機を5機ずつ3回: 登場時・耐久力2/3・1/3
+                    const ratio = b.hp / b.maxHp;
+                    const want = Math.min(def.minion_waves || 3, ratio <= 1 / 3 ? 3 : ratio <= 2 / 3 ? 2 : 1);
+                    while (b.minionWavesDone < want) { b.minionWavesDone++; this.spawnMinions(def.minions || 5); }
+                }
+            } else if (b.mode === "blink") {
+                // 点滅したあと、自機のいた位置へ一直線に加速して体当たり
+                b.phaseT += dt;
+                s.setVisible(Math.floor(b.phaseT * 14) % 2 === 0);
+                if (b.phaseT > 0.9) {
+                    s.setVisible(true);
+                    const dx = this.player.x - s.x, dy = this.player.y - s.y;
+                    const len = Math.hypot(dx, dy) || 1;
+                    b.dash = { vx: dx / len, vy: dy / len, v: 120 };
+                    b.mode = "dash";
+                }
+            } else if (b.mode === "dash") {
+                b.dash.v = Math.min(950 * diff.bulletSpeed, b.dash.v + 1500 * dt);
+                s.x += b.dash.vx * b.dash.v * dt;
+                s.y += b.dash.vy * b.dash.v * dt;
+                if (s.y > H + 90 || s.x < -90 || s.x > W + 90) { s.setPosition(W / 2, -90); b.mode = "enter"; }
+            }
+            if (this.canBeHit() && Math.hypot(s.x - this.player.x, s.y - this.player.y) < b.r * 0.8 + 8) this.playerHit();
+            this.drawBossBar();
+        }
+        hitBoss() {
+            const b = this.boss;
+            b.hp--;
+            if (b.hp <= 0) { this.killBoss(); return; }
+            flashWhite(this, b.sprite, 60, b.tint);
+            audio.sfx("hit");
+        }
+        killBoss() {
+            const b = this.boss;
+            const { x, y } = b.sprite;
+            const span = b.sprite.displayWidth / 2;
+            for (let i = 0; i < 8; i++) {
+                this.time.delayedCall(i * 130, () => this.explode(x + Phaser.Math.Between(-span, span), y + Phaser.Math.Between(-span / 2, span / 2), [0xf8f8f8, 0xf8f048, 0xf89838][i % 3], 18));
+            }
+            b.sprite.destroy();
+            this.boss = null;
+            this.bossDefeated = true;
+            this.bossBar.clear();
+            this.bossLabel?.destroy();
+            this.bossLabel = null;
+            this.ebullets.forEach((e) => e.sprite.destroy());
+            this.ebullets = [];
+            this.score += 2000 * (this.stageIndex + 1);
+            this.updateHud();
+            audio.sfx("bossDown");
+        }
+        removeBoss() {
+            this.boss?.sprite.destroy();
+            this.boss = null;
+            this.bossSpawned = true;
+            this.bossDefeated = true;
+            this.bossWarning = 0;
+            this.bossBar.clear();
+            this.bossLabel?.destroy();
+            this.bossLabel = null;
+            this.banner.setColor(COL.yellow);
+        }
+
+        // ---------- items ----------
+        dropItem(x, y) {
+            const sprite = this.add.image(x, y, "heart").setDepth(6);
+            this.items.push({ sprite, x0: x, t: 0 });
+        }
+        updateItems(dt) {
+            for (let i = this.items.length - 1; i >= 0; i--) {
+                const it = this.items[i];
+                it.t += dt;
+                it.sprite.y += 75 * dt;
+                it.sprite.x = Math.round(it.x0 + Math.sin(it.t * 3) * 12);
+                if (it.sprite.y > H - 120) it.sprite.setVisible(Math.floor(it.t * 10) % 2 === 0); // 画面下に近づいたら点滅
+                if (this.playerAlive && Math.hypot(it.sprite.x - this.player.x, it.sprite.y - this.player.y) < 22) {
+                    it.sprite.destroy();
+                    this.items.splice(i, 1);
+                    this.collectItem();
+                } else if (it.sprite.y > H + 20) {
+                    it.sprite.destroy();
+                    this.items.splice(i, 1);
+                }
+            }
+        }
+        collectItem() {
+            this.itemsGot = Math.min(ITEMS_PER_STAGE, this.itemsGot + 1);
+            this.score += 500;
+            audio.sfx("item");
+            const pop = txt(this, this.player.x, this.player.y - 30, `${tr("item")} ${this.itemsGot}/${ITEMS_PER_STAGE}`, 16, COL.magenta).setOrigin(0.5).setDepth(16);
+            this.tweens.add({ targets: pop, y: pop.y - 40, alpha: 0, duration: 900, onComplete: () => pop.destroy() });
+            this.updateHud();
+        }
+        perfect() {
+            return this.itemsGot >= ITEMS_PER_STAGE;
+        }
+
         // ---------- player ----------
         updatePlayer(dt) {
             if (!this.playerAlive) return;
@@ -616,6 +868,7 @@ export async function mount(container, host = {}) {
         }
         killEnemy(e, idx) {
             const bonus = e.state === "dive" ? 2 : 1;
+            if (e.carrier) this.dropItem(e.sprite.x, e.sprite.y);
             this.score += e.def.points * bonus;
             this.explode(e.sprite.x, e.sprite.y, e.def.color, 12);
             e.sprite.destroy();
@@ -635,13 +888,16 @@ export async function mount(container, host = {}) {
                         e.hp--;
                         if (e.hp <= 0) this.killEnemy(e, j);
                         else {
-                            e.sprite.setTintFill(0xffffff);
-                            this.time.delayedCall(70, () => e.sprite.active && e.sprite.clearTint());
+                            flashWhite(this, e.sprite, 70);
                             audio.sfx("hit");
                         }
                         hit = true;
                         break;
                     }
+                }
+                if (!hit && this.boss && this.boss.mode !== "blink" && Math.hypot(this.boss.sprite.x - s.x, this.boss.sprite.y - s.y) < this.boss.r) {
+                    this.hitBoss();
+                    hit = true;
                 }
                 if (hit || s.y < -20) { s.destroy(); this.shots.splice(i, 1); }
             }
@@ -689,36 +945,54 @@ export async function mount(container, host = {}) {
         }
 
         // ---------- stage flow / result ----------
-        buildRewards(clearedUpto, cleared) {
+        // 画像1枚分のプロンプト: 画風 + ヒロイン + シーン + ステージの背景
+        buildRewards(scene, stage, character = prompts.character) {
             const out = [];
             const add = (text, source, extra = {}) => { if (text) out.push({ type: "prompt", text, weight: 1, source, ...extra }); };
             add(prompts.style, "style");
-            add(prompts.character, "character");
-            if (cleared) add(prompts.ending, "scene");
-            stages.slice(0, clearedUpto + 1).forEach((st) => add(st.clear_prompt, "clear", { stage: st.id }));
+            add(character, "character");
+            add(scene, "scene");
+            if (stage) add(stage.clear_prompt, "clear", { stage: stage.id });
             return out;
         }
-        result(cleared, clearedUpto) {
+        result(kind) {
             if (this.score >= ctx.hiScore) saveHiScore(ctx.hiScore);
+            const cleared = kind !== "gameover";
+            // アイテムを全部取ったステージは、勝利の記念カットの代わりにプライベートのリナ(背景はその場所)
+            const bonus = kind === "stage" && this.perfect() && !!this.stage.private_prompt;
+            const rewards = bonus ? this.buildRewards(this.stage.private_prompt, null, prompts.character_private || prompts.character)
+                : kind === "stage" ? this.buildRewards(this.stage.scene_prompt, this.stage)
+                : kind === "ending" ? this.buildRewards(prompts.ending, stages[stages.length - 1])
+                : this.buildRewards(prompts.gameover, this.stage); // 負けたステージを背景に、敗北の場面
+            const negative = [prompts.negative, kind === "gameover" ? prompts.gameover_negative : "", bonus ? prompts.private_negative : ""].filter(Boolean).join(", ");
             return {
-                gameId: GAME_ID, cleared, score: this.score,
-                stage: this.stageIndex + 1, stagesTotal: stages.length,
-                negative: prompts.negative || "",
-                rewards: this.buildRewards(clearedUpto, cleared),
+                gameId: GAME_ID, kind, cleared, score: this.score, bonus,
+                items: this.itemsGot, itemsTotal: ITEMS_PER_STAGE,
+                stage: this.stageIndex + 1, stagesTotal: stages.length, stageName: loc(this.stage.name),
+                negative,
+                rewards,
             };
         }
         stageClear() {
             this.state = "stageclear";
             audio.playMusic("clear");
+            // WFS にこのステージの画像を生成してもらう(プレイは止めない)
+            try { host.stageClear?.(this.result("stage")); } catch (e) { console.error("[shooter] host.stageClear failed", e); }
             const last = this.stageIndex >= stages.length - 1;
-            this.showBanner(tr("stageClear"), this.stage.clear_prompt ? `${tr("promptGet")}\n"${this.stage.clear_prompt}"` : "");
+            const perfect = this.perfect();
+            if (perfect) {
+                audio.sfx("perfect");
+                this.showBanner(tr("perfect"), tr("privatePhoto"));
+            } else {
+                this.showBanner(tr("stageClear"), this.stage.clear_prompt ? `${tr("promptGet")}\n"${this.stage.clear_prompt}"` : "");
+            }
             this.time.delayedCall(2700, () => {
                 this.hideBanner();
                 const proceed = () => {
                     if (last) this.allClear();
                     else this.scene.restart({ stageIndex: this.stageIndex + 1, score: this.score, lives: this.lives });
                 };
-                const after = this.stage.story_after || [];
+                const after = [...(perfect ? prompts.private_story || [] : []), ...(this.stage.story_after || [])];
                 if (after.length && !ctx.skipStory) this.startStory(after, proceed);
                 else proceed();
             });
@@ -729,15 +1003,23 @@ export async function mount(container, host = {}) {
             audio.playMusic("title");
             this.showBanner(tr("allClear"), `SCORE ${pad6(this.score)}\n\n${tr("again")}`);
             ctx.advance = false;
-            finish(this.result(true, this.stageIndex));
+            finish(this.result("ending"));
         }
         gameOver() {
-            this.state = "done";
-            this.doneAt = performance.now();
-            audio.playMusic("gameover");
-            this.showBanner(tr("gameOver"), `SCORE ${pad6(this.score)}\n\n${tr("again")}`);
-            ctx.advance = false;
-            finish(this.result(false, this.stageIndex - 1));
+            // 先に WFS へ伝えて、敗北の画像を会話のあいだに作り始めてもらう
+            finish(this.result("gameover"));
+            // 画面を暗くして、途切れた通信の会話 → GAME OVER
+            this.add.rectangle(W / 2, H / 2, W, H, 0x000000, 0.65).setDepth(9);
+            const showOver = () => {
+                this.state = "done";
+                this.doneAt = performance.now();
+                this.banner.setColor(COL.red);
+                this.showBanner(tr("gameOver"), `SCORE ${pad6(this.score)}\n\n${tr("again")}`);
+                ctx.advance = false;
+            };
+            const lines = prompts.gameover_story || [];
+            if (lines.length && !ctx.skipStory) this.startStory(lines, showOver, "gameover");
+            else { audio.playMusic("gameover"); showOver(); }
         }
         applyDebugClear() {
             ctx.debugClear = false;
@@ -747,6 +1029,7 @@ export async function mount(container, host = {}) {
             this.enemies = [];
             this.waveQueue = [];
             this.spawnQueue = [];
+            this.removeBoss();
             this.stageIndex = stages.length - 1;
             this.stage = stages[this.stageIndex];
             this.stageClear();
@@ -786,11 +1069,15 @@ export async function mount(container, host = {}) {
             }
             if (this.state === "play") this.updateSpawning(dt);
             this.updateEnemies(dt);
+            if (this.state === "play") this.updateBoss(dt);
             this.updatePlayer(dt);
             this.updateBullets(dt);
+            this.updateItems(dt);
 
-            if (this.state === "play" && this.allSpawned() && this.enemies.length === 0 && this.playerAlive) {
-                this.stageClear();
+            // 落ちてくるアイテムを取り終わる(または落ちきる)までは次へ進まない
+            if (this.state === "play" && this.allSpawned() && this.enemies.length === 0 && this.items.length === 0 && this.playerAlive) {
+                if (!this.bossSpawned && this.stage.boss) this.startBoss();
+                else if (this.bossDefeated) this.stageClear();
             }
         }
     }
@@ -842,8 +1129,45 @@ export async function mount(container, host = {}) {
         focus: focusRoot,
         /** 動作確認用: 最終ステージをクリアした扱いにする(会話は飛ばす) */
         debugClear() { ctx.debugClear = true; },
-        /** 動作確認用: 今のステージの敵を全部消す(会話は飛ばさない) */
+        /** 動作確認用: 今のステージの敵とボスを全部消す(会話は飛ばさない) */
         debugStageClear() {
+            const p = ctx.play;
+            if (!p || p.state !== "play") return false;
+            p.enemies.forEach((e) => e.sprite.destroy());
+            p.enemies = [];
+            p.waveQueue = [];
+            p.spawnQueue = [];
+            p.removeBoss();
+            return true;
+        },
+        /** 動作確認用: アイテム持ちの敵を1機倒す(アイテムが落ちる)。落ちた位置の x を返す */
+        debugKillCarrier() {
+            const p = ctx.play;
+            if (!p) return null;
+            const i = p.enemies.findIndex((e) => e.carrier);
+            if (i < 0) return null;
+            const x = Math.round(p.enemies[i].sprite.x);
+            p.killEnemy(p.enemies[i], i);
+            return x;
+        },
+        /** 動作確認用: このステージのアイテムを全部取った扱いにする */
+        debugCollectAll() {
+            const p = ctx.play;
+            if (!p) return false;
+            p.itemsGot = ITEMS_PER_STAGE;
+            p.updateHud();
+            return true;
+        },
+        /** 動作確認用: 残機を0にしてゲームオーバーにする */
+        debugGameOver() {
+            const p = ctx.play;
+            if (!p || p.state !== "play" || !p.playerAlive) return false;
+            p.lives = 1;
+            p.playerHit();
+            return true;
+        },
+        /** 動作確認用: 雑魚を全部消してボス戦に進む */
+        debugSkipToBoss() {
             const p = ctx.play;
             if (!p || p.state !== "play") return false;
             p.enemies.forEach((e) => e.sprite.destroy());
@@ -852,6 +1176,14 @@ export async function mount(container, host = {}) {
             p.spawnQueue = [];
             return true;
         },
+        /** 動作確認用: 指定ステージ(1始まり)から始める */
+        debugStartStage(n) {
+            const i = Math.max(0, Math.min(stages.length - 1, (n | 0) - 1));
+            ["play", "title"].forEach((key) => { if (game.scene.isActive(key)) game.scene.stop(key); });
+            ctx.finished = false;
+            game.scene.start("play", { stageIndex: i, score: 0, lives: diff.lives });
+            return i + 1;
+        },
         /** 動作確認用: プレイ中の状態 */
         debugState() {
             const p = ctx.play;
@@ -859,6 +1191,9 @@ export async function mount(container, host = {}) {
                 state: p.state, playerX: Math.round(p.player.x), alive: p.playerAlive, lives: p.lives,
                 shots: p.shots.length, enemies: p.enemies.length, score: p.score, paused: !!p.paused,
                 external: ctx.externalPause, storyLine: p.state === "story" ? p.story.idx : null,
+                stage: p.stageIndex + 1, boss: p.boss ? { hp: p.boss.hp, maxHp: p.boss.maxHp, mode: p.boss.mode, x: Math.round(p.boss.sprite.x), y: Math.round(p.boss.sprite.y), scale: p.boss.sprite.scale } : null,
+                bossSpawned: p.bossSpawned, bossDefeated: p.bossDefeated,
+                items: p.itemsGot, itemsFalling: p.items.length, carriers: p.enemies.filter((e) => e.carrier).length,
             } : null;
         },
     };
