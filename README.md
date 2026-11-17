@@ -53,7 +53,7 @@ Restart ComfyUI and open Workflow Studio (`/wfm`). The **Game** tab appears next
 ## Requirements
 
 - [ComfyUI Workflow Studio](https://github.com/ketle-man/ComfyUI-Workflow-Studio) v0.10.0 or later
-- The image is generated with the workflow chosen in the Game tab settings (default: `ws_game_sdxl_t2i.json`)
+- The image is generated with the workflow chosen in the Game tab settings (default: `ws_game_sdxl_t2i.json`, included in Workflow Studio's `workflows/` folder — import it from the Workflow tab and set an SDXL checkpoint you have)
 
 ## Adding a game
 
