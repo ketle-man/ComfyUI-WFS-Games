@@ -1,0 +1,12 @@
+{
+  "name": { "en": "Turbo Heart", "ja": "ターボハート", "zh": "涡轮之心" },
+  "description": {
+    "en": "A 1980s-style behind-the-car racer (arcade / MSX2 / PC-8801 look, chiptune music). 5 races along the coast, from last place to the podium. Mechanic Misaki guides you between races; an image of her is generated at every race you finish in the top 3, and the ending scene when you win them all.",
+    "ja": "80年代(アーケード / MSX2 / PC-8801)風の、後ろから見るレースゲーム。チップチューン風BGM付き。海岸線を巡る全5レースで、最後尾から表彰台を目指そう。レースの合間にメカニックのミサキが登場し、3位以内でゴールするたびに彼女の画像を、全レースを突破するとエンディングシーンを生成します。",
+    "zh": "80年代(街机 / MSX2 / PC-8801)风格的后视角赛车游戏，带芯片音乐风格的背景音乐。沿海岸线共 5 场比赛，从最后一位冲上领奖台。比赛之间机械师美咲会登场，每次以前三名完赛生成一张她的图像，全部突破后生成结局画面。"
+  },
+  "version": "0.1.4",
+  "entry": "index.js",
+  "modes": ["clear"],
+  "order": 20
+}

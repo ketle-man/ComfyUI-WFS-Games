@@ -18,6 +18,12 @@ This package adds no ComfyUI nodes. It only serves the games:
 
 Controls: `← →` / `A D` move, `Space` / `Z` shot, `Esc` / `P` pause, `Space` / `Z` / `Enter` / click to advance dialogue. A gamepad also works.
 
+| Turbo Heart | Clear → generate | 1980s-style behind-the-car racer (pseudo-3D road, same retro look). 5 races along the coast - seaside highway, autumn mountain pass, desert canyon at sunset, neon city at night, tropical coast at dawn. 8 cars; you start last and must finish in the top 3 to advance (4th or worse is game over). Nitro (3 per race), speed lines, overtakes. Mechanic Misaki talks between races. Same image system as Star Formation: a victory shot of Misaki per race, a private photo if you pick up all 5 hearts on the road, the ending scene, and a defeat scene. |
+
+Turbo Heart controls: `← →` steer, `↑` / `Z` gas, `↓` / `X` brake, `Space` / `C` nitro, `Esc` / `P` pause. A gamepad also works (A gas, B brake, X nitro).
+
+Shared code lives in `web/common/` (`audio.js` PSG-style sound engine with engine noise, `retro.js` pixel font / dialogue window / pixel textures).
+
 The game returns these prompts to Workflow Studio (all in `web/games/shooter/stages.json`):
 
 | Source | Example |

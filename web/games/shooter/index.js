@@ -18,7 +18,7 @@
  * 当たり判定・移動は Phaser の物理エンジンを使わず自前で計算する(円判定)。
  */
 import * as Phaser from "../../vendor/phaser/phaser.esm.min.js";
-import { createAudio } from "./audio.js";
+import { createAudio } from "../../common/audio.js";
 import { SONGS } from "./songs.js";
 import { makePixelTextures } from "./sprites.js";
 

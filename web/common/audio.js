@@ -46,6 +46,10 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
     const compiled = {};
     let paused = false;
 
+    // エンジン音(レースゲーム用)。速度に合わせて音程を上げる
+    let engine = null; // { oscA, oscB, filter, gain }
+    let squeal = null; // タイヤのスキール音 { src, osc, lfo, gain }
+
     // 再生中の曲
     let cur = null; // { song, transpose, bpm, stepDur, startTime, nextStep, gain, onEnd, name }
     let timer = null;
@@ -213,12 +217,103 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
                 case "charge": tone(d, "pulse25", 200, t, 0.5, 0.05, { slide: 4 }); break;
                 case "item": [1047, 1319, 1568, 2093].forEach((f, i) => tone(d, "pulse25", f, t + i * 0.05, 0.06, 0.04)); break;
                 case "perfect": [784, 988, 1175, 1568, 1976].forEach((f, i) => tone(d, "square", f, t + i * 0.08, 0.1, 0.045)); break;
+                case "countdown": tone(d, "square", 660, t, 0.18, 0.05); break;
+                case "go": tone(d, "square", 1320, t, 0.45, 0.06); break;
+                case "pass": tone(d, "pulse25", 1200, t, 0.05, 0.035); tone(d, "pulse25", 1600, t + 0.05, 0.07, 0.035); break;
+                case "crash": noise(d, t, 0.35, 0.3, 200); tone(d, "square", 140, t, 0.25, 0.06, { slide: 0.5 }); break;
+                case "nitro": noise(d, t, 0.9, 0.18, 1500); tone(d, "sawtooth", 180, t, 0.8, 0.05, { slide: 3 }); break;
                 case "start": [523, 784, 1047].forEach((f, i) => tone(d, "square", f, t + i * 0.07, 0.07, 0.05)); break;
                 default: break;
             }
         },
 
+        /** エンジン音を鳴らし始める(効果音の設定に従う) */
+        startEngine() {
+            if (!sound || !ensure() || engine) return;
+            const oscA = ac.createOscillator();
+            const oscB = ac.createOscillator();
+            setWave(oscA, "sawtooth");
+            setWave(oscB, "pulse25");
+            const filter = ac.createBiquadFilter();
+            filter.type = "lowpass";
+            filter.frequency.value = 900;
+            const gain = ac.createGain();
+            gain.gain.value = 0;
+            oscA.connect(filter);
+            oscB.connect(filter);
+            filter.connect(gain).connect(sfxGain);
+            oscA.start();
+            oscB.start();
+            engine = { oscA, oscB, filter, gain };
+        },
+        /** ratio: 0(停止)〜1(最高速)、boost: ニトロ中 */
+        setEngine(ratio, boost = false) {
+            if (!engine || !ac) return;
+            const r = Math.max(0, Math.min(1.4, ratio));
+            const t = ac.currentTime;
+            // ギアが上がるたびに少し音程が戻る感じを出す
+            const gearPos = (r * 4) % 1;
+            const f = 55 + r * 150 + gearPos * 40;
+            engine.oscA.frequency.setTargetAtTime(f, t, 0.05);
+            engine.oscB.frequency.setTargetAtTime(f * 1.5, t, 0.05);
+            engine.filter.frequency.setTargetAtTime(500 + r * 1600 + (boost ? 900 : 0), t, 0.05);
+            engine.gain.gain.setTargetAtTime(paused ? 0 : 0.018 + r * 0.022, t, 0.05);
+        },
+        /** タイヤのスキール音。amount: 0(無音)〜1(最大)。エンジン音と同じく効果音の設定に従う */
+        setSqueal(amount) {
+            if (!sound || !ac || !engine) return;
+            const a = Math.max(0, Math.min(1, amount));
+            if (!squeal && a > 0) {
+                // 高めの帯域のノイズ + 震える高い音(80年代アーケード風の「キュルル」)
+                const src = ac.createBufferSource();
+                src.buffer = noiseBuf;
+                src.loop = true;
+                const bp = ac.createBiquadFilter();
+                bp.type = "bandpass";
+                bp.frequency.value = 2600;
+                bp.Q.value = 6;
+                const osc = ac.createOscillator();
+                setWave(osc, "triangle");
+                osc.frequency.value = 1700;
+                const lfo = ac.createOscillator();
+                lfo.frequency.value = 17;
+                const lfoGain = ac.createGain();
+                lfoGain.gain.value = 140;
+                lfo.connect(lfoGain).connect(osc.frequency);
+                const oscGain = ac.createGain();
+                oscGain.gain.value = 0.35;
+                const gain = ac.createGain();
+                gain.gain.value = 0;
+                src.connect(bp).connect(gain);
+                osc.connect(oscGain).connect(gain);
+                gain.connect(sfxGain);
+                src.start();
+                osc.start();
+                lfo.start();
+                squeal = { src, osc, lfo, gain };
+            }
+            if (squeal) squeal.gain.gain.setTargetAtTime(paused ? 0 : a * 0.05, ac.currentTime, 0.04);
+        },
+        stopEngine() {
+            if (squeal) {
+                const q = squeal;
+                squeal = null;
+                try {
+                    q.gain.gain.setTargetAtTime(0, ac.currentTime, 0.03);
+                    setTimeout(() => { try { q.src.stop(); q.osc.stop(); q.lfo.stop(); q.gain.disconnect(); } catch { /* ignore */ } }, 250);
+                } catch { /* ignore */ }
+            }
+            if (!engine) return;
+            const e = engine;
+            engine = null;
+            try {
+                e.gain.gain.setTargetAtTime(0, ac.currentTime, 0.05);
+                setTimeout(() => { try { e.oscA.stop(); e.oscB.stop(); e.gain.disconnect(); } catch { /* ignore */ } }, 300);
+            } catch { /* ignore */ }
+        },
+
         close() {
+            this.stopEngine?.();
             stopMusic();
             try { ac?.close(); } catch { /* ignore */ }
             ac = null;

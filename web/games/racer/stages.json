@@ -1,0 +1,110 @@
+{
+  "heroine": {
+    "id": "misaki",
+    "name": { "en": "MISAKI", "ja": "ミサキ", "zh": "美咲" }
+  },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), pc-98 (style), pixel art, dithering, limited palette, anime coloring",
+    "character": "1girl, solo, adult, short red hair, bob cut, green eyes, red and white racing jacket, sunglasses on head",
+    "character_private": "1girl, solo, adult, short red hair, bob cut, green eyes",
+    "ending": "victory podium, holding big champion trophy, confetti, champagne spray, joyful smile, looking at viewer, upper body, seaside at sunrise",
+    "gameover": "rainy night, pit garage, sitting on the floor next to a damaged red sports car, head down, tears, wet hair, sad, despair, upper body",
+    "negative": "3d, realistic, photorealistic, blurry, modern",
+    "gameover_negative": "smile, happy, cheerful",
+    "private_negative": "nsfw, nude, nipples, underwear, loli, child, jacket",
+    "private_story": [
+      { "speaker": "heroine", "text": { "en": "Wait, those hearts... that's the photo data I hid in the car! You found all of it?", "ja": "えっ、そのハート……私がマシンに隠しておいた写真データ!?　全部見つけちゃったの？", "zh": "咦，那些心形……是我藏在赛车里的照片数据!?　你全找到了？" } },
+      { "speaker": "heroine", "text": { "en": "...Geez. Keep it a secret from the rest of the team, okay?", "ja": "……もう。チームのみんなには内緒だからね。", "zh": "……真是的。要对车队的大家保密哦。" } }
+    ],
+    "gameover_story": [
+      { "speaker": "heroine", "text": { "en": "...I'm sorry. If only I'd made the car faster...", "ja": "……ごめんね。マシン、もっと速くしてあげられたら……。", "zh": "……对不起。要是我能把赛车调得更快就好了……" } },
+      { "speaker": "narr", "text": { "en": "The podium was far away.", "ja": "表彰台は、遠かった。", "zh": "领奖台，遥不可及。" } }
+    ]
+  },
+  "stages": [
+    {
+      "id": 1,
+      "theme": "seaside",
+      "name": { "en": "Coast Highway", "ja": "海岸ハイウェイ", "zh": "海岸公路" },
+      "color": "#58e8f8",
+      "length": 2400, "curviness": 0.6, "hilliness": 0.5, "rival_speed": 0.74,
+      "clear_prompt": "coastal highway, blue ocean",
+      "scene_prompt": "leaning on a red sports car, peace sign, big smile, palm trees, blue sky, cowboy shot",
+      "private_prompt": "casual clothes, denim jacket, white t-shirt, jeans, roadside diner, milkshake, smile, upper body",
+      "story_before": [
+        { "speaker": "narr", "text": { "en": "Summer, 198X. The Grand Coast Rally - five days of racing on public roads along the coast - is about to begin.", "ja": "198X年、夏。海岸線を5日間で駆け抜ける公道レース「グランコースト・ラリー」が始まる。", "zh": "198X年，夏。沿海岸线奔驰五天的公路赛「大海岸拉力赛」即将开始。" } },
+        { "speaker": "heroine", "text": { "en": "I'm Misaki, your mechanic. This car is my masterpiece - I built it myself.", "ja": "メカニックのミサキよ。このマシンは私が組み上げた最高傑作。", "zh": "我是机械师美咲。这台赛车是我亲手组装的杰作。" } },
+        { "speaker": "heroine", "text": { "en": "We start from the very back, but finish in the top 3 and we move on. Flat out!", "ja": "最後尾からのスタートだけど、3位以内なら次へ進めるわ。全開で行って！", "zh": "我们从最后一位起跑，但只要进入前三名就能晋级。全速前进！" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "Not bad! Next is the autumn mountain pass. The corners are tight - use the brakes too.", "ja": "やるじゃない！次は紅葉の峠道。カーブがきついから、ブレーキも使ってね。", "zh": "不错嘛！下一站是红叶山道。弯道很急，记得也要踩刹车。" } }
+      ]
+    },
+    {
+      "id": 2,
+      "theme": "mountain",
+      "name": { "en": "Autumn Pass", "ja": "紅葉の峠", "zh": "红叶山道" },
+      "color": "#f89838",
+      "length": 2600, "curviness": 1.4, "hilliness": 1.0, "rival_speed": 0.75,
+      "clear_prompt": "mountain road, autumn forest",
+      "scene_prompt": "holding a checkered flag, wind blowing hair, smile, autumn leaves, cowboy shot",
+      "private_prompt": "sleeveless summer dress, bare shoulders, mountain lodge terrace, autumn leaves, gentle smile, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "Mountain roads show what a car can do... and what its driver can do.", "ja": "峠はマシンの腕の見せどころ。……ドライバーの腕もね。", "zh": "山道最能体现赛车的实力……还有车手的实力。" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "Phew, the tires survived. The desert is next - don't let the sunset blind you.", "ja": "ふう、タイヤも無事。次は砂漠よ。夕日に目をやられないで。", "zh": "呼，轮胎也没事。下一站是沙漠。别被夕阳晃了眼。" } }
+      ]
+    },
+    {
+      "id": 3,
+      "theme": "desert",
+      "name": { "en": "Sunset Canyon", "ja": "夕陽の渓谷", "zh": "夕阳峡谷" },
+      "color": "#f8c058",
+      "length": 2800, "curviness": 0.7, "hilliness": 0.8, "rival_speed": 0.79,
+      "clear_prompt": "desert canyon, sunset",
+      "scene_prompt": "sitting on the hood of a red sports car, thumbs up, sunset, cowboy shot",
+      "private_prompt": "crop top, midriff, short shorts, desert motel, poolside, sunset, relaxed smile, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "Long straights are where nitro shines. And watch the black car - it's fast.", "ja": "長い直線はニトロの使いどころ。黒いマシンには気をつけて。あいつ、速いわよ。", "zh": "长直道正是用氮气加速的时候。小心那辆黑色赛车，它很快。" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "Covered in sand, but the engine's in top shape! Tonight we race through the city.", "ja": "砂まみれだけど、エンジンは絶好調！今夜は街を抜けるわ。", "zh": "满身是沙，不过引擎状态绝佳！今晚要穿过城市。" } }
+      ]
+    },
+    {
+      "id": 4,
+      "theme": "city",
+      "name": { "en": "Neon City", "ja": "ネオンシティ", "zh": "霓虹城市" },
+      "color": "#f858f8",
+      "length": 2800, "curviness": 1.0, "hilliness": 0.4, "rival_speed": 0.81,
+      "clear_prompt": "neon city at night",
+      "scene_prompt": "winking, leaning on a car door, neon lights, wet road reflections, cowboy shot",
+      "private_prompt": "halter top, bare shoulders, midriff, mini skirt, rooftop, neon city night, smile, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "Tear through that sea of neon. ...It's kind of exciting, isn't it?", "ja": "ネオンの海を全開で駆け抜けて。……ちょっと、ワクワクするね。", "zh": "全速冲过那片霓虹之海吧。……有点让人兴奋呢。" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "Only the final stage is left. The coast at dawn.", "ja": "残るは最終ステージ。夜明けの海岸線よ。", "zh": "只剩最后一站了。黎明的海岸线。" } },
+        { "speaker": "heroine", "text": { "en": "Now that we've come this far, all I can see is the win, right?", "ja": "ここまで来たら、優勝しか見えないでしょ？", "zh": "都到这一步了，眼里只有冠军了吧？" } }
+      ]
+    },
+    {
+      "id": 5,
+      "theme": "dawn",
+      "name": { "en": "Dawn Coast", "ja": "夜明けの海岸", "zh": "黎明海岸" },
+      "color": "#f8a0b8",
+      "length": 3000, "curviness": 1.2, "hilliness": 1.0, "rival_speed": 0.83,
+      "clear_prompt": "tropical coast, sunrise",
+      "scene_prompt": "standing on the roof of a red sports car, arms raised, ocean, checkered flag, cowboy shot",
+      "private_prompt": "bikini, swimsuit, tropical beach, palm trees, sunrise, splashing water, happy smile, looking at viewer, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "This is it. Prove that our car is the best!", "ja": "これが最後。私たちのマシンが一番だって、証明して！", "zh": "这是最后一战。证明我们的赛车是最棒的！" } }
+      ],
+      "story_after": [
+        { "speaker": "narr", "text": { "en": "We crossed the finish line in the morning light.", "ja": "朝日に照らされたゴールラインを、駆け抜けた。", "zh": "我们冲过了晨光中的终点线。" } },
+        { "speaker": "heroine", "text": { "en": "...We did it. You're the best driver, you know that?", "ja": "……やったね。最高のドライバーよ、あなた。", "zh": "……我们做到了。你是最棒的车手。" } }
+      ]
+    }
+  ]
+}
