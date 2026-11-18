@@ -1,0 +1,12 @@
+{
+  "name": { "en": "Smash Heart", "ja": "スマッシュハート", "zh": "扣杀之心" },
+  "description": {
+    "en": "A 1980s-style tennis game seen from behind your court. Nanami takes on 5 rivals with different play styles (steady baseliner, lob master, power hitter, net rusher, champion) - 4 games per match, 2-2 is a draw (rematch or quit). Rivals and Nanami talk before and after each match. No music: real recorded sounds of shots, bounces, squeaking shoes and the crowd, plus the umpire's calls and serve shouts by speech synthesis. Touch the hearts on the court; an image of Nanami is generated at every win (a private photo with all 5 hearts), the ending, and a defeat scene.",
+    "ja": "自分のコートの後ろから見る、80年代風のテニスゲーム。ナナミがタイプの違う5人のライバル(粘り強いベースライナー・ロブの名手・パワーヒッター・ネットプレーヤー・女王)に挑みます。1試合4ゲーム、2-2は引き分けで再戦か終了を選択。試合の前後にはライバルとナナミの意気込み・勝利・敗退のコメント。BGMはなく、打球音・バウンド・靴の鳴る音・観客の録音した音と、音声合成の主審のコールやサーブの掛け声で臨場感を出しています。コートのハートに触れて獲得。勝つたびにナナミの画像を(ハート5個でプライベート写真)、全勝でエンディング、負けると敗北シーンを生成します。",
+    "zh": "从自己球场后方观看的 80 年代风格网球游戏。七海挑战五名风格各异的对手(稳健底线型、高吊球名手、力量型、上网型、女王)。每场 4 局，2-2 为平局，可选择再战或结束。比赛前后有对手和七海的宣言、胜利和失败台词。没有背景音乐，用录制的击球声、弹地声、球鞋摩擦声和观众声，以及语音合成的主裁判报分和发球喊声营造临场感。触碰球场上的爱心即可获得。每次获胜生成七海的图像(集齐 5 颗爱心则是私人照片)，全胜生成结局，失败生成败北场景。"
+  },
+  "version": "0.1.2",
+  "entry": "index.js",
+  "modes": ["clear"],
+  "order": 50
+}

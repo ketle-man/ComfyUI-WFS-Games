@@ -50,6 +50,10 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
     let engine = null; // { oscA, oscB, filter, gain }
     let squeal = null; // タイヤのスキール音 { src, osc, lfo, gain }
 
+    // 録音した効果音(サンプル)。loadSamples() で読み込み、playSample() で鳴らす
+    const samples = {};
+    const loops = {};
+
     // 再生中の曲
     let cur = null; // { song, transpose, bpm, stepDur, startTime, nextStep, gain, onEnd, name }
     let timer = null;
@@ -314,7 +318,74 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
             } catch { /* ignore */ }
         },
 
+        /** 録音した効果音を読み込む。map: { name: url }。読めなかったものは鳴らないだけ */
+        async loadSamples(map) {
+            if (!ensure()) return;
+            await Promise.all(Object.entries(map).map(async ([name, url]) => {
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                    samples[name] = await ac.decodeAudioData(await res.arrayBuffer());
+                } catch (e) {
+                    console.warn(`[wfs-games] sample "${name}" not loaded`, e);
+                }
+            }));
+        },
+        hasSample(name) { return !!samples[name]; },
+        /** その場で作った波形を効果音として登録する。make(sampleRate) は Float32Array(モノラル) を返す */
+        addSynthSample(name, make) {
+            if (!ensure()) return;
+            try {
+                const data = make(ac.sampleRate);
+                const buf = ac.createBuffer(1, data.length, ac.sampleRate);
+                buf.getChannelData(0).set(data);
+                samples[name] = buf;
+            } catch (e) {
+                console.warn(`[wfs-games] synth sample "${name}" failed`, e);
+            }
+        },
+        /** 効果音を1回鳴らす(効果音の設定に従う)。vol: 音量、rate: 再生速度(音程)、pan: -1(左)〜1(右) */
+        playSample(name, { vol = 1, rate = 1, pan = 0 } = {}) {
+            if (!sound || !ac || paused || !samples[name]) return;
+            const src = ac.createBufferSource();
+            src.buffer = samples[name];
+            src.playbackRate.value = rate;
+            const g = ac.createGain();
+            g.gain.value = vol;
+            src.connect(g);
+            if (pan && ac.createStereoPanner) {
+                const p = ac.createStereoPanner();
+                p.pan.value = Math.max(-1, Math.min(1, pan));
+                g.connect(p).connect(sfxGain);
+            } else {
+                g.connect(sfxGain);
+            }
+            src.start();
+        },
+        /** 環境音などをループで鳴らし続ける(同じ名前は1つだけ) */
+        startLoop(name, vol = 1) {
+            if (!sound || !ensure() || loops[name] || !samples[name]) return;
+            const src = ac.createBufferSource();
+            src.buffer = samples[name];
+            src.loop = true;
+            const g = ac.createGain();
+            g.gain.value = vol;
+            src.connect(g).connect(sfxGain);
+            src.start();
+            loops[name] = { src, g };
+        },
+        stopLoop(name) {
+            const l = loops[name];
+            if (!l) return;
+            delete loops[name];
+            try {
+                l.g.gain.setTargetAtTime(0, ac.currentTime, 0.2);
+                setTimeout(() => { try { l.src.stop(); l.g.disconnect(); } catch { /* ignore */ } }, 900);
+            } catch { /* ignore */ }
+        },
+
         close() {
+            Object.keys(loops).forEach((n) => this.stopLoop(n));
             this.stopEngine?.();
             stopMusic();
             try { ac?.close(); } catch { /* ignore */ }

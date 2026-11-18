@@ -1,0 +1,178 @@
+{
+  "heroine": { "id": "nanami", "name": { "en": "NANAMI", "ja": "ナナミ", "zh": "七海" } },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), pc-98 (style), pixel art, dithering, limited palette, anime coloring",
+    "character": "1girl, solo, adult, brown hair, high ponytail, amber eyes, white tennis wear, white pleated tennis skirt, pink visor, wristband",
+    "character_private": "1girl, solo, adult, brown hair, high ponytail, amber eyes",
+    "ending": "holding a big silver championship trophy above her head, confetti, stadium at night, tears of joy, big smile, looking at viewer, upper body",
+    "gameover": "sitting alone on a bench in an empty locker room, towel over her head, tennis racket on the floor, head down, tears, sad, despair, upper body",
+    "negative": "3d, realistic, photorealistic, blurry, modern",
+    "gameover_negative": "smile, happy, cheerful",
+    "private_negative": "nsfw, nude, nipples, underwear, loli, child, tennis racket, visor",
+    "private_story": [
+      { "speaker": "heroine", "text": { "en": "Hey... those hearts on the court - my photos fell out of my bag? You picked up every one?", "ja": "ねえ……コートのハート、私のバッグから落ちた写真？　全部拾ってくれたの？", "zh": "喂……球场上的那些心形，是从我包里掉出来的照片？　你全都捡起来了？" } },
+      { "speaker": "heroine", "text": { "en": "...Thanks. Don't show them to the other players, okay?", "ja": "……ありがと。ほかの選手には見せないでね。", "zh": "……谢谢。别给其他选手看哦。" } }
+    ],
+    "draw_story": [
+      { "speaker": "narr", "text": { "en": "Two games each. The match is tied.", "ja": "2ゲームずつ。勝負は引き分けた。", "zh": "各得两局。比赛打成平手。" } }
+    ]
+  },
+  "stages": [
+    {
+      "id": 1,
+      "name": { "en": "City Park Court", "ja": "公園のコート", "zh": "公园球场" },
+      "color": "#58c8f8",
+      "venue": { "court": "#3870c0", "out": "#48a048", "stands": "#506078", "sky": "#78c0f8", "night": false },
+      "rival": {
+        "id": "kurumi", "name": { "en": "KURUMI", "ja": "クルミ", "zh": "胡桃" },
+        "type": { "en": "Steady baseliner", "ja": "粘り強いベースライナー", "zh": "稳健底线型" },
+        "hair": "#a86838", "hairDark": "#684018", "outfit": "#f8f8f8", "outfit2": "#58c858", "eyes": "#38a858", "style": "bob",
+        "ai": { "speed": 5.2, "error": 0.09, "flight": [1.45, 1.7], "spread": 2.0, "lob": 0.05, "drop": 0.0, "net": false, "serveFault": 0.12 }
+      },
+      "clear_prompt": "tennis court in a city park, green trees, blue sky",
+      "scene_prompt": "holding a tennis racket over her shoulder, peace sign, big smile, cowboy shot",
+      "private_prompt": "casual clothes, white blouse, long skirt, sitting at a park cafe terrace, iced tea, smile, upper body",
+      "story_before": [
+        { "speaker": "narr", "text": { "en": "Summer, 198X. The Heart Cup - five matches against five rivals - begins today.", "ja": "198X年、夏。5人のライバルと戦うテニス大会「ハートカップ」が今日始まる。", "zh": "198X年，夏。与五名对手较量的网球赛「心之杯」今天开幕。" } },
+        { "speaker": "rival", "text": { "en": "I'm Kurumi. I'll return every single ball. Let's see who gives up first!", "ja": "クルミよ。どんな球だって全部返してあげる。先に音を上げるのはどっちかしら！", "zh": "我是胡桃。不管什么球我都会打回去。看看谁先认输吧！" } },
+        { "speaker": "heroine", "text": { "en": "I'm Nanami. My first match... I'm nervous, but I'll give it everything!", "ja": "ナナミです。初戦……緊張するけど、全力でいきます！", "zh": "我是七海。第一场比赛……虽然紧张，但我会全力以赴！" } }
+      ],
+      "story_win": [
+        { "speaker": "rival", "text": { "en": "Ugh... I chased everything and still lost. You're good, Nanami.", "ja": "うう……全部追いかけたのに。やるじゃない、ナナミ。", "zh": "呜……明明全都追上了还是输了。你很强嘛，七海。" } },
+        { "speaker": "heroine", "text": { "en": "Thank you! Your rallies made me so much stronger. On to the next one!", "ja": "ありがとう！あなたとのラリーで強くなれた気がする。次も勝つよ！", "zh": "谢谢！和你的对打让我变强了。下一场也要赢！" } }
+      ],
+      "story_lose": [
+        { "speaker": "rival", "text": { "en": "See? Patience wins. Come back when you can outlast me!", "ja": "ほらね、粘った方が勝つの。私より粘れるようになってから来なさい！", "zh": "看吧，坚持到最后的人才会赢。等你比我更能坚持再来吧！" } },
+        { "speaker": "heroine", "text": { "en": "...I couldn't break through. I'm so frustrated...", "ja": "……崩せなかった。悔しいよ……。", "zh": "……没能攻破她。好不甘心……" } }
+      ],
+      "story_draw": [
+        { "speaker": "rival", "text": { "en": "Two all? I'm not done yet!", "ja": "2-2？　まだ終わらせないわよ！", "zh": "二比二？　我还没打够呢！" } },
+        { "speaker": "heroine", "text": { "en": "Me neither. One more time?", "ja": "私も。もう一回やる？", "zh": "我也是。再来一次？" } }
+      ]
+    },
+    {
+      "id": 2,
+      "name": { "en": "Sunset Clay", "ja": "夕焼けのクレー", "zh": "夕阳红土" },
+      "color": "#f89838",
+      "venue": { "court": "#c86838", "out": "#a85830", "stands": "#705048", "sky": "#f8a868", "night": false },
+      "rival": {
+        "id": "hinata", "name": { "en": "HINATA", "ja": "ヒナタ", "zh": "日向" },
+        "type": { "en": "Lob master", "ja": "ロブの名手", "zh": "高吊球名手" },
+        "hair": "#f8d058", "hairDark": "#b88828", "outfit": "#f8a8c8", "outfit2": "#f8f8f8", "eyes": "#e86838", "style": "twin",
+        "ai": { "speed": 5.4, "error": 0.09, "flight": [1.6, 2.1], "spread": 2.4, "lob": 0.45, "drop": 0.15, "net": false, "serveFault": 0.13 }
+      },
+      "clear_prompt": "clay tennis court at sunset, orange sky",
+      "scene_prompt": "wiping sweat with a towel, relieved smile, orange sunset, cowboy shot",
+      "private_prompt": "sleeveless summer dress, bare shoulders, sunflower field, straw hat, gentle smile, cowboy shot",
+      "story_before": [
+        { "speaker": "rival", "text": { "en": "Hinata here~! My lobs float like clouds. Can you reach them?", "ja": "ヒナタだよ～！私のロブは雲みたいにふわっと飛ぶの。届くかな？", "zh": "我是日向～！我的高吊球像云一样轻飘飘的。你够得着吗？" } },
+        { "speaker": "heroine", "text": { "en": "High balls... I just need to run back and get under them!", "ja": "高い球……下がって、しっかり落下点に入ればいいんだ！", "zh": "高球……只要退后，跑到落点下面就好！" } }
+      ],
+      "story_win": [
+        { "speaker": "rival", "text": { "en": "Aww, you got under every one of them~. No fair~!", "ja": "えー、全部追いつかれちゃった～。ずるいよ～！", "zh": "诶～全都被你追到了～。太狡猾了～！" } },
+        { "speaker": "heroine", "text": { "en": "Phew... my legs are burning. That was a fun match!", "ja": "ふう……足がパンパン。楽しい試合だったね！", "zh": "呼……腿都酸了。这场比赛很开心！" } }
+      ],
+      "story_lose": [
+        { "speaker": "rival", "text": { "en": "Ehehe, too bad~! Look up at the sky a little more next time!", "ja": "えへへ、残念でした～！次はもっと空を見上げてね！", "zh": "嘿嘿，可惜了～！下次多抬头看看天空吧！" } },
+        { "speaker": "heroine", "text": { "en": "The ball kept flying over my head... I couldn't do anything.", "ja": "ずっと頭の上を越されて……何もできなかった。", "zh": "球一直从我头上飞过……我什么都做不了。" } }
+      ],
+      "story_draw": [
+        { "speaker": "rival", "text": { "en": "A tie~? Let's play again, play again!", "ja": "引き分け～？　もう一回、もう一回！", "zh": "平局～？　再来一次，再来一次！" } },
+        { "speaker": "heroine", "text": { "en": "Okay, I'm not tired yet!", "ja": "いいよ、まだまだ走れる！", "zh": "好啊，我还能跑！" } }
+      ]
+    },
+    {
+      "id": 3,
+      "name": { "en": "Green Lawn", "ja": "緑の芝コート", "zh": "绿茵草地" },
+      "color": "#58e858",
+      "venue": { "court": "#58a838", "out": "#408828", "stands": "#385048", "sky": "#98d0f8", "night": false },
+      "rival": {
+        "id": "gloria", "name": { "en": "GLORIA", "ja": "グロリア", "zh": "葛洛莉亚" },
+        "type": { "en": "Power hitter", "ja": "パワーヒッター", "zh": "力量型" },
+        "hair": "#e83838", "hairDark": "#882020", "outfit": "#202028", "outfit2": "#e83838", "eyes": "#3878f8", "style": "long",
+        "ai": { "speed": 4.6, "error": 0.15, "flight": [0.95, 1.15], "spread": 3.2, "lob": 0.0, "drop": 0.0, "net": false, "serveFault": 0.2 }
+      },
+      "clear_prompt": "grass tennis court, white lines, green lawn, summer",
+      "scene_prompt": "fist pump, shouting with joy, determined smile, sweat, cowboy shot",
+      "private_prompt": "off-shoulder top, denim shorts, riverside, sunset, relaxed smile, cowboy shot",
+      "story_before": [
+        { "speaker": "rival", "text": { "en": "Gloria. I don't do long rallies. One shot, one point. That's all.", "ja": "グロリアよ。長いラリーは嫌い。一撃で決めるわ。", "zh": "我是葛洛莉亚。我讨厌长时间的对打。一击定胜负。" } },
+        { "speaker": "heroine", "text": { "en": "Her shots are fast... but if I keep the ball in play, she'll miss!", "ja": "速い球……でも、返し続ければミスも出るはず！", "zh": "她的球很快……但只要一直回球，她就会失误！" } }
+      ],
+      "story_win": [
+        { "speaker": "rival", "text": { "en": "...Hmph. You returned my best shots. I'll admit it - you're strong.", "ja": "……ふん。私の全力を返すなんて。認めてあげる、あなたは強い。", "zh": "……哼。竟然接住了我的全力一击。我承认，你很强。" } },
+        { "speaker": "heroine", "text": { "en": "My hands are still numb! But I didn't run from your power.", "ja": "まだ手がしびれてる！　でも、逃げずに打ち返せた。", "zh": "手还在发麻！　但我没有逃避，打回去了。" } }
+      ],
+      "story_lose": [
+        { "speaker": "rival", "text": { "en": "Too slow. On grass, power is everything.", "ja": "遅いわ。芝の上ではパワーがすべてよ。", "zh": "太慢了。在草地上，力量就是一切。" } },
+        { "speaker": "heroine", "text": { "en": "I couldn't even touch the ball... It was too fast.", "ja": "ボールに触ることもできなかった……速すぎるよ。", "zh": "连球都碰不到……太快了。" } }
+      ],
+      "story_draw": [
+        { "speaker": "rival", "text": { "en": "A draw is the same as losing. Again.", "ja": "引き分けなんて負けと同じ。もう一度よ。", "zh": "平局和输了没区别。再来一次。" } },
+        { "speaker": "heroine", "text": { "en": "...Alright. I'll answer that.", "ja": "……わかった。受けて立つよ。", "zh": "……好。我接受挑战。" } }
+      ]
+    },
+    {
+      "id": 4,
+      "name": { "en": "Indoor Arena", "ja": "インドアアリーナ", "zh": "室内竞技场" },
+      "color": "#c898f8",
+      "venue": { "court": "#6848a8", "out": "#383058", "stands": "#282840", "sky": "#181828", "night": true },
+      "rival": {
+        "id": "shion", "name": { "en": "SHION", "ja": "シオン", "zh": "紫苑" },
+        "type": { "en": "Net rusher", "ja": "ネットプレーヤー", "zh": "上网型" },
+        "hair": "#383848", "hairDark": "#181828", "outfit": "#9858e8", "outfit2": "#f8f8f8", "eyes": "#c898f8", "style": "short",
+        "ai": { "speed": 5.6, "error": 0.1, "flight": [1.1, 1.35], "spread": 3.0, "lob": 0.0, "drop": 0.2, "net": true, "serveFault": 0.12 }
+      },
+      "clear_prompt": "indoor tennis arena, spotlights, purple court",
+      "scene_prompt": "spinning a tennis racket on her finger, confident wink, spotlights, cowboy shot",
+      "private_prompt": "tank top, denim shorts, midriff, rooftop at night, city lights, smile, cowboy shot",
+      "story_before": [
+        { "speaker": "rival", "text": { "en": "Shion. I'll be at the net before you blink. Try passing me.", "ja": "シオン。まばたきする間にネットに詰めるわ。抜けるものなら抜いてみて。", "zh": "我是紫苑。眨眼间我就会冲到网前。有本事就穿越我。" } },
+        { "speaker": "heroine", "text": { "en": "If she comes to the net... I'll hit past her, or lob over her!", "ja": "ネットに来るなら……横を抜くか、頭の上を越えるロブで！", "zh": "她上网的话……我就从旁边穿越，或者用高吊球越过她！" } }
+      ],
+      "story_win": [
+        { "speaker": "rival", "text": { "en": "You passed me cleanly... I didn't see that coming.", "ja": "きれいに抜かれたわ……読めなかった。", "zh": "被你漂亮地穿越了……完全没看透。" } },
+        { "speaker": "heroine", "text": { "en": "Your volleys were scary! But the court was open beside you.", "ja": "ボレー、怖かった！　でも横が空いてたから。", "zh": "你的截击好可怕！　不过你身边有空当。" } }
+      ],
+      "story_lose": [
+        { "speaker": "rival", "text": { "en": "The net is my territory. Better luck next time.", "ja": "ネット際は私の領域。また出直してきなさい。", "zh": "网前是我的地盘。下次再来吧。" } },
+        { "speaker": "heroine", "text": { "en": "She was always at the net before me... I couldn't get past.", "ja": "いつもネットに先回りされて……抜けなかった。", "zh": "她总是抢先到网前……我穿越不过去。" } }
+      ],
+      "story_draw": [
+        { "speaker": "rival", "text": { "en": "Tied... Interesting. Shall we settle it?", "ja": "引き分け……面白いわ。決着、つける？", "zh": "平局……有意思。要分个胜负吗？" } },
+        { "speaker": "heroine", "text": { "en": "Of course!", "ja": "もちろん！", "zh": "当然！" } }
+      ]
+    },
+    {
+      "id": 5,
+      "name": { "en": "Star Stadium", "ja": "スタースタジアム", "zh": "星光体育场" },
+      "color": "#f8f048",
+      "venue": { "court": "#2850a0", "out": "#183070", "stands": "#202038", "sky": "#080818", "night": true },
+      "rival": {
+        "id": "elena", "name": { "en": "ELENA", "ja": "エレナ", "zh": "艾莲娜" },
+        "type": { "en": "Champion", "ja": "女王", "zh": "女王" },
+        "hair": "#f8f0c0", "hairDark": "#c8b878", "outfit": "#f8f8f8", "outfit2": "#f8d048", "eyes": "#58a8f8", "style": "long",
+        "ai": { "speed": 6.0, "error": 0.06, "flight": [1.0, 1.4], "spread": 3.3, "lob": 0.12, "drop": 0.12, "net": false, "serveFault": 0.08 }
+      },
+      "clear_prompt": "tennis stadium at night, floodlights, packed crowd",
+      "scene_prompt": "jumping with joy, racket raised high, floodlights, crowd cheering, cowboy shot",
+      "private_prompt": "bikini, swimsuit, tropical beach, palm trees, splashing water, happy smile, looking at viewer, cowboy shot",
+      "story_before": [
+        { "speaker": "rival", "text": { "en": "So you're the one who beat everyone. I am Elena - the queen of this court.", "ja": "あなたがみんなを倒した子ね。私はエレナ。このコートの女王よ。", "zh": "你就是打败所有人的那个女孩吧。我是艾莲娜，这个球场的女王。" } },
+        { "speaker": "heroine", "text": { "en": "Everything I learned from the four of them - I'll put it all into this match!", "ja": "4人と戦って覚えたこと、全部この試合にぶつける！", "zh": "和四个人交手学到的一切，我都要在这场比赛中用上！" } }
+      ],
+      "story_win": [
+        { "speaker": "rival", "text": { "en": "...Beautiful. The crown is yours, Nanami.", "ja": "……見事よ。王冠はあなたのものね、ナナミ。", "zh": "……精彩。王冠属于你了，七海。" } },
+        { "speaker": "heroine", "text": { "en": "I won... I really won! Thank you, everyone!", "ja": "勝った……本当に勝ったんだ！　みんな、ありがとう！", "zh": "赢了……真的赢了！　谢谢大家！" } }
+      ],
+      "story_lose": [
+        { "speaker": "rival", "text": { "en": "You fought well. But the throne isn't so easy to take.", "ja": "よく戦ったわ。でも、王座はそう簡単には渡せない。", "zh": "你打得很好。但王座可没那么容易拿走。" } },
+        { "speaker": "heroine", "text": { "en": "So close... the top was right there...", "ja": "あと少しだったのに……頂点が見えてたのに……。", "zh": "明明只差一点……明明已经看到顶点了……" } }
+      ],
+      "story_draw": [
+        { "speaker": "rival", "text": { "en": "You held the queen to a draw. Let's finish this properly.", "ja": "女王と引き分けるなんて。きちんと決着をつけましょう。", "zh": "竟然和女王打成平手。我们好好分出胜负吧。" } },
+        { "speaker": "heroine", "text": { "en": "Yes - one more match!", "ja": "はい、もう一試合！", "zh": "好，再来一场！" } }
+      ]
+    }
+  ]
+}

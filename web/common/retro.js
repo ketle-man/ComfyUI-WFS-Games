@@ -47,9 +47,11 @@ export function addScanlines(root) {
  *   const box = new StoryBox(scene, { W, H, portrait: "misaki", speakerName: "ミサキ", nextLabel, loc, sfx })
  *   box.start(lines, onDone)   lines: [{ speaker: "heroine"|"narr", text: {en, ja, zh} }]
  *   box.update(dt, advance) -> advance を消費したら true
+ * 話し手が複数いるときは speakers: { heroine: { portrait, name }, rival: { portrait, name } } を渡す
+ * (line.speaker がそのキーなら、その顔と名前を出す。"narr" は顔なし)。box.setSpeaker(key, info) で後から差し替えられる
  */
 export class StoryBox {
-    constructor(scene, { W, H, portrait, speakerName, nextLabel, loc, sfx, depth = 20 }) {
+    constructor(scene, { W, H, portrait, speakerName, nextLabel, loc, sfx, depth = 20, speakers = null }) {
         this.scene = scene;
         this.W = W;
         this.loc = loc;
@@ -64,7 +66,11 @@ export class StoryBox {
         g.lineStyle(1, 0x58e8f8, 1).strokeRect(17, top + 7, W - 34, 148);
         const face = scene.add.container(0, 0);
         const fg = scene.add.graphics().lineStyle(2, 0xf8f8f8, 1).strokeRect(26, top + 20, 52, 52);
-        face.add([fg, scene.add.image(52, top + 46, portrait)]);
+        const faceImg = scene.add.image(52, top + 46, portrait);
+        face.add([fg, faceImg]);
+        this.faceImg = faceImg;
+        this.portrait = portrait;
+        this.speakers = speakers ? { ...speakers } : null;
         const name = txt(scene, 92, top + 18, "", 16, COL.yellow);
         const body = txt(scene, 92, top + 46, "", 16, COL.white).setAlign("left");
         const cursor = txt(scene, W - 34, top + 132, "▼", 16, COL.cyan);
@@ -73,6 +79,9 @@ export class StoryBox {
         Object.assign(this, { box, face, name, body, cursor, lines: [], idx: -1, pos: 0, full: "", done: null, blink: 0 });
     }
     get active() { return this.box.visible; }
+    setSpeaker(key, info) {
+        this.speakers = { ...(this.speakers || {}), [key]: info };
+    }
     start(lines, done) {
         this.lines = lines;
         this.idx = -1;
@@ -95,8 +104,10 @@ export class StoryBox {
         }
         const line = this.lines[this.idx];
         const isNarr = line.speaker === "narr";
+        const sp = this.speakers?.[line.speaker];
         this.face.setVisible(!isNarr);
-        this.name.setText(isNarr ? "" : this.speakerName);
+        this.faceImg.setTexture(sp?.portrait || this.portrait);
+        this.name.setText(isNarr ? "" : (sp?.name || this.speakerName));
         const x = isNarr ? 30 : 92;
         this.body.setPosition(x, isNarr ? this.top + 30 : this.top + 46);
         this.body.setWordWrapWidth(this.W - x - 34, true);
