@@ -48,6 +48,13 @@ const NITRO_MUL = 1.35;
 const CAR_WORLD_W = 450;
 const CAR_W = CAR_WORLD_W / ROAD_W;
 const SPRITE_WORLD_W = { palm: 1100, tree: 900, tree2: 900, cactus: 500, rock: 700, lamp: 260, bldg: 1800, gate: ROAD_W * 2.3, heart: 340 };
+// 障害物
+const BOX_WORLD_W = 1100;          // 積み上げたダンボールの横幅(道幅の半分 = 2000)
+const BOX_W = BOX_WORLD_W / ROAD_W;
+const OIL_LEN = 10;                // オイルが続くセグメント数(短いと遠くで線のようにしか見えない)
+const SPIN_TIME = 1.3;             // オイルでのスピン(2回転)にかかる秒数
+const PED_WORLD_W = 300;
+const PLAYER_Y = H - 4 - 13.5;
 const SOLID = new Set(["palm", "tree", "tree2", "cactus", "rock", "lamp", "bldg"]);
 
 const RIVAL_COLORS = ["blue", "yellow", "white", "green", "purple", "orange", "black"];
@@ -105,7 +112,7 @@ const TEXT = {
         controls: "STEER ← →   GAS ↑/Z   BRAKE ↓/X   NITRO SPACE/C   PAUSE ESC",
         stage: (n) => `RACE ${n}`, stageClear: "STAGE CLEAR", perfect: "PERFECT!", privatePhoto: "ALL ITEMS: PRIVATE PHOTO",
         finish: "FINISH!", allClear: "CHAMPION!", gameOver: "GAME OVER", paused: "PAUSE", again: "PUSH SPACE KEY",
-        next: "SPACE / CLICK", go: "GO!", pass: "PASS!", nitro: "NITRO!", item: "ITEM", pos: "POS", time: "TIME",
+        next: "SPACE / CLICK", go: "GO!", pass: "PASS!", spin: "SPIN!", accident: "ACCIDENT!", nitro: "NITRO!", item: "ITEM", pos: "POS", time: "TIME",
         place: (n) => ["1ST", "2ND", "3RD"][n - 1] || `${n}TH`, needTop3: "TOP 3 TO ADVANCE",
         difficulty: { easy: "EASY", normal: "NORMAL", hard: "HARD" },
     },
@@ -114,7 +121,7 @@ const TEXT = {
         controls: "ハンドル ← →  アクセル ↑/Z  ブレーキ ↓/X  ニトロ SPACE/C  一時停止 ESC",
         stage: (n) => `RACE ${n}`, stageClear: "STAGE CLEAR", perfect: "PERFECT!", privatePhoto: "アイテム全部獲得: プライベート写真",
         finish: "FINISH!", allClear: "CHAMPION!", gameOver: "GAME OVER", paused: "PAUSE", again: "PUSH SPACE KEY",
-        next: "SPACE / クリック", go: "GO!", pass: "PASS!", nitro: "NITRO!", item: "ITEM", pos: "POS", time: "TIME",
+        next: "SPACE / クリック", go: "GO!", pass: "PASS!", spin: "SPIN!", accident: "ACCIDENT!", nitro: "NITRO!", item: "ITEM", pos: "POS", time: "TIME",
         place: (n) => ["1ST", "2ND", "3RD"][n - 1] || `${n}TH`, needTop3: "3位以内で次のレースへ",
         difficulty: { easy: "やさしい", normal: "ふつう", hard: "むずかしい" },
     },
@@ -123,7 +130,7 @@ const TEXT = {
         controls: "方向 ← →  油门 ↑/Z  刹车 ↓/X  氮气 SPACE/C  暂停 ESC",
         stage: (n) => `RACE ${n}`, stageClear: "STAGE CLEAR", perfect: "PERFECT!", privatePhoto: "全部道具获得: 私人照片",
         finish: "FINISH!", allClear: "CHAMPION!", gameOver: "GAME OVER", paused: "PAUSE", again: "PUSH SPACE KEY",
-        next: "SPACE / 点击", go: "GO!", pass: "PASS!", nitro: "NITRO!", item: "ITEM", pos: "POS", time: "TIME",
+        next: "SPACE / 点击", go: "GO!", pass: "PASS!", spin: "SPIN!", accident: "ACCIDENT!", nitro: "NITRO!", item: "ITEM", pos: "POS", time: "TIME",
         place: (n) => ["1ST", "2ND", "3RD"][n - 1] || `${n}TH`, needTop3: "前三名晋级下一场",
         difficulty: { easy: "简单", normal: "普通", hard: "困难" },
     },
@@ -183,7 +190,7 @@ function buildTrack(stage, theme) {
             index: n,
             p1: { world: { y: lastY(), z: n * SEG }, camera: {}, screen: {} },
             p2: { world: { y, z: (n + 1) * SEG }, camera: {}, screen: {} },
-            curve, sprites: [], cars: [], items: [], light: Math.floor(n / RUMBLE) % 2 === 0, clip: H,
+            curve, sprites: [], cars: [], items: [], obstacles: [], light: Math.floor(n / RUMBLE) % 2 === 0, clip: H,
         });
     };
     const addRoad = (enter, hold, leave, curve, height) => {
@@ -250,7 +257,30 @@ function buildTrack(stage, theme) {
         segs[idx].items.push(item);
         items.push(item);
     }
-    return { segs, startIdx, finishIdx, finishZ: finishIdx * SEG, items };
+    // 障害物: ダンボール2か所・オイル1か所(ステージごとに毎回同じ場所)。ハートやほかの障害物から離して置く
+    const used = items.map((i) => i.segIdx);
+    const freeIdx = (lo, hi) => {
+        for (let tries = 0; tries < 60; tries++) {
+            const idx = Math.round(startIdx + (finishIdx - startIdx) * (lo + rnd() * (hi - lo)));
+            if (used.every((u) => Math.abs(u - idx) > 30)) { used.push(idx); return idx; }
+        }
+        return null;
+    };
+    const obstacles = [];
+    for (let k = 0; k < 2; k++) {
+        const idx = freeIdx(0.18 + k * 0.4, 0.45 + k * 0.4);
+        if (idx === null) continue;
+        const ob = { kind: "box", segIdx: idx, z: (idx + 0.5) * SEG, offset: (rnd() < 0.5 ? -1 : 1) * (0.3 + rnd() * 0.35), w: BOX_W, broken: false };
+        segs[idx].obstacles.push(ob);
+        obstacles.push(ob);
+    }
+    const oi = freeIdx(0.25, 0.85);
+    if (oi !== null) {
+        const ob = { kind: "oil", segIdx: oi, zStart: oi * SEG, zEnd: (oi + OIL_LEN) * SEG, offset: (rnd() - 0.5) * 0.9, half: 0.36, lastHit: -99 };
+        for (let k = 0; k < OIL_LEN; k++) segs[oi + k].oil = ob;
+        obstacles.push(ob);
+    }
+    return { segs, startIdx, finishIdx, finishZ: finishIdx * SEG, items, obstacles, used };
 }
 
 function project(p, camX, camY, camZ) {
@@ -409,6 +439,11 @@ export async function mount(container, host = {}) {
 
             this.track = buildTrack(this.stage, this.theme);
             this.segs = this.track.segs;
+            // 人物: 0人か1人(プレイのたびにランダム)。近づくと道を横断しはじめる
+            this.ped = null;
+            if (Math.random() < 0.5) this.spawnPed(0.3, 0.8);
+            this.spinT = 0;
+            this.spinDir = 1;
             this.position = this.track.startIdx * SEG - PLAYER_Z + SEG * 0.5; // 自機はスタートライン上
             this.playerX = 0;
             this.speed = 0;
@@ -433,7 +468,8 @@ export async function mount(container, host = {}) {
             }
 
             // 自機
-            this.playerSprite = this.add.image(W / 2, H - 4, "car_player").setOrigin(0.5, 1).setScale(2.25).setDepth(50);
+            // スピンで回転させるので中心を基準にする(高さ 12px x 2.25 倍の半分 = 13.5)
+            this.playerSprite = this.add.image(W / 2, PLAYER_Y, "car_player").setOrigin(0.5, 0.5).setScale(2.25).setDepth(50);
 
             this.buildHud();
             this.banner = txt(this, W / 2, 96, "", 32, COL.yellow).setOrigin(0.5).setDepth(70).setVisible(false);
@@ -556,13 +592,19 @@ export async function mount(container, host = {}) {
                 car.z = Math.min(car.z + car.speed * dt, (this.segs.length - DRAW - 10) * SEG);
                 // 前が詰まっていたら横に避ける(自機も含む)
                 let blocked = 0;
-                const look = (oz, ooff, ospeed) => {
+                const look = (oz, ooff, ospeed, ow = CAR_W, range = SEG * 14) => {
                     const d = oz - car.z;
-                    if (d > 0 && d < SEG * 14 && ospeed < car.speed && overlap(car.offset, CAR_W, ooff, CAR_W, 1.3)) blocked = car.offset > ooff ? 1 : -1;
+                    if (d > 0 && d < range && ospeed < car.speed && overlap(car.offset, CAR_W, ooff, ow, 1.3)) blocked = car.offset > ooff ? 1 : -1;
                 };
                 for (const o of this.cars) if (o !== car) look(o.z, o.offset, o.speed);
                 look(me, this.playerX, this.speed);
-                if (blocked) car.offset = clamp(car.offset + blocked * dt * 0.9, -0.8, 0.8);
+                // 障害物は止まっているので早めに避ける
+                for (const ob of this.track.obstacles) {
+                    if (ob.kind === "box" && !ob.broken) look(ob.z, ob.offset, 0, ob.w, SEG * 40);
+                    else if (ob.kind === "oil") look(ob.zStart, ob.offset, 0, ob.half * 2, SEG * 40);
+                    else if (ob.kind === "ped" && !ob.done) look(ob.z, ob.offset, 0, 0.25, SEG * 40);
+                }
+                if (blocked) car.offset = clamp(car.offset + blocked * dt * 1.2, -0.85, 0.85);
                 else car.offset = lerp(car.offset, car.lane, dt * 0.3);
                 if (!car.finished && car.z >= this.track.finishZ) { car.finished = true; this.finishOrder.push(car); }
                 // 追い抜き
@@ -577,21 +619,89 @@ export async function mount(container, host = {}) {
             }
         }
 
+        // ---------- obstacles ----------
+        spawnPed(lo, hi) {
+            const { startIdx, finishIdx, used } = this.track;
+            for (let tries = 0; tries < 60; tries++) {
+                const idx = Math.round(startIdx + (finishIdx - startIdx) * (lo + Math.random() * (hi - lo)));
+                if (!used.every((u) => Math.abs(u - idx) > 30)) continue;
+                used.push(idx);
+                const dir = Math.random() < 0.5 ? 1 : -1;
+                const ped = { kind: "ped", segIdx: idx, z: (idx + 0.5) * SEG, offset: -dir * 1.8, dir, walking: false, done: false, t: 0 };
+                this.segs[idx].obstacles.push(ped);
+                this.track.obstacles.push(ped);
+                this.ped = ped;
+                return ped;
+            }
+            return null;
+        }
+        updatePed(dt) {
+            const ped = this.ped;
+            if (!ped || ped.done || this.state !== "race") return;
+            // 遠くから歩き出す(最高速で近づくと、ちょうど道の中ほどを渡っているくらい)
+            if (!ped.walking && ped.z - (this.position + PLAYER_Z) < SEG * 220) ped.walking = true;
+            if (!ped.walking) return;
+            ped.t += dt;
+            ped.offset += ped.dir * 0.42 * dt;
+            if (Math.abs(ped.offset) > 1.9) ped.done = true; // 渡りきった
+        }
+        smashBox(ob) {
+            ob.broken = true;
+            this.speed *= 0.72;
+            audio.sfx("box");
+            this.cameras.main.shake(180, 0.008);
+            const cols = [0xc89058, 0x986838, 0xe8d8a8];
+            for (let i = 0; i < 16; i++) {
+                const piece = this.add.image(W / 2 + Phaser.Math.Between(-50, 50), H - 70, "spark")
+                    .setTint(cols[i % 3]).setScale(Phaser.Math.Between(3, 7)).setDepth(52);
+                this.tweens.add({
+                    targets: piece, x: piece.x + Phaser.Math.Between(-160, 160), y: piece.y + Phaser.Math.Between(-110, 40),
+                    angle: Phaser.Math.Between(-360, 360), alpha: 0, duration: Phaser.Math.Between(450, 750), onComplete: () => piece.destroy(),
+                });
+            }
+        }
+        startSpin(ob) {
+            this.spinT = SPIN_TIME;
+            this.spinDir = this.playerX >= ob.offset ? 1 : -1;
+            this.nitroT = 0;
+            this.speed *= 0.85;
+            this.popup(tr("spin"), COL.red);
+        }
+        accident(ped) {
+            // 人を引いたらゲームオーバー(描写は停車と表示だけ)
+            this.state = "crashed";
+            ped.done = true;
+            ped.offset = ped.dir * 1.6; // 道の脇に飛びのいて無事(会話とも合わせる)
+            this.speed = 0;
+            this.nitroT = 0;
+            audio.setSqueal(0);
+            audio.stopEngine();
+            audio.stopMusic();
+            audio.sfx("accident");
+            this.cameras.main.shake(400, 0.015);
+            this.cameras.main.flash(250, 255, 255, 255);
+            this.showBanner(tr("accident"), "", COL.red);
+            this.time.delayedCall(2000, () => this.gameOver(prompts.accident_story || prompts.gameover_story || []));
+        }
+
         // ---------- player ----------
         updatePlayer(dt) {
             const k = this.keys;
             const pad1 = this.input.gamepad?.pad1;
             const racing = this.state === "race";
+            const spinning = this.spinT > 0;
+            if (spinning) this.spinT -= dt;
+            const control = racing && !spinning; // スピン中は操作できない
             const ratio = this.speed / MAX_SPEED;
             const dx = dt * 2 * ratio;
-            const left = racing && (k.LEFT.isDown || k.A.isDown || pad1?.left || (pad1?.leftStick?.x ?? 0) < -0.3);
-            const right = racing && (k.RIGHT.isDown || k.D.isDown || pad1?.right || (pad1?.leftStick?.x ?? 0) > 0.3);
-            const gas = racing && (k.UP.isDown || k.W.isDown || k.Z.isDown || pad1?.A);
-            const brake = racing && (k.DOWN.isDown || k.S.isDown || k.X.isDown || pad1?.B);
+            const left = control && (k.LEFT.isDown || k.A.isDown || pad1?.left || (pad1?.leftStick?.x ?? 0) < -0.3);
+            const right = control && (k.RIGHT.isDown || k.D.isDown || pad1?.right || (pad1?.leftStick?.x ?? 0) > 0.3);
+            const gas = control && (k.UP.isDown || k.W.isDown || k.Z.isDown || pad1?.A);
+            const brake = control && (k.DOWN.isDown || k.S.isDown || k.X.isDown || pad1?.B);
 
             if (ctx.nitroPress) {
                 ctx.nitroPress = false;
-                if (racing && this.nitroLeft > 0 && this.nitroT <= 0) {
+                if (control && this.nitroLeft > 0 && this.nitroT <= 0) {
                     this.nitroLeft--;
                     this.nitroT = NITRO_TIME;
                     audio.sfx("nitro");
@@ -607,9 +717,11 @@ export async function mount(container, host = {}) {
             if (left) this.playerX -= dx;
             if (right) this.playerX += dx;
             this.playerX -= dx * ratio * seg.curve * CENTRIFUGAL;
+            if (spinning) this.playerX += this.spinDir * dt * 0.7; // 横に流される
 
             const maxSpeed = boosting ? MAX_SPEED * NITRO_MUL : MAX_SPEED;
             if (this.state === "finished") this.speed = accelerate(this.speed, DECEL * 1.5, dt);
+            else if (spinning) this.speed = Math.max(MAX_SPEED * 0.15, accelerate(this.speed, -MAX_SPEED * 0.45, dt));
             else if (boosting) this.speed = accelerate(this.speed, MAX_SPEED / 1.2, dt);
             else if (gas) this.speed = accelerate(this.speed, ACCEL, dt);
             else if (brake) this.speed = accelerate(this.speed, BRAKE, dt);
@@ -663,11 +775,29 @@ export async function mount(container, host = {}) {
                     this.popup(`${tr("item")} ${this.itemsGot}/${ITEMS_PER_STAGE}`, COL.magenta);
                 }
             }
+            // 障害物
+            for (const ob of this.track.obstacles) {
+                if (ob.kind === "box") {
+                    if (!ob.broken && before < ob.z && after >= ob.z && overlap(this.playerX, CAR_W, ob.offset, ob.w, 0.9)) this.smashBox(ob);
+                } else if (ob.kind === "oil") {
+                    if (!spinning && this.state === "race" && after >= ob.zStart && before < ob.zEnd && Math.abs(this.playerX - ob.offset) < ob.half + CAR_W * 0.3 && this.raceTime - ob.lastHit > 3) {
+                        ob.lastHit = this.raceTime;
+                        this.startSpin(ob);
+                    }
+                } else if (ob.kind === "ped") {
+                    if (!ob.done && this.state === "race" && before < ob.z && after >= ob.z && Math.abs(ob.offset) < 1.15 && overlap(this.playerX, CAR_W, ob.offset, 0.16, 1)) {
+                        this.accident(ob);
+                        return;
+                    }
+                }
+            }
 
             // 自機の見た目: ハンドルを切ると少し傾く、コース外はガタガタ揺れる
             const steer = (right ? 1 : 0) - (left ? 1 : 0);
-            this.playerSprite.setRotation(steer * 0.04);
-            this.playerSprite.y = H - 4 + (offRoad && this.speed > 500 ? (Math.random() < 0.5 ? -2 : 0) : 0);
+            // スピン中は2回転、ふだんはハンドルで少し傾く
+            this.playerSprite.setRotation(spinning ? this.spinDir * (1 - this.spinT / SPIN_TIME) * Math.PI * 4 : steer * 0.04);
+            if (!(this.spinT > 0) && spinning) this.playerSprite.setRotation(0);
+            this.playerSprite.y = PLAYER_Y + (offRoad && this.speed > 500 ? (Math.random() < 0.5 ? -2 : 0) : 0);
             audio.setEngine(this.speed / MAX_SPEED, boosting);
 
             // 速いままカーブに入るとタイヤが鳴る(カーブがきついほど・速いほど大きく)。最高速近くで強くハンドルを切っても少し鳴る
@@ -677,6 +807,7 @@ export async function mount(container, host = {}) {
                 sq = clamp((sRatio - 0.55) / 0.4, 0, 1) * clamp((Math.abs(seg.curve) - 1.5) / 3.5, 0, 1);
                 if (steer !== 0 && sRatio > 0.85) sq = Math.max(sq, 0.35);
             }
+            if (spinning) sq = 1; // スピン中は最大
             this.squeal = sq;
             audio.setSqueal(sq);
             // タイヤの白い煙(後輪から)
@@ -756,6 +887,15 @@ export async function mount(container, host = {}) {
                     const sx = p1.screen.x + p1.screen.scale * sp.offset * ROAD_W * W / 2;
                     this.drawSprite(sp.key, SPRITE_WORLD_W[sp.kind] || 600, p1.screen.scale, sx, p1.screen.y, seg.clip, depth);
                 }
+                for (const ob of seg.obstacles) {
+                    depth += 0.001;
+                    const sx = p1.screen.x + p1.screen.scale * ob.offset * ROAD_W * W / 2;
+                    if (ob.kind === "box" && !ob.broken) this.drawSprite("boxes", BOX_WORLD_W, p1.screen.scale, sx, p1.screen.y, seg.clip, depth);
+                    else if (ob.kind === "ped") {
+                        const key = ob.walking && !ob.done && this.state === "race" ? (Math.floor(ob.t * 6) % 2 ? "ped_1" : "ped_0") : "ped_0";
+                        this.drawSprite(key, PED_WORLD_W, p1.screen.scale, sx, p1.screen.y, seg.clip, depth);
+                    }
+                }
                 for (const it of seg.items) {
                     if (it.got) continue;
                     depth += 0.001;
@@ -823,6 +963,16 @@ export async function mount(container, host = {}) {
                 return;
             }
             quad(th.road[L], x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2);
+            if (seg.oil) {
+                // オイル: 路面に描く(前後は細く、セグメントごとに色を変えて光って見せる)
+                const o = seg.oil;
+                const k = seg.index - o.segIdx;
+                const taper = Math.min(1, (k + 1) / 3, (OIL_LEN - k) / 3); // 前後を細くして水たまりの形に
+                const cx1 = x1 + o.offset * w1, cx2 = x2 + o.offset * w2;
+                const h1 = o.half * w1 * taper, h2 = o.half * w2 * taper;
+                // ほぼ黒一色、ところどころ青紫の光沢
+                quad(k % 4 === 2 ? 0x3a4068 : 0x101018, cx1 - h1, y1, cx1 + h1 * 0.9, y1, cx2 + h2 * 0.9, y2, cx2 - h2, y2);
+            }
             if (seg.light) {
                 const lw1 = w1 / 32, lw2 = w2 / 32;
                 const step1 = (2 * w1) / LANES, step2 = (2 * w2) / LANES;
@@ -902,7 +1052,7 @@ export async function mount(container, host = {}) {
             ctx.advance = false;
             finish(this.result("ending"));
         }
-        gameOver() {
+        gameOver(lines = prompts.gameover_story || []) {
             finish(this.result("gameover"));
             this.add.rectangle(W / 2, H / 2, W, H, 0x000000, 0.65).setDepth(75);
             const showOver = () => {
@@ -911,7 +1061,6 @@ export async function mount(container, host = {}) {
                 this.showBanner(tr("gameOver"), `SCORE ${pad(this.score)}\n\n${tr("again")}`, COL.red);
                 ctx.advance = false;
             };
-            const lines = prompts.gameover_story || [];
             if (lines.length && !ctx.skipStory) this.startStory(lines, showOver, "gameover");
             else { audio.playMusic("gameover"); showOver(); }
         }
@@ -965,6 +1114,7 @@ export async function mount(container, host = {}) {
             }
             if (this.state === "race") this.raceTime += dt;
             if (this.state === "race" || this.state === "finished" || this.state === "countdown") {
+                this.updatePed(dt);
                 this.updatePlayer(dt);
                 this.updateCars(dt);
                 const seg = this.findSegment(this.position + PLAYER_Z);
@@ -1042,6 +1192,31 @@ export async function mount(container, host = {}) {
             setTimeout(() => { ctx.debugFinishPlace = 1; }, 300);
             return true;
         },
+        /** 動作確認用: 障害物(box / oil / ped)の手前へ移動する。ped は無ければ作る */
+        debugJumpTo(kind = "box", segsBefore = 30) {
+            const p = ctx.play;
+            if (!p || p.state !== "race") return false;
+            const me = p.position + PLAYER_Z;
+            let ob = p.track.obstacles.find((o) => o.kind === kind && !o.broken && !o.done && (o.z ?? o.zStart) > me);
+            if (!ob && kind === "ped") {
+                const idx = Math.floor(me / SEG) + 120;
+                ob = { kind: "ped", segIdx: idx, z: (idx + 0.5) * SEG, offset: -0.45, dir: 1, walking: false, done: false, t: 0 };
+                p.segs[idx].obstacles.push(ob);
+                p.track.obstacles.push(ob);
+                p.ped = ob;
+            }
+            if (!ob) return false;
+            p.position = (ob.z ?? ob.zStart) - PLAYER_Z - SEG * segsBefore;
+            p.playerX = ob.offset;
+            if (kind === "ped") {
+                // 確実に当たるよう、自機の正面・すぐ手前に置く
+                Object.assign(ob, { offset: 0, walking: true, done: false });
+                p.playerX = 0;
+                p.position = ob.z - PLAYER_Z - SEG * 3;
+            }
+            p.speed = MAX_SPEED * 0.7;
+            return { kind, offset: +ob.offset.toFixed(2) };
+        },
         debugGameOver() { ctx.debugFinishPlace = RIVAL_COLORS.length + 1; return true; },
         debugCollectAll() { const p = ctx.play; if (!p) return false; p.itemsGot = ITEMS_PER_STAGE; p.track.items.forEach((i) => { i.got = true; }); return true; },
         debugStartStage(n) {
@@ -1054,7 +1229,9 @@ export async function mount(container, host = {}) {
         debugState() {
             const p = ctx.play;
             return p && p.sys.isActive() ? {
-                state: p.state, stage: p.stageIndex + 1, kmh: Math.round(p.speed * KMH), squeal: +(p.squeal || 0).toFixed(2), rank: p.rank(), place: p.place,
+                state: p.state, spin: +(p.spinT || 0).toFixed(2), ped: p.ped ? { offset: +p.ped.offset.toFixed(2), walking: p.ped.walking, done: p.ped.done } : null,
+                boxes: p.track.obstacles.filter((o) => o.kind === "box").map((o) => o.broken), oil: p.track.obstacles.some((o) => o.kind === "oil"),
+                stage: p.stageIndex + 1, kmh: Math.round(p.speed * KMH), squeal: +(p.squeal || 0).toFixed(2), rank: p.rank(), place: p.place,
                 progress: Math.round(((p.position + PLAYER_Z) / p.track.finishZ) * 100), playerX: +p.playerX.toFixed(2),
                 items: p.itemsGot, nitro: p.nitroLeft, time: +p.raceTime.toFixed(1), score: p.score, paused: !!p.paused,
                 storyLine: p.state === "story" ? p.story.idx : null,

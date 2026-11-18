@@ -100,6 +100,40 @@ const HEART = [
     "...MPM...",
     "....M....",
 ];
+// 障害物: 積み上げたダンボール(20x14)
+const BOXES = [
+    "......KKKKKKKK......",
+    "......KCCTTCCK......",
+    "......KCCTTCcK......",
+    "......KCCTTCcK......",
+    "......KccccccK......",
+    "KKKKKKKKKKKKKKKKKKKK",
+    "KCCCCTTCCKKCCCCTTCCK",
+    "KCCCCTTCCKKCCCCTTCcK",
+    "KCCCCTTCcKKCCCCTTCcK",
+    "KCCCCTTCcKKCCCCTTCcK",
+    "KCCCCCCCcKKCCCCCCCcK",
+    "KCCCCCCCcKKCCCCCCCcK",
+    "KccccccccKKccccccccK",
+    "KKKKKKKKKKKKKKKKKKKK",
+];
+// 障害物: 道を横断する人(10x16)。歩きの2コマ
+const PED_TOP = [
+    "...HHHH...",
+    "..HHHHHH..",
+    "..HPPPPH..",
+    "...PPPP...",
+    "....PP....",
+    "..SSSSSS..",
+    ".SSSSSSSS.",
+    "PSSSSSSSSP",
+    "P.SSSSSS.P",
+    "..SSSSSS..",
+    "..LLLLLL..",
+];
+const PED_0 = [...PED_TOP, "..LLL.LL..", "..LL...LL.", ".LL....LL.", ".LL.....LL", "KK......KK"];
+const PED_1 = [...PED_TOP, "...LLLL...", "...LL.L...", "...LL.LL..", "...LL.LL..", "..KKK.KKK."];
+
 // ヒロイン「ミサキ」の顔(16x16): 赤いボブ、緑の瞳、頭にサングラス、チームジャケット
 const MISAKI = [
     "....KKKKKKK.....",
@@ -130,6 +164,10 @@ export function makeRacerTextures(scene, theme) {
         K: 0x101018, H: 0xd83818, U: 0x202028, S: 0xf8d0a8, s: 0xd89878, E: 0x38c858, N: 0xc84828, J: 0xe83838, W: 0xf8f8f8,
     }, 3);
     pixelTexture(scene, "spark", ["W"], { W: 0xffffff }, 2);
+    pixelTexture(scene, "boxes", BOXES, { C: 0xc89058, c: 0x986838, T: 0xe8d8a8, K: 0x583818 }, 4);
+    const ped = { H: 0x402010, P: 0xf8d0a8, S: 0x38a8f8, L: 0x384058, K: 0x101010 };
+    pixelTexture(scene, "ped_0", PED_0, ped, 3);
+    pixelTexture(scene, "ped_1", PED_1, ped, 3);
     // ステージごとに色が違う物はテーマ名を付けたキーで作る
     const t = theme.key;
     pixelTexture(scene, `palm_${t}`, PALM, { L: theme.leaf, l: theme.leafDark, T: 0xa86830, t: 0x684018 }, 3);

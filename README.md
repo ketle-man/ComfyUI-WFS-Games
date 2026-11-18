@@ -22,6 +22,8 @@ Controls: `← →` / `A D` move, `Space` / `Z` shot, `Esc` / `P` pause, `Space`
 
 Turbo Heart controls: `← →` steer, `↑` / `Z` gas, `↓` / `X` brake, `Space` / `C` nitro, `Esc` / `P` pause. A gamepad also works (A gas, B brake, X nitro).
 
+Turbo Heart obstacles: stacked cardboard boxes (2 per race, same place every time) block part of the road and hide what's behind — driving through smashes them and slows you down; an oil slick (1 per race) spins the car around twice with no control; a person may cross the road (0 or 1, random every play) — hitting them is game over (shown only as ACCIDENT!; the dialogue says they were unhurt). Rivals steer around all of them.
+
 Shared code lives in `web/common/` (`audio.js` PSG-style sound engine with engine noise, `retro.js` pixel font / dialogue window / pixel textures).
 
 The game returns these prompts to Workflow Studio (all in `web/games/shooter/stages.json`):

@@ -221,6 +221,8 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
                 case "go": tone(d, "square", 1320, t, 0.45, 0.06); break;
                 case "pass": tone(d, "pulse25", 1200, t, 0.05, 0.035); tone(d, "pulse25", 1600, t + 0.05, 0.07, 0.035); break;
                 case "crash": noise(d, t, 0.35, 0.3, 200); tone(d, "square", 140, t, 0.25, 0.06, { slide: 0.5 }); break;
+                case "box": noise(d, t, 0.3, 0.32, 600); tone(d, "square", 240, t, 0.18, 0.06, { slide: 0.4 }); noise(d, t + 0.08, 0.2, 0.2, 2500); break;
+                case "accident": noise(d, t, 0.6, 0.4, 150); tone(d, "square", 400, t, 0.12, 0.06); tone(d, "square", 300, t + 0.14, 0.4, 0.06, { slide: 0.5 }); break;
                 case "nitro": noise(d, t, 0.9, 0.18, 1500); tone(d, "sawtooth", 180, t, 0.8, 0.05, { slide: 3 }); break;
                 case "start": [523, 784, 1047].forEach((f, i) => tone(d, "square", f, t + i * 0.07, 0.07, 0.05)); break;
                 default: break;
@@ -292,7 +294,7 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
                 lfo.start();
                 squeal = { src, osc, lfo, gain };
             }
-            if (squeal) squeal.gain.gain.setTargetAtTime(paused ? 0 : a * 0.05, ac.currentTime, 0.04);
+            if (squeal) squeal.gain.gain.setTargetAtTime(paused ? 0 : a * 0.08, ac.currentTime, 0.04); // 最大音量(0.05 から少し上げた)
         },
         stopEngine() {
             if (squeal) {
