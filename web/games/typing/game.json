@@ -1,0 +1,12 @@
+{
+  "name": { "en": "Prompt Typer", "ja": "プロンプトタイパー", "zh": "提示词打字员" },
+  "description": {
+    "en": "A 1980s-style typing game (no music, sound effects only). Type in English, Japanese or Chinese (Japanese and Chinese through your IME). 10 stages of 20 words; the words get longer every 2 stages. What you type becomes the image prompt as it is - typos included. Type 85% of the characters correctly to clear a stage. An image is generated after every stage, cleared or not, and you can retry a stage as often as you like.",
+    "ja": "80年代風のタイピングゲーム(BGM無し・効果音のみ)。英語・日本語・中国語で遊べます(日本語・中国語は IME で入力)。全10ステージ・各20ワードで、2ステージごとに文字数が増えていきます。打った文字は打ち間違いも含めてそのまま画像生成のプロンプトになります。85%以上正しく入力できればステージクリア。クリアしてもしなくても毎ステージ画像を生成し、何度でもリトライできます。",
+    "zh": "80年代风格的打字游戏(无背景音乐，仅有音效)。可用英语、日语、中文游玩(日语和中文用输入法输入)。共 10 关、每关 20 个词，每 2 关字数增加。输入的文字(包括打错的字)会原样成为图像生成的提示词。正确率达到 85% 即可过关。无论是否过关，每关都会生成图像，并且可以反复重试。"
+  },
+  "version": "0.2.2",
+  "entry": "index.js",
+  "modes": ["clear"],
+  "order": 30
+}
