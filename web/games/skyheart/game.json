@@ -1,0 +1,12 @@
+{
+  "name": { "en": "Sky Heart", "ja": "スカイハート", "zh": "天空之心" },
+  "description": {
+    "en": "A 1980s-style into-the-screen flying shooter (pseudo-3D ground, chiptune music). Hikari of the sky patrol flies with a jet pack through 5 stages, each with a boss. Line up with enemies and shoot; dodge bullets and the trees, crystals and towers on the ground. An image of her is generated at every stage clear (a private photo if you catch all 5 hearts), the ending scene when you clear them all, and a defeat scene on game over.",
+    "ja": "80年代風の、画面の奥へ飛んでいく疑似3Dシューティング(チップチューン風BGM付き)。空のパトロール隊のヒカリがジェットパックで全5ステージ・各ステージのボスに挑みます。敵と重なる位置で撃ち、弾と地上の木・水晶・ビルをよけよう。ステージクリアごとに彼女の画像を(ハート5個全部取るとプライベート写真)、全クリアでエンディング、ゲームオーバーで敗北シーンを生成します。",
+    "zh": "80年代风格、向画面深处飞行的伪3D射击游戏(带芯片音乐风格的背景音乐)。天空巡逻队的光背着喷气背包挑战全部 5 关和每关的首领。对准敌人射击，躲开子弹和地面上的树木、水晶、大楼。每次过关生成一张她的图像(集齐 5 颗爱心则是私人照片)，全部通关生成结局画面，游戏结束生成失败画面。"
+  },
+  "version": "0.1.0",
+  "entry": "index.js",
+  "modes": ["clear"],
+  "order": 40
+}

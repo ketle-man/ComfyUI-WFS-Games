@@ -1,0 +1,122 @@
+{
+  "heroine": { "id": "hikari", "name": { "en": "HIKARI", "ja": "ヒカリ", "zh": "光" } },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), pc-98 (style), pixel art, dithering, limited palette, anime coloring",
+    "character": "1girl, solo, adult, long silver hair, blue eyes, goggles on head, white and blue flight suit, jet pack",
+    "character_private": "1girl, solo, adult, long silver hair, blue eyes",
+    "ending": "flying in the sky with a jet pack, arms spread wide, joyful smile, looking at viewer, sunrise above the clouds, upper body",
+    "gameover": "sitting on the ground in ruins, broken jet pack beside her, torn flight suit, head down, tears, sad, despair, night, upper body",
+    "negative": "3d, realistic, photorealistic, blurry, modern",
+    "gameover_negative": "smile, happy, cheerful",
+    "private_negative": "nsfw, nude, nipples, underwear, loli, child, jet pack, goggles",
+    "private_story": [
+      { "speaker": "heroine", "text": { "en": "Wait, those hearts... my photo memories got scattered in the sky? You caught every one?", "ja": "えっ、そのハート……空に散らばった私の写真データ？　全部拾ってくれたの？", "zh": "咦，那些心形……是散落在空中的我的照片数据？　你全都接住了？" } },
+      { "speaker": "heroine", "text": { "en": "...Thanks. Just don't show them to anyone, okay?", "ja": "……ありがと。誰にも見せないでよね。", "zh": "……谢谢。不要给别人看哦。" } }
+    ],
+    "gameover_story": [
+      { "speaker": "heroine", "text": { "en": "...My jet pack... it won't fly anymore...", "ja": "……ジェットパックが……もう、飛べない……。", "zh": "……喷气背包……已经飞不起来了……" } },
+      { "speaker": "narr", "text": { "en": "The sky fell silent.", "ja": "空は、静かになった。", "zh": "天空，安静了下来。" } }
+    ]
+  },
+  "stages": [
+    {
+      "id": 1,
+      "theme": "meadow",
+      "name": { "en": "Flower Plains", "ja": "花の平原", "zh": "花之平原" },
+      "color": "#58e858",
+      "duration": 40,
+      "enemies": ["drone", "wing"],
+      "fire_rate": 0.15,
+      "boss": { "type": "bird", "hp": 40, "name": { "en": "TWIN WING", "ja": "ツインウイング", "zh": "双翼" } },
+      "clear_prompt": "flower field, green hills, blue sky",
+      "scene_prompt": "flying low over a flower field, peace sign, big smile, wind in hair, cowboy shot",
+      "private_prompt": "casual clothes, white blouse, long skirt, picnic on a flower field, sandwich, smile, upper body",
+      "story_before": [
+        { "speaker": "narr", "text": { "en": "Year 198X. Strange machines have filled the skies of the floating continent.", "ja": "198X年。浮遊大陸の空に、正体不明の機械たちがあふれだした。", "zh": "198X年。浮游大陆的天空中，涌现出来历不明的机械。" } },
+        { "speaker": "heroine", "text": { "en": "I'm Hikari, sky patrol. Time to take our sky back - jet pack, full power!", "ja": "空のパトロール隊、ヒカリ。空を取り戻しに行くよ。ジェットパック、全開！", "zh": "我是天空巡逻队的光。去夺回天空吧——喷气背包，全开！" } },
+        { "speaker": "heroine", "text": { "en": "Line up with the enemy and shoot. Fly over the trees, or around them!", "ja": "敵と重なる位置で撃つ。木は上か横によけてね！", "zh": "对准敌人射击。树要从上面或旁边躲开！" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "One down! Next, the crystal canyon. Watch out for the pillars.", "ja": "まずはひとつ！　次は水晶の渓谷。柱にぶつからないように。", "zh": "解决一个！下一站是水晶峡谷。小心别撞上柱子。" } }
+      ]
+    },
+    {
+      "id": 2,
+      "theme": "crystal",
+      "name": { "en": "Crystal Canyon", "ja": "水晶の渓谷", "zh": "水晶峡谷" },
+      "color": "#c898f8",
+      "duration": 42,
+      "enemies": ["drone", "wing", "orb"],
+      "fire_rate": 0.25,
+      "boss": { "type": "core", "hp": 55, "name": { "en": "PRISM CORE", "ja": "プリズムコア", "zh": "棱镜核心" } },
+      "clear_prompt": "crystal canyon, glowing purple crystals",
+      "scene_prompt": "hovering among giant glowing crystals, thumbs up, confident smile, cowboy shot",
+      "private_prompt": "sleeveless summer dress, bare shoulders, sitting on a crystal rock, gentle smile, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "The crystals reflect the light... it's beautiful, but so many enemies.", "ja": "水晶が光を反射して……きれいだけど、敵が多いね。", "zh": "水晶反射着光……很美，但敌人好多。" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "Next is the sunset sea. A flying fortress is waiting, they say.", "ja": "次は夕焼けの海。空飛ぶ要塞が待ってるんだって。", "zh": "下一站是夕阳之海。据说有一座飞行要塞在等着。" } }
+      ]
+    },
+    {
+      "id": 3,
+      "theme": "sea",
+      "name": { "en": "Sunset Sea", "ja": "夕焼けの海", "zh": "夕阳之海" },
+      "color": "#f89838",
+      "duration": 44,
+      "enemies": ["drone", "orb", "jet"],
+      "fire_rate": 0.32,
+      "boss": { "type": "fortress", "hp": 65, "name": { "en": "SKY FORTRESS", "ja": "スカイフォートレス", "zh": "天空要塞" } },
+      "clear_prompt": "ocean at sunset, orange sky",
+      "scene_prompt": "flying over the ocean at sunset, waving, hair blowing in the wind, cowboy shot",
+      "private_prompt": "crop top, midriff, short shorts, beach at sunset, barefoot, relaxed smile, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "The sea is shining orange. Rocks sticking out of the water - careful.", "ja": "海がオレンジに光ってる。海から突き出た岩に気をつけて。", "zh": "大海闪着橙色的光。小心从海里突出的岩石。" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "Tonight we go through the neon city. Two more to go!", "ja": "今夜はネオンの街を抜けるよ。あと二つ！", "zh": "今晚要穿过霓虹之城。还剩两个！" } }
+      ]
+    },
+    {
+      "id": 4,
+      "theme": "city",
+      "name": { "en": "Neon Sky City", "ja": "ネオンの空中都市", "zh": "霓虹空中都市" },
+      "color": "#f858f8",
+      "duration": 46,
+      "enemies": ["wing", "orb", "jet"],
+      "fire_rate": 0.4,
+      "boss": { "type": "mech", "hp": 75, "name": { "en": "NEON GIANT", "ja": "ネオンジャイアント", "zh": "霓虹巨人" } },
+      "clear_prompt": "neon city at night, skyscrapers",
+      "scene_prompt": "flying between neon skyscrapers at night, winking, wet hair, city lights, cowboy shot",
+      "private_prompt": "halter top, bare shoulders, midriff, mini skirt, rooftop, neon city night, smile, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "Buildings everywhere... I'll weave right between them!", "ja": "ビルだらけ……隙間を縫って飛ぶよ！", "zh": "到处都是大楼……我要从缝隙里穿过去！" } }
+      ],
+      "story_after": [
+        { "speaker": "heroine", "text": { "en": "The source of it all is on the moon ruins. This is the last one.", "ja": "すべての元凶は、月の遺跡にいる。これが最後。", "zh": "一切的元凶在月之遗迹。这是最后一战。" } }
+      ]
+    },
+    {
+      "id": 5,
+      "theme": "moon",
+      "name": { "en": "Moon Ruins", "ja": "月の遺跡", "zh": "月之遗迹" },
+      "color": "#f8f048",
+      "duration": 48,
+      "enemies": ["drone", "wing", "orb", "jet"],
+      "fire_rate": 0.48,
+      "boss": { "type": "final", "hp": 110, "name": { "en": "STAR TYRANT", "ja": "スタータイラント", "zh": "星辰暴君" } },
+      "clear_prompt": "ancient ruins under a full moon, starry sky",
+      "scene_prompt": "standing on an ancient pillar under a huge full moon, holding up a fist, determined smile, cowboy shot",
+      "private_prompt": "bikini, swimsuit, moonlit beach, starry sky, splashing water, happy smile, looking at viewer, cowboy shot",
+      "story_before": [
+        { "speaker": "heroine", "text": { "en": "So quiet here... but I can feel it. Something huge is waiting.", "ja": "静か……でも感じる。とても大きな何かが待ってる。", "zh": "好安静……但我能感觉到。有个巨大的东西在等着。" } },
+        { "speaker": "heroine", "text": { "en": "Let's end this. For the sky!", "ja": "終わらせよう。空のために！", "zh": "结束这一切吧。为了天空！" } }
+      ],
+      "story_after": [
+        { "speaker": "narr", "text": { "en": "The machines fell silent, and the morning sun rose over the sea of clouds.", "ja": "機械たちは動きを止め、雲海の向こうから朝日がのぼった。", "zh": "机械们停止了行动，朝阳从云海的彼端升起。" } },
+        { "speaker": "heroine", "text": { "en": "...We did it. Thanks for flying with me!", "ja": "……やったね。一緒に飛んでくれて、ありがとう！", "zh": "……我们做到了。谢谢你和我一起飞！" } }
+      ]
+    }
+  ]
+}
