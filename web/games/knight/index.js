@@ -349,7 +349,7 @@ export async function mount(container, host = {}) {
             g.lineStyle(2, 0xf858a8, 1).strokeRect(15, 15, W - 30, H - 30);
             txt(this, W / 2 + 3, 49, tr("title"), 32, COL.red).setOrigin(0.5).setDepth(250);
             txt(this, W / 2, 46, tr("title"), 32, COL.yellow).setOrigin(0.5).setDepth(250);
-            txt(this, W / 2, 80, `- ${tr("difficulty")[settings.difficulty] || ""} -`, 16, COL.white).setOrigin(0.5).setDepth(250);
+            txt(this, W / 2, 80, `- ${tr("difficulty")[settings.difficulty] || ""} -`, 16, COL.white).setOrigin(0.5).setDepth(250).setStroke("#000018", 4);
             this.add.graphics().setDepth(250).fillStyle(0x000010, 0.6).fillRect(W / 2 - 124, 108, 60, 76).lineStyle(2, 0xf8f8f8, 1).strokeRect(W / 2 - 122, 112, 56, 56);
             this.add.image(W / 2 - 94, 140, "kanon_face").setDepth(250);
             txt(this, W / 2 - 94, 172, heroineName, 16, COL.yellow).setOrigin(0.5).setDepth(250).setScale(0.8);
@@ -357,7 +357,8 @@ export async function mount(container, host = {}) {
             this.frame = 0;
             const start = txt(this, W / 2, 212, tr("pushStart"), 16, COL.yellow).setOrigin(0.5).setDepth(250);
             this.time.addEvent({ delay: 480, loop: true, callback: () => start.setVisible(!start.visible) });
-            txt(this, W / 2, 242, tr("controls"), 16, COL.white).setOrigin(0.5).setScale(0.52).setDepth(250);
+            // 操作説明は長いので折り返す(縁取りで背景の上でも読めるように)
+            txt(this, W / 2, 246, tr("controls"), 16, COL.white).setOrigin(0.5).setScale(0.6).setDepth(250).setStroke("#000018", 4).setWordWrapWidth((W - 60) / 0.6, true);
             txt(this, W / 2, 290, `HI ${pad(ctx.hiScore)}`, 16, COL.white).setOrigin(0.5).setScale(0.8).setDepth(250);
             ctx.advance = false;
             audio.playMusic("title");
