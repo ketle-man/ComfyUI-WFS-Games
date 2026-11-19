@@ -1,0 +1,338 @@
+{
+  "heroine": {
+    "id": "kanon",
+    "name": {
+      "en": "KANON",
+      "ja": "カノン",
+      "zh": "花音"
+    }
+  },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), pc-98 (style), pixel art, dithering, limited palette, anime coloring",
+    "character": "1girl, solo, adult, pink hair, long ponytail, green eyes, silver knight armor with pink trim, silver helmet with gold gem, red cape, holding a lance, cute, energetic",
+    "character_private": "1girl, solo, adult, pink hair, long ponytail, green eyes, gold hair ornament",
+    "ending": "standing on a castle balcony at dawn, ringing a big golden bell, sunrise, holding a lance, helmet under arm, wind blowing cape, joyful smile, looking at viewer, cowboy shot",
+    "gameover": "kneeling on the ground in a dark castle, broken armor pieces scattered, torn pink tunic, holding a broken lance, tears, sad, despair, night, upper body",
+    "negative": "3d, realistic, photorealistic, blurry, modern, gun",
+    "gameover_negative": "smile, happy, cheerful",
+    "private_negative": "nsfw, nude, nipples, underwear, loli, child, armor, helmet, weapon",
+    "private_story": [
+      {
+        "speaker": "heroine",
+        "text": {
+          "en": "Huh? You gathered every heart crystal in this area? ...Then I can take a short break, right?",
+          "ja": "あれ？　このエリアのハートの結晶、全部集めてくれたの？　……じゃあ、ちょっとだけ休憩してもいいよね？",
+          "zh": "咦？这一带的爱心结晶你全都收集齐了？……那我稍微休息一下也可以吧？"
+        }
+      },
+      {
+        "speaker": "heroine",
+        "text": {
+          "en": "Armor off, just for a moment! ...Don't stare too much, okay? Hehe.",
+          "ja": "鎧、ちょっとだけ脱いじゃおう！　……あんまりじろじろ見ないでね？　えへへ。",
+          "zh": "铠甲稍微脱一下！……不要一直盯着看哦？嘿嘿。"
+        }
+      }
+    ],
+    "gameover_story": [
+      {
+        "speaker": "heroine",
+        "text": {
+          "en": "I'm sorry, everyone... I couldn't bring back the morning...",
+          "ja": "ごめんね、みんな……朝を取り戻せなかったよ……",
+          "zh": "对不起，大家……我没能夺回早晨……"
+        }
+      },
+      {
+        "speaker": "narr",
+        "text": {
+          "en": "The long night covered the kingdom of Florea once more.",
+          "ja": "長い夜が、ふたたびフロリア王国をおおいつくした。",
+          "zh": "漫长的黑夜再次笼罩了芙萝莉亚王国。"
+        }
+      }
+    ]
+  },
+  "stages": [
+    {
+      "id": 1,
+      "theme": "meadow",
+      "music": "stage",
+      "name": {
+        "en": "Flower Hills",
+        "ja": "花の丘",
+        "zh": "花之丘"
+      },
+      "color": "#58e858",
+      "boss": {
+        "type": "slime",
+        "hp": 14,
+        "name": {
+          "en": "KING PURU",
+          "ja": "キングぷるぷる",
+          "zh": "噗噜国王"
+        },
+        "hint": {
+          "en": "At first it stays put and spits slime in arcs - dodge and attack. Then it starts jumping: get away from the shadow and jump over the shockwaves. You can also stomp it.",
+          "ja": "はじめはその場から粘液を山なりに飛ばしてくる。よけながら攻撃しよう。そのあと跳びはね始めたら、影から離れて衝撃波はジャンプでよけて！ 踏みつけても攻撃できる。",
+          "zh": "一开始它会待在原地，抛射出弧线状的黏液，边躲边攻击吧。之后它会开始跳跃：离开影子，跳过冲击波！踩它也能造成伤害。"
+        }
+      },
+      "clear_prompt": "flower field, rolling green hills, blue sky",
+      "scene_prompt": "standing on a hill of flowers, lance raised high, victory pose, big smile, wind in hair, cowboy shot",
+      "private_prompt": "casual clothes, white blouse, pink skirt, sitting on a flower field, flower crown, smile, upper body",
+      "story_before": [
+        {
+          "speaker": "narr",
+          "text": {
+            "en": "One night, the Dawn Bell of the kingdom of Florea was stolen, and the morning stopped coming.",
+            "ja": "ある夜、フロリア王国の「夜明けの鐘」がぬすまれ、朝が来なくなった。",
+            "zh": "某天夜里，芙萝莉亚王国的「黎明之钟」被盗，早晨再也不来了。"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "I'm Kanon, apprentice knight of the Flower Guard! I'll get the bell back, no matter what!",
+            "ja": "花の騎士団の見習い騎士、カノン！　鐘はわたしが絶対に取り戻すよ！",
+            "zh": "我是花之骑士团的见习骑士花音！钟一定由我来夺回！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Run down the slopes to build up speed. Press down while running to slide!",
+            "ja": "下り坂で走ると勢いがつくんだ。走りながら↓でスライディング！",
+            "zh": "在下坡奔跑会加速。奔跑时按↓就能滑铲！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Phew, the slime king is down! The thief's trail leads into the forest.",
+            "ja": "ふう、スライムの王さまをやっつけた！　どろぼうの足あとは森の奥へ続いてる。",
+            "zh": "呼，打倒了史莱姆国王！小偷的足迹一直延伸到森林深处。"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "theme": "forest",
+      "music": "stage",
+      "name": {
+        "en": "Whispering Woods",
+        "ja": "ささやきの森",
+        "zh": "低语森林"
+      },
+      "color": "#88e048",
+      "boss": {
+        "type": "hornet",
+        "hp": 18,
+        "name": {
+          "en": "QUEEN HORNET",
+          "ja": "クイーンホーネット",
+          "zh": "黄蜂女王"
+        },
+        "hint": {
+          "en": "Throw straight up with ↑+attack, or attack from the high platform. When the target mark appears, she dives at you - run!",
+          "ja": "↑+攻撃で真上に投げるか、高い足場から攻撃しよう。照準が出たら突進がくる、走ってよけて！",
+          "zh": "按↑+攻击向正上方投掷，或站在高台上攻击。出现准星时她会俯冲过来，快跑开！"
+        }
+      },
+      "clear_prompt": "deep forest, giant trees, sunbeams through leaves",
+      "scene_prompt": "sitting on a big tree branch in a forest, holding a lance, waving, cheerful smile, sunbeams, full body",
+      "private_prompt": "casual clothes, green sundress, straw hat, walking on a forest path, holding a basket of berries, smile, upper body",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The trees here are so tall... Springs can bounce me up to the treetops. Hold jump to go higher!",
+            "ja": "この森、木がすごく高い……バネで木の上まで跳べそう。ジャンプを押しっぱなしで高く！",
+            "zh": "这片森林的树好高……用弹簧可以跳到树顶。按住跳跃能跳得更高！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Goblins with spiked helmets... I can't stomp those. I'll knock them down with my weapon!",
+            "ja": "とげのかぶとのゴブリン……あれは踏めないね。武器でたおそう！",
+            "zh": "戴尖刺头盔的哥布林……那个不能踩。用武器打倒它们！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The queen dropped a map... The Nightmare Queen's castle lies beyond the volcano!",
+            "ja": "女王が地図を落としていった……夜の魔女王の城は、火山の向こうだって！",
+            "zh": "女王留下了一张地图……夜之魔女王的城堡在火山的另一边！"
+          }
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "theme": "volcano",
+      "music": "dungeon",
+      "name": {
+        "en": "Volcano Caverns",
+        "ja": "火山の洞窟",
+        "zh": "火山洞窟"
+      },
+      "color": "#f88838",
+      "boss": {
+        "type": "golem",
+        "hp": 22,
+        "name": {
+          "en": "MAGMA GOLEM",
+          "ja": "マグマゴーレム",
+          "zh": "熔岩魔像"
+        },
+        "hint": {
+          "en": "Rocks fall where the red marks appear - hide under a platform! From a platform, press ↓+attack in the air to hit its head.",
+          "ja": "赤い印の場所に岩が降る。足場の下に隠れれば防げる！ 足場から跳んで、空中で↓+攻撃で頭をねらえ。",
+          "zh": "红色标记处会落下岩石，躲到平台下面就能挡住！从平台跳起，在空中按↓+攻击打它的头。"
+        }
+      },
+      "clear_prompt": "volcanic cave, glowing lava, red light",
+      "scene_prompt": "standing in front of a lava cave, wiping sweat, soot on cheek, determined smile, holding a lance, red light, cowboy shot",
+      "private_prompt": "casual clothes, white tank top, denim shorts, relaxing at a hot spring resort, towel on shoulders, smile, upper body",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "It's so hot... The crumbling bridges fall if I stop. Keep running and don't look down!",
+            "ja": "あつい……！　くずれる橋は止まったら落ちちゃう。下を見ないで走りぬけよう！",
+            "zh": "好热……！会崩塌的桥一停下就会掉下去。别往下看，一口气冲过去！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Boulders roll down the slopes. Time your jumps!",
+            "ja": "坂の上から岩が転がってくる。タイミングよくジャンプ！",
+            "zh": "岩石会从坡上滚下来。看准时机跳过去！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Through the volcano at last! Wait, the path ahead is frozen solid...",
+            "ja": "やっと火山をぬけた！　……って、この先は道がこおってる！？",
+            "zh": "终于穿过火山了！……咦，前面的路全结冰了！？"
+          }
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "theme": "ice",
+      "music": "stage",
+      "name": {
+        "en": "Frozen Rampart",
+        "ja": "氷の城壁",
+        "zh": "冰之城墙"
+      },
+      "color": "#88d8f8",
+      "boss": {
+        "type": "knight",
+        "hp": 24,
+        "name": {
+          "en": "FROST KNIGHT",
+          "ja": "フロストナイト",
+          "zh": "霜冻骑士"
+        },
+        "hint": {
+          "en": "When the ! appears, he charges low - jump over him or get onto a platform. Slide under the ice shards.",
+          "ja": "「!」が出たら低く構えて突進してくる。跳び越えるか足場へ！ 氷のつぶてはスライディングでくぐれる。",
+          "zh": "出现「!」时他会压低身子冲锋，跳过去或站上平台！冰锥可以滑铲钻过去。"
+        }
+      },
+      "clear_prompt": "frozen castle wall, snow, icicles, pale blue sky",
+      "scene_prompt": "standing on a snowy castle wall, breath visible, rosy cheeks, holding a lance, smile, snowflakes, cowboy shot",
+      "private_prompt": "casual clothes, white knit sweater, scarf, earmuffs, drinking hot cocoa by a fireplace, smile, upper body",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Whoa, slippery! On ice I can't stop easily... but sliding down the big slope will be super fast!",
+            "ja": "わわっ、すべる！　氷の上は止まりにくい……でも、大きな坂をすべり降りたらすごく速そう！",
+            "zh": "哇哇，好滑！冰面上很难停下……不过从大坡上滑下去一定超快！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Icicles fall when you pass under them. Be careful!",
+            "ja": "つららは下を通ると落ちてくるよ。気をつけて！",
+            "zh": "从冰柱下面经过时它会掉下来。要小心！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The castle is right there. The Nightmare Queen is waiting... Let's go!",
+            "ja": "お城はもう目の前。夜の魔女王が待ってる……行くよ！",
+            "zh": "城堡就在眼前。夜之魔女王在等着……出发！"
+          }
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "theme": "castle",
+      "music": "dungeon",
+      "name": {
+        "en": "Castle of Night",
+        "ja": "夜の城",
+        "zh": "夜之城"
+      },
+      "color": "#c878f8",
+      "boss": {
+        "type": "queen",
+        "hp": 32,
+        "name": {
+          "en": "NIGHTMARE QUEEN",
+          "ja": "ナイトメアクイーン",
+          "zh": "梦魇女王"
+        },
+        "hint": {
+          "en": "She glows before firing. Slip through the gaps with jumps and platforms. Watch the mark where she reappears. ↑+attack works well.",
+          "ja": "光ったら弾が飛んでくる。ジャンプや足場で弾のすき間をぬけよう。消えたあとは印の場所に現れる。↑+攻撃も有効！",
+          "zh": "她发光后会发射子弹，用跳跃和平台从缝隙穿过。消失后会在标记处出现。↑+攻击也很有效！"
+        }
+      },
+      "clear_prompt": "dark castle hall, moonlight through stained glass",
+      "scene_prompt": "holding a golden bell in a castle hall, moonlight, scratched armor, relieved smile, cowboy shot",
+      "private_prompt": "casual clothes, pink pajamas, sitting on a bed, hugging a pillow, sleepy smile, upper body",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The Castle of Night... Spikes, crumbling floors, moving platforms. Everything I've learned!",
+            "ja": "夜の城……とげに、くずれる床に、動く足場。いままでの全部を出しきるよ！",
+            "zh": "夜之城……尖刺、会崩塌的地板、移动的平台。拿出至今为止的全部本领！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "I got the Dawn Bell back! Let's ring it... and bring the morning home!",
+            "ja": "夜明けの鐘、取り戻したよ！　さあ、鳴らそう……朝を連れて帰るんだ！",
+            "zh": "黎明之钟夺回来了！来，敲响它……把早晨带回家！"
+          }
+        }
+      ]
+    }
+  ]
+}

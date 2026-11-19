@@ -1,0 +1,12 @@
+{
+  "name": { "en": "Knight Heart", "ja": "ナイトハート", "zh": "骑士之心" },
+  "description": {
+    "en": "A 1980s-style side-scrolling action game (chiptune music). Kanon, an apprentice knight, runs, jumps and throws her lance through 5 stages to win back the stolen Dawn Bell. Speed and steps are the heart of it: hold a direction to build speed, run down slopes to go faster, slide while running (press down) to plough through small enemies, and jump off the top of a slope like a ramp - the faster you run, the higher and farther you jump. Her armor breaks on the first hit (second hit = miss), and her VITA gauge drains over time, so grab the fruit. Springs, moving platforms, crumbling bridges, rolling boulders, icicles and a boss at the end of each stage. An image of Kanon is generated at every stage clear (a private photo if you collect all 5 hearts), the ending when you clear them all, and a defeat scene on game over.",
+    "ja": "80年代風の横スクロールアクション(チップチューン風BGM付き)。見習い騎士カノンが、ぬすまれた「夜明けの鐘」を取り戻すため、走って跳んで槍を投げて全5ステージに挑みます。遊びの中心は段差とスピード: 方向キーを押し続けると加速し、下り坂ではさらに速く、走りながら↓でスライディング(小さな敵をはね飛ばす)、上り坂の終わりはジャンプ台に。速く走るほど高く遠くへ跳べます。鎧は1回目の被弾で割れて2回目でミス。VITA(体力)は時間で減るので果物で回復。バネ・動く足場・くずれる橋・転がる岩・つらら、各ステージの最後にボス。ステージクリアごとにカノンの画像を(ハート5個全部取るとプライベート写真)、全クリアでエンディング、ゲームオーバーで敗北シーンを生成します。",
+    "zh": "80年代风格的横版卷轴动作游戏(带芯片音乐风格的背景音乐)。见习骑士花音为了夺回被盗的「黎明之钟」，奔跑、跳跃、投掷长枪，挑战全部 5 关。游戏核心是台阶与速度：按住方向键会逐渐加速，下坡更快，奔跑中按↓滑铲(撞飞小型敌人)，上坡的尽头就是跳台。跑得越快，跳得越高越远。铠甲第一次受伤会碎裂，第二次就失误。VITA(体力)随时间减少，用水果恢复。弹簧、移动平台、会崩塌的桥、滚落的岩石、冰柱，每关最后有首领。每次过关生成一张花音的图像(集齐 5 颗爱心则是私人照片)，全部通关生成结局，游戏结束生成失败画面。"
+  },
+  "version": "0.1.0",
+  "entry": "index.js",
+  "modes": ["clear"],
+  "order": 60
+}
