@@ -1,0 +1,12 @@
+{
+  "name": { "en": "Shutter Heart", "ja": "シャッターハート", "zh": "快门之心" },
+  "description": {
+    "en": "A photographer game. Shoot the portfolio of Yui, a rookie model, in 5 locations (morning beach, summer festival, snowy park, city at night, cherry blossom hill). Each location has 3 shooting spots; pick one and Yui walks there and poses. Frame the spot's landmark and its prompt goes into the photo. The framing you set with the viewfinder, zoom, tilt and camera height becomes the image prompt (full body, cowboy shot, upper body, close-up, low / high / dutch angle). Pose and expression are random - you only find out on the contact sheet. Watch the biorhythm graph at the bottom left: shoot when the three waves line up at the top for a BEST SHOT. Watch out for people walking in front. Up to 10 shots per location.\n[Controls] Q / E (or 1-3) shooting spot, ← ↑ → ↓ move the viewfinder, Z / X zoom, A / D tilt, W / S camera height, Space shutter (picks a photo on the contact sheet), Esc / P pause.\n[Images] Pick a photo above the target score on the contact sheet and it is generated. The lowest-scoring photo of the stage is generated too, as the \"worst shot\". Catch all 5 hearts in your photos together with Yui for a private photo. The ending is generated when you clear every location, and a defeat scene when you run out of chances.",
+    "ja": "カメラマンゲーム。新人モデル・ユイのポートフォリオを、5つのロケ地(朝の海辺・夏祭りの夜・雪の公園・夜の街・桜の丘)で撮影します。ロケ地ごとに撮影場所が3か所あり、選ぶとユイがそこへ歩いていってポーズを取ります。場所の目印を枠に入れると、その場所のプロンプトが写真に入ります。ファインダーの位置・ズーム・傾き・カメラの高さで決めた構図が、そのまま画像のプロンプトになります(全身・膝上・上半身・顔のアップ、ローアングル・ハイアングル・ダッチアングル)。ポーズと表情はランダムで、コンタクトシートを見るまで分かりません。左下のバイオリズムのグラフで、3本の波が上でそろった瞬間に撮ると BEST SHOT。手前を横切る人に注意。1ロケ10枚まで撮れます。\n【操作】Q / E(または 1〜3)撮影場所、← ↑ → ↓ ファインダーの移動、Z / X ズーム、A / D 傾き、W / S カメラの高さ、Space シャッター(コンタクトシートでは写真を選ぶ)、Esc / P 一時停止。\n【画像生成】コンタクトシートから目標点を超えた写真を1枚選ぶと、その写真を生成します。そのステージでいちばん点数の低かった写真も「ワースト写真」として生成します。ハート5個をユイと一緒に写すとプライベート写真。全ロケをクリアでエンディング、チャンスがなくなると敗北シーンを生成します。",
+    "zh": "摄影师游戏。在 5 个外景地(清晨海边、夏日祭典之夜、雪中公园、夜晚的街道、樱花之丘)为新人模特结衣拍摄作品集。每个外景地有 3 个拍摄地点，选择后结衣会走过去摆姿势。把地点的标志拍进取景框，该地点的提示词就会加入照片。用取景框位置、缩放、倾斜和相机高度决定的构图会直接成为图像提示词(全身、七分身、上半身、面部特写，低角度、高角度、荷兰角)。姿势和表情是随机的，要看印样才知道。左下的生物节律图中三条波同时到达高处时拍摄即为 BEST SHOT。注意从镜头前走过的路人。每个外景地最多拍 10 张。\n【操作】Q / E(或 1~3)拍摄地点，← ↑ → ↓ 移动取景框，Z / X 缩放，A / D 倾斜，W / S 相机高度，Space 快门(在印样中选择照片)，Esc / P 暂停。\n【图像生成】在印样中选一张超过目标分的照片即可生成。该关得分最低的照片也会作为“最差照片”生成。把 5 颗爱心和结衣一起拍进去即可获得私人照片。全部外景通关生成结局，机会用完则生成失败画面。"
+  },
+  "version": "0.2.0",
+  "entry": "index.js",
+  "modes": ["clear"],
+  "order": 70
+}

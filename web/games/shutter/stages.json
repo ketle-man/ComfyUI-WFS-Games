@@ -1,0 +1,517 @@
+{
+  "heroine": {
+    "id": "yui",
+    "name": {
+      "en": "YUI",
+      "ja": "ユイ",
+      "zh": "结衣"
+    }
+  },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), pc-98 (style), pixel art, dithering, limited palette, anime coloring",
+    "character": "1girl, solo, adult, long light brown hair, pink hair ribbon, brown eyes, model, cute",
+    "character_private": "1girl, solo, adult, long light brown hair, pink hair ribbon, brown eyes",
+    "ending": "holding a photo album, sitting on a hill at sunset, cherry blossoms, gentle smile, looking at viewer, upper body",
+    "gameover": "sitting alone on a bench at night, rain, holding an umbrella, sad, looking down, upper body",
+    "negative": "3d, realistic, photorealistic, blurry, modern, camera, holding camera",
+    "gameover_negative": "smile, happy, cheerful",
+    "private_negative": "nsfw, nude, nipples, underwear, loli, child",
+    "private_story": [
+      {
+        "speaker": "heroine",
+        "text": {
+          "en": "You caught all the hearts too? ...Then let's do one more, just for fun. No posing this time, okay?",
+          "ja": "ハートも全部写してくれたの？　……じゃあ、おまけの1枚。今度はポーズなしの、ふだんの私ね。",
+          "zh": "爱心也全都拍进去了？……那就再来一张附赠的吧。这次不摆姿势，拍平常的我哦。"
+        }
+      }
+    ],
+    "gameover_story": [
+      {
+        "speaker": "heroine",
+        "text": {
+          "en": "It's okay... We'll take great photos next time. Let's go home for today.",
+          "ja": "だいじょうぶ……次はきっといい写真が撮れるよ。今日はもう帰ろっか。",
+          "zh": "没关系……下次一定能拍出好照片。今天就先回去吧。"
+        }
+      },
+      {
+        "speaker": "narr",
+        "text": {
+          "en": "The portfolio was left unfinished.",
+          "ja": "ポートフォリオは、未完成のままになった。",
+          "zh": "作品集就这样未能完成。"
+        }
+      }
+    ]
+  },
+  "stages": [
+    {
+      "id": 1,
+      "theme": "beach",
+      "music": "stage",
+      "name": {
+        "en": "Morning Beach",
+        "ja": "朝の海辺",
+        "zh": "清晨海边"
+      },
+      "color": "#58d8f8",
+      "time": 45,
+      "film": 10,
+      "target": 70,
+      "speed": 0.9,
+      "bombers": 0.6,
+      "outfit": "white sundress, straw hat",
+      "clear_prompt": "beach, ocean, morning, blue sky",
+      "private_prompt": "casual clothes, oversized t-shirt, denim shorts, sitting on a pier, eating ice cream, relaxed smile",
+      "story_before": [
+        {
+          "speaker": "narr",
+          "text": {
+            "en": "You are a photographer. Today you start shooting the portfolio of Yui, a rookie model.",
+            "ja": "あなたはカメラマン。今日から、新人モデル・ユイのポートフォリオ撮影が始まる。",
+            "zh": "你是一名摄影师。从今天起，开始为新人模特结衣拍摄作品集。"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Nice to meet you! I'm Yui. Please make me look good... I'm a little nervous!",
+            "ja": "はじめまして、ユイです！　きれいに撮ってくださいね……ちょっと緊張してます！",
+            "zh": "初次见面，我是结衣！请把我拍得漂亮一点哦……我有点紧张！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Pick where I pose with Q / E. The place shows up in the photo! Move the frame with the arrows, zoom with Z / X, and shoot with Space.",
+            "ja": "撮影場所は Q / E で選んでね。写した場所が写真になります！　矢印で枠を動かして、Z / X でズーム、Space でシャッター！",
+            "zh": "用 Q / E 选择拍摄地点，拍到的地点会出现在照片里！用方向键移动取景框，Z / X 缩放，Space 按快门！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Watch my biorhythm at the bottom left. When the three lines line up at the top, I sparkle. That's the moment for a BEST SHOT!",
+            "ja": "左下は私のバイオリズム。3本の線が上でそろうとキラッと光ります。その瞬間がベストショットのチャンス！",
+            "zh": "左下角是我的生物节律。三条线在上方重合时我会闪光，那一刻就是最佳照片的机会！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "My pose and face change on their own... You'll see what you got on the contact sheet. Have fun!",
+            "ja": "ポーズと表情は気まぐれだから、どんな顔が撮れたかはコンタクトシートでのお楽しみ！",
+            "zh": "姿势和表情随我心情变化，拍到了什么表情，就在印样上揭晓吧！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Wow, that one's great! Next is the summer festival. I'll wear a yukata!",
+            "ja": "わあ、すてきな1枚！　次は夏祭りです。浴衣、着ていきますね！",
+            "zh": "哇，这张太棒了！下一站是夏日祭典。我会穿浴衣去哦！"
+          }
+        }
+      ],
+      "spots": [
+        {
+          "id": "parasol",
+          "prop": "parasol",
+          "x": 70,
+          "d": 0.25,
+          "yx": 104,
+          "yd": 0.32,
+          "name": {
+            "en": "Beach Umbrella",
+            "ja": "パラソルの下",
+            "zh": "遮阳伞下"
+          },
+          "prompt": "under a beach umbrella, beach towel, sand"
+        },
+        {
+          "id": "shore",
+          "x": 250,
+          "sky": -9,
+          "yx": 250,
+          "yd": 0.06,
+          "name": {
+            "en": "Shoreline",
+            "ja": "波打ち際",
+            "zh": "海浪边"
+          },
+          "prompt": "shoreline, shallow water, waves, splashing, horizon"
+        },
+        {
+          "id": "sandcastle",
+          "prop": "sandcastle",
+          "x": 410,
+          "d": 0.75,
+          "yx": 372,
+          "yd": 0.7,
+          "sit": true,
+          "name": {
+            "en": "Sandcastle",
+            "ja": "砂の城",
+            "zh": "沙堡"
+          },
+          "prompt": "sandcastle, sitting on the sand, seashells"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "theme": "festival",
+      "music": "night",
+      "name": {
+        "en": "Summer Festival",
+        "ja": "夏祭りの夜",
+        "zh": "夏日祭典之夜"
+      },
+      "color": "#f8a838",
+      "time": 45,
+      "film": 10,
+      "target": 74,
+      "speed": 1.0,
+      "bombers": 1.2,
+      "outfit": "pink yukata, floral print, obi, holding a paper fan",
+      "clear_prompt": "summer festival, night, paper lanterns, food stalls",
+      "private_prompt": "casual clothes, white blouse, long skirt, sitting on a veranda, eating watermelon, summer evening, relaxed smile",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "It's crowded tonight... People may walk in front of the camera. Wait for a clear moment!",
+            "ja": "今夜は人が多いですね……カメラの前を人が横切るかも。すきまをねらってください！",
+            "zh": "今晚人好多……可能会有人从镜头前走过。请抓住没人的瞬间！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "If you catch the fireworks behind me, the photo will be even prettier!",
+            "ja": "花火といっしょに写したら、もっときれいになるかも！",
+            "zh": "如果能和烟花一起拍进去，照片会更漂亮哦！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Fireworks and lanterns... it felt like a dream. Next, the snowy park!",
+            "ja": "花火も提灯も、夢みたいでした。次は雪の公園です！",
+            "zh": "烟花和灯笼，就像做梦一样。下一站是雪中的公园！"
+          }
+        }
+      ],
+      "spots": [
+        {
+          "id": "stall",
+          "prop": "stall",
+          "x": 60,
+          "d": 0.1,
+          "yx": 96,
+          "yd": 0.18,
+          "name": {
+            "en": "Food Stall",
+            "ja": "屋台の前",
+            "zh": "小吃摊前"
+          },
+          "prompt": "food stall, yatai, cotton candy, festival food"
+        },
+        {
+          "id": "lanterns",
+          "prop": "lanterns",
+          "x": 240,
+          "sky": -38,
+          "yx": 240,
+          "yd": 0.42,
+          "name": {
+            "en": "Lantern Lane",
+            "ja": "提灯の下",
+            "zh": "灯笼下"
+          },
+          "prompt": "under paper lanterns, string of lanterns, festival crowd"
+        },
+        {
+          "id": "goldfish",
+          "prop": "stall2",
+          "x": 420,
+          "d": 0.15,
+          "yx": 384,
+          "yd": 0.22,
+          "name": {
+            "en": "Goldfish Scooping",
+            "ja": "金魚すくい",
+            "zh": "捞金鱼"
+          },
+          "prompt": "goldfish scooping stall, kingyo sukui, standing beside a shallow goldfish pool, holding a paper scoop, goldfish swimming in the pool",
+          "negative": "in water, wading, submerged, partially submerged, swimming, inside aquarium, underwater, wet clothes"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "theme": "snow",
+      "music": "stage",
+      "name": {
+        "en": "Snowy Park",
+        "ja": "雪の公園",
+        "zh": "雪中公园"
+      },
+      "color": "#d8f0f8",
+      "time": 45,
+      "film": 10,
+      "target": 78,
+      "speed": 1.1,
+      "bombers": 0.9,
+      "outfit": "red coat, white scarf, earmuffs, mittens",
+      "clear_prompt": "snowy park, snow, winter, snowing",
+      "private_prompt": "casual clothes, white knit sweater, sitting under a kotatsu, holding a mug of hot cocoa, cozy room, relaxed smile",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Brr, it's cold! I'll move a little faster to stay warm. Keep up!",
+            "ja": "さむーい！　体を温めたいから、ちょっと速く動きますね。ついてきてください！",
+            "zh": "好冷！为了暖和一点，我会动得快一些哦。跟上我！"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Try different angles too. W / S changes the camera height, A / D tilts it.",
+            "ja": "アングルも工夫してみてね。W / S でカメラの高さ、A / D で傾きが変わります。",
+            "zh": "也试试不同的角度吧。W / S 改变相机高度，A / D 倾斜相机。"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The snowman photo was so cute! Next is the city at night. Neon lights!",
+            "ja": "雪だるまとの写真、かわいかった！　次は夜の街。ネオンがきれいですよ！",
+            "zh": "和雪人的合照好可爱！下一站是夜晚的街道。霓虹灯很美哦！"
+          }
+        }
+      ],
+      "spots": [
+        {
+          "id": "forest",
+          "prop": "pine",
+          "x": 40,
+          "d": 0.05,
+          "yx": 82,
+          "yd": 0.12,
+          "name": {
+            "en": "Snowy Forest",
+            "ja": "雪の林",
+            "zh": "雪林"
+          },
+          "prompt": "snow-covered pine trees, forest path, snow"
+        },
+        {
+          "id": "kamakura",
+          "prop": "kamakura",
+          "x": 250,
+          "d": 0.3,
+          "yx": 222,
+          "yd": 0.36,
+          "sit": true,
+          "name": {
+            "en": "Snow Hut",
+            "ja": "かまくら",
+            "zh": "雪屋"
+          },
+          "prompt": "kamakura, snow hut, warm light inside, sitting"
+        },
+        {
+          "id": "snowman",
+          "prop": "snowman",
+          "x": 395,
+          "d": 0.55,
+          "yx": 360,
+          "yd": 0.5,
+          "name": {
+            "en": "Snowman",
+            "ja": "雪だるま",
+            "zh": "雪人"
+          },
+          "prompt": "next to a snowman, snowman"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "theme": "city",
+      "music": "night",
+      "name": {
+        "en": "City at Night",
+        "ja": "夜の街",
+        "zh": "夜晚的街道"
+      },
+      "color": "#f858f8",
+      "time": 42,
+      "film": 10,
+      "target": 82,
+      "speed": 1.2,
+      "bombers": 1.4,
+      "outfit": "denim jacket, black skirt, boots, small shoulder bag",
+      "clear_prompt": "city street at night, neon lights, bokeh",
+      "private_prompt": "casual clothes, hoodie, sitting at a window table in a late-night cafe, holding a cup, rain outside, relaxed smile",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The city never sleeps... Cars' headlights may flash into the frame. That can look cool, actually!",
+            "ja": "夜の街はにぎやかですね……車のライトが入るかも。それもかっこいいかもしれません！",
+            "zh": "夜晚的街道真热闹……可能会有车灯照进画面。说不定反而很酷哦！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "One more place. The last shoot is on the cherry blossom hill. Let's finish with the best one!",
+            "ja": "あと1か所。最後は桜の丘です。いちばんの1枚で締めくくりましょう！",
+            "zh": "还剩一个地方。最后一站是樱花之丘。用最棒的一张来收尾吧！"
+          }
+        }
+      ],
+      "spots": [
+        {
+          "id": "neon",
+          "prop": "neon1",
+          "x": 90,
+          "sky": -54,
+          "yx": 112,
+          "yd": 0.3,
+          "name": {
+            "en": "Neon Street",
+            "ja": "ネオン街",
+            "zh": "霓虹街"
+          },
+          "prompt": "neon signs, shop front, glowing signboard"
+        },
+        {
+          "id": "lamp",
+          "prop": "lamp",
+          "x": 210,
+          "d": 0.1,
+          "yx": 230,
+          "yd": 0.16,
+          "name": {
+            "en": "Street Lamp",
+            "ja": "街灯の下",
+            "zh": "路灯下"
+          },
+          "prompt": "under a street lamp, lamppost, light rays"
+        },
+        {
+          "id": "vending",
+          "prop": "vending",
+          "x": 400,
+          "d": 0.4,
+          "yx": 370,
+          "yd": 0.44,
+          "name": {
+            "en": "Vending Machine",
+            "ja": "自動販売機",
+            "zh": "自动贩卖机"
+          },
+          "prompt": "vending machine, light from vending machine, holding a can"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "theme": "sakura",
+      "music": "stage",
+      "name": {
+        "en": "Cherry Blossom Hill",
+        "ja": "桜の丘",
+        "zh": "樱花之丘"
+      },
+      "color": "#f8b8d8",
+      "time": 42,
+      "film": 10,
+      "target": 86,
+      "speed": 1.3,
+      "bombers": 1.0,
+      "outfit": "light blue dress, white cardigan",
+      "clear_prompt": "cherry blossom hill, cherry blossoms, spring, falling petals",
+      "private_prompt": "casual clothes, pajamas, sitting on a bed, hugging a pillow, looking at photos on the bed, sleepy smile",
+      "story_before": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The last shoot... Thank you for everything so far. I'll give it my all!",
+            "ja": "最後の撮影……ここまで本当にありがとう。全力でいきます！",
+            "zh": "最后的拍摄……一路走来真的谢谢你。我会全力以赴！"
+          }
+        }
+      ],
+      "story_after": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The portfolio is complete! I'm sure it'll get me lots of work. Let's shoot together again someday!",
+            "ja": "ポートフォリオ、完成です！　これでお仕事もきっと増えるはず。また一緒に撮影しましょうね！",
+            "zh": "作品集完成了！这样工作一定会变多的。以后再一起拍摄吧！"
+          }
+        }
+      ],
+      "spots": [
+        {
+          "id": "tree",
+          "prop": "sakura",
+          "x": 60,
+          "d": 0.2,
+          "yx": 96,
+          "yd": 0.27,
+          "name": {
+            "en": "Cherry Tree",
+            "ja": "桜の木の下",
+            "zh": "樱花树下"
+          },
+          "prompt": "under a cherry blossom tree, cherry blossom petals"
+        },
+        {
+          "id": "picnic",
+          "prop": "picnic",
+          "x": 200,
+          "d": 0.7,
+          "yx": 200,
+          "yd": 0.72,
+          "sit": true,
+          "name": {
+            "en": "Hanami Picnic",
+            "ja": "お花見シート",
+            "zh": "赏花野餐垫"
+          },
+          "prompt": "hanami, picnic blanket, bento box, sitting"
+        },
+        {
+          "id": "bench",
+          "prop": "bench",
+          "x": 330,
+          "d": 0.45,
+          "yx": 330,
+          "yd": 0.47,
+          "sit": true,
+          "name": {
+            "en": "Park Bench",
+            "ja": "公園のベンチ",
+            "zh": "公园长椅"
+          },
+          "prompt": "sitting on a park bench, park"
+        }
+      ]
+    }
+  ]
+}

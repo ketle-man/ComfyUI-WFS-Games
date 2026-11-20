@@ -1,7 +1,7 @@
 [project]
 name = "comfyui-wfs-games"
 description = "Game pack for ComfyUI Workflow Studio. Adds a Game tab to Workflow Studio: play mini games and generate images from the prompts you earn."
-version = "0.4.1"
+version = "0.5.0"
 license = { file = "LICENSE" }
 requires-python = ">= 3.10"
 dependencies = []

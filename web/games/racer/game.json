@@ -1,9 +1,9 @@
 {
   "name": { "en": "Turbo Heart", "ja": "ターボハート", "zh": "涡轮之心" },
   "description": {
-    "en": "A 1980s-style behind-the-car racer (arcade / MSX2 / PC-8801 look, chiptune music). 5 races along the coast, from last place to the podium. Mechanic Misaki guides you between races; an image of her is generated at every race you finish in the top 3, and the ending scene when you win them all.",
-    "ja": "80年代(アーケード / MSX2 / PC-8801)風の、後ろから見るレースゲーム。チップチューン風BGM付き。海岸線を巡る全5レースで、最後尾から表彰台を目指そう。レースの合間にメカニックのミサキが登場し、3位以内でゴールするたびに彼女の画像を、全レースを突破するとエンディングシーンを生成します。",
-    "zh": "80年代(街机 / MSX2 / PC-8801)风格的后视角赛车游戏，带芯片音乐风格的背景音乐。沿海岸线共 5 场比赛，从最后一位冲上领奖台。比赛之间机械师美咲会登场，每次以前三名完赛生成一张她的图像，全部突破后生成结局画面。"
+    "en": "A 1980s-style behind-the-car racer (arcade / MSX2 / PC-8801 look, chiptune music). 5 races along the coast (Seaside Highway, Autumn Pass, Sunset Canyon, Neon City, Dawn Coast). You start last of 8 cars; finish in the top 3 to go on (4th or worse is game over). 3 nitros per race. Watch out for cardboard boxes on the road (they slow you down), oil slicks (you spin) and people crossing (hitting one is game over). Mechanic Misaki talks to you between races.\n[Controls] ← → steer, ↑ / Z gas, ↓ / X brake, Space / C nitro, Esc / P pause. A gamepad also works (A gas, B brake, X nitro).\n[Images] An image of Misaki every time you finish in the top 3 (a private photo if you pick up all 5 hearts on the road), the ending when you win every race, and a defeat scene on game over.",
+    "ja": "80年代(アーケード / MSX2 / PC-8801)風の、車の後ろから見るレースゲーム(チップチューン風BGM付き)。海岸線を巡る全5レース(海岸ハイウェイ・紅葉の峠・夕陽の渓谷・ネオンシティ・夜明けの海岸)。8台の最後尾からスタートし、3位以内でゴールすると次のレースへ進めます(4位以下はゲームオーバー)。ニトロは1レース3回。道の段ボール箱(突っ込むと減速)、オイル(スピン)、道を横切る人(ぶつかるとゲームオーバー)に注意。レースの合間にはメカニックのミサキが話しかけてきます。\n【操作】← → ハンドル、↑ / Z アクセル、↓ / X ブレーキ、Space / C ニトロ、Esc / P 一時停止。ゲームパッドも使えます(A アクセル、B ブレーキ、X ニトロ)。\n【画像生成】3位以内でゴールするたびにミサキの画像(道のハート5個を全部取るとプライベート写真)、全レース突破でエンディング、ゲームオーバーで敗北シーンを生成します。",
+    "zh": "80年代(街机 / MSX2 / PC-8801)风格、从车后方视角的赛车游戏(带芯片音乐风格的背景音乐)。沿海岸线共 5 场比赛(海岸公路、红叶山道、夕阳峡谷、霓虹城市、黎明海岸)。从 8 辆车的最后一名出发，前 3 名到达终点即可进入下一场(第 4 名以后游戏结束)。每场可用 3 次氮气。注意路上的纸箱(撞上会减速)、油渍(会打滑)和横穿马路的行人(撞到即游戏结束)。比赛之间，机械师美咲会和你对话。\n【操作】← → 方向，↑ / Z 油门，↓ / X 刹车，Space / C 氮气，Esc / P 暂停。也可以使用手柄(A 油门，B 刹车，X 氮气)。\n【图像生成】每次以前 3 名完赛生成美咲的图像(拾取路上全部 5 颗爱心则为私人照片)，全部比赛突破生成结局，游戏结束生成失败画面。"
   },
   "version": "0.2.4",
   "entry": "index.js",

@@ -1,0 +1,439 @@
+{
+  "heroine": {
+    "name": { "en": "Sera", "ja": "セラ", "zh": "塞拉" }
+  },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), pc-98 (style), pixel art, dithering, limited palette, anime coloring, fantasy",
+    "character": "1girl, solo, adult, swordswoman, long blue hair, dark brown eyes, slender, fantasy adventurer",
+    "character_private": "1girl, solo, adult, long blue hair, dark brown eyes, casual clothes, white blouse, long skirt, relaxed smile",
+    "victory": "victory pose, confident smile, looking at viewer",
+    "finish_attack": "sword raised high, dynamic pose, sword slash",
+    "gameover": "kneeling, exhausted, broken armor, torn clothes, tears, defeated",
+    "ending": "holding a glowing star gem, treasure room, golden light, triumphant smile",
+    "negative": "3d, realistic, photorealistic, blurry, modern, nude, nsfw, nipples",
+    "private_negative": "armor, weapon in hand",
+    "gameover_negative": "smile"
+  },
+  "intro": [
+    {
+      "speaker": "narr",
+      "text": {
+        "en": "The labyrinth called the Star Well. At its deepest floor sleeps the Star Heart, a gem said to grant any wish.",
+        "ja": "地下迷宮「星の井戸」。その最下層には、願いをかなえる宝石「星の心臓」が眠るという。",
+        "zh": "地下迷宫“星之井”。据说在最深处，沉睡着能实现愿望的宝石“星之心”。"
+      }
+    },
+    {
+      "speaker": "heroine",
+      "text": { "en": "So this is the entrance... Let's go!", "ja": "ここが入口ね……。行こう！", "zh": "这里就是入口吗……出发吧！" }
+    }
+  ],
+  "floors": [
+    {
+      "id": 1,
+      "theme": "catacomb",
+      "name": { "en": "B1 Mossy Catacomb", "ja": "B1 苔むした地下墓所", "zh": "B1 青苔地下墓穴" },
+      "bg": "mossy catacomb, stone corridor, torches",
+      "boss_bg": "defeated giant armored skeleton knight lying in background, mossy catacomb, torches, scattered bones",
+      "private_prompt": "resting by a campfire in a stone chamber, sitting, warm firelight, peaceful",
+      "start": [1, 1, 1],
+      "map": [
+        "################",
+        "#@.i#..P..#..H.#",
+        "#.#.#.###.#.##.#",
+        "#.#...#.#...#..#",
+        "#.#####.#.###.##",
+        "#...T.#.#.#H#..#",
+        "###.#.#...#.#.##",
+        "#H..#.#F#.?.#.T#",
+        "#.###.###.###.##",
+        "#.....D.....#..#",
+        "#.#####.###.#.##",
+        "#.#k..#...#.L..#",
+        "#.#.#.###.#.##B#",
+        "#...#..^..#.#S.#",
+        "#.....H.....#.H#",
+        "################"
+      ],
+      "objects": {
+        "3,1": {
+          "text": {
+            "en": "A worn sign: \"Press SPACE in front of doors and chests to examine them. Some walls may hide more than stone.\"",
+            "ja": "古い立て札「扉や宝箱の前で SPACE を押すと調べられる。石の壁の中には、何かを隠しているものもある」",
+            "zh": "旧告示牌：“在门或宝箱前按 SPACE 即可调查。有些石墙后面也许藏着东西。”"
+          }
+        },
+        "4,5": { "loot": "gem:ruby" },
+        "14,7": { "loot": "equip:red_cape" },
+        "3,11": { "loot": "key" },
+        "7,13": { "damage": 6 },
+        "14,12": {
+          "boss": "grave",
+          "text": {
+            "en": "A huge armored skeleton rises in front of the stairs. \"None shall pass the Star Well!\"",
+            "ja": "階段の前で、鎧をまとった巨大な骸骨が立ち上がった。「星の井戸を荒らす者は、通さぬ!」",
+            "zh": "楼梯前，一具身披铠甲的巨大骷髅站了起来。“扰乱星之井者，休想通过!”"
+          },
+          "drops": ["equip:silver_armor", "treasure:crown"],
+          "after": {
+            "en": "The skeleton knight crumbles to dust. Beyond the stairs you hear cold, running water.",
+            "ja": "骸骨の騎士は崩れ落ちた。階段の先から、冷たい水の音が聞こえる。",
+            "zh": "骷髅骑士化为了尘土。楼梯的另一头传来了冰冷的流水声。"
+          }
+        }
+      },
+      "encounters": {
+        "steps": [9, 18],
+        "groups": [["slime"], ["slime", "slime"], ["bat"], ["bat", "slime"], ["skeleton"], ["slime", "bat", "slime"]]
+      },
+      "affinity": ["silver_armor", "silver_tiara", "flame_sword", "star_sword"],
+      "affinity_hint": {
+        "en": "Skeletons are said to hate the gleam of silver and fire...",
+        "ja": "がいこつたちは、銀の輝きと炎をきらうらしいわ……。",
+        "zh": "据说骷髅们讨厌白银的光辉和火焰……"
+      }
+    },
+    {
+      "id": 2,
+      "theme": "waterway",
+      "name": { "en": "B2 Underground Waterway", "ja": "B2 地底湖の水路", "zh": "B2 地底湖水道" },
+      "bg": "underground lake, glowing blue water, stone bridge, mist",
+      "boss_bg": "defeated giant water serpent sinking in background, underground lake, glowing water, splashing",
+      "private_prompt": "sitting by an underground lake, feet in the water, soft blue light, peaceful",
+      "start": [1, 1, 1],
+      "story": [
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "The sound of water... an underground lake. I'd better watch my step.",
+            "ja": "水の音……。地底湖が広がっている。足元に気をつけないと。",
+            "zh": "水声……前面是一片地底湖。得小心脚下。"
+          }
+        }
+      ],
+      "map": [
+        "###############",
+        "#@..#k....#..T#",
+        "#.#.###.#.#.###",
+        "#.#...P...#.#T#",
+        "#.###.#####^#.#",
+        "#........H#...#",
+        "###.#.#.###.#.#",
+        "#H..#.#.L.^.#H#",
+        "###.#.#.#.#.###",
+        "#.P.#...#....H#",
+        "###.#####.#.###",
+        "#T..#F#...#...#",
+        "###.#.#.#####?#",
+        "#T....#...BS#H#",
+        "###############"
+      ],
+      "objects": {
+        "1,11": { "loot": "equip:apprentice_robe" },
+        "1,13": { "loot": "equip:flame_sword" },
+        "13,3": { "loot": "gem:sapphire" },
+        "13,1": { "loot": "gold:220", "mimic": "mimic2" },
+        "10,7": { "damage": 10 },
+        "11,4": { "damage": 10 },
+        "10,13": {
+          "boss": "mizuchi",
+          "text": {
+            "en": "The lake surface swells, and a giant serpent rises from the water!",
+            "ja": "湖面が盛り上がり、巨大な大蛇が姿を現した!",
+            "zh": "湖面隆起，一条巨大的大蛇从水中现身!"
+          },
+          "after": {
+            "en": "The serpent sinks back into the depths of the lake... Onward.",
+            "ja": "大蛇は湖の底へ沈んでいった……。先へ進もう。",
+            "zh": "大蛇沉回了湖底……继续前进吧。"
+          },
+          "drops": ["equip:feather_ornament", "treasure:necklace"]
+        }
+      },
+      "encounters": {
+        "steps": [8, 16],
+        "groups": [["jelly"], ["jelly", "waterbat"], ["crab"], ["jelly", "jelly"], ["crab", "jelly"], ["waterbat", "waterbat", "jelly"]]
+      },
+      "affinity": ["apprentice_robe", "feather_ornament", "thunder_spear"],
+      "affinity_hint": {
+        "en": "Light clothes and lightning should work well against water monsters.",
+        "ja": "水の魔物には、身軽な装いと雷が効きそうね。",
+        "zh": "对付水中的魔物，轻便的装束和雷电应该很有效。"
+      }
+    },
+    {
+      "id": 3,
+      "theme": "crystal",
+      "name": { "en": "B3 Crystal Cave", "ja": "B3 水晶の洞窟", "zh": "B3 水晶洞窟" },
+      "bg": "crystal cave, glowing crystals, sparkling light",
+      "boss_bg": "shattered crystal golem in background, crystal cave, crystal shards scattered, sparkling light",
+      "private_prompt": "bathing her feet in a glowing crystal spring, sitting, sparkling light, peaceful",
+      "start": [1, 1, 1],
+      "story": [
+        {
+          "speaker": "narr",
+          "text": {
+            "en": "Crystals cover every wall, glittering in the torchlight.",
+            "ja": "壁一面の水晶が、たいまつの光を映して輝いている。",
+            "zh": "满墙的水晶映着火把的光芒，闪闪发亮。"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Beautiful... but those swirling patterns on the floor worry me.",
+            "ja": "きれい……でも、床のうずまき模様が気になるわね。",
+            "zh": "好美……不过地上那些漩涡花纹让人在意。"
+          }
+        }
+      ],
+      "map": [
+        "###############",
+        "#@..#T...R..#H#",
+        "#.#.#####.#.#.#",
+        "#.#.....#.....#",
+        "#.#.#.#.#.###.#",
+        "#T#.#....R.T#F#",
+        "###.#.###.#####",
+        "#H#R...T#H#.?H#",
+        "#.#.#.#####.###",
+        "#..^#.....L...#",
+        "#.###.###.#.#.#",
+        "#.#.#.....#H#.#",
+        "#.#P#.#.#.###B#",
+        "#k#...P.#...#S#",
+        "###############"
+      ],
+      "objects": {
+        "5,1": { "loot": "equip:crystal_staff" },
+        "1,5": { "loot": "equip:dragon_armor" },
+        "11,5": { "loot": "gem:emerald" },
+        "7,7": { "loot": "ether", "mimic": "mimic3" },
+        "3,9": { "damage": 16 },
+        "13,12": {
+          "boss": "golem",
+          "text": {
+            "en": "Crystal pillars lock together and rise as a giant golem!",
+            "ja": "水晶の柱が組み上がり、巨大なゴーレムとなって立ちはだかった!",
+            "zh": "水晶柱拼合在一起，化作巨大的魔像挡住了去路!"
+          },
+          "after": {
+            "en": "The golem shatters into countless crystal shards.",
+            "ja": "ゴーレムは砕け散り、無数の水晶のかけらになった。",
+            "zh": "魔像碎裂成了无数的水晶碎片。"
+          },
+          "drops": ["equip:thunder_spear", "treasure:chalice"]
+        }
+      },
+      "encounters": {
+        "steps": [8, 15],
+        "groups": [
+          ["gemslime"],
+          ["crystalbat", "crystalbat"],
+          ["beetle"],
+          ["gemslime", "crystalbat"],
+          ["beetle", "gemslime"],
+          ["crystalbat", "gemslime", "crystalbat"]
+        ]
+      },
+      "affinity": ["flame_sword", "crystal_staff", "dragon_armor"],
+      "affinity_hint": {
+        "en": "Crystal is weak to heat... and they say it resonates with a crystal staff.",
+        "ja": "水晶は熱に弱くて、水晶の杖と響き合うんだって。",
+        "zh": "水晶怕热……而且据说会和水晶法杖产生共鸣。"
+      }
+    },
+    {
+      "id": 4,
+      "theme": "lava",
+      "name": { "en": "B4 Lava Temple", "ja": "B4 溶岩の神殿", "zh": "B4 熔岩神殿" },
+      "bg": "lava temple, molten lava, embers, dark stone pillars",
+      "boss_bg": "defeated fire beast lying in background, lava temple, embers, dying flames",
+      "private_prompt": "resting in a cool stone room of the temple, drinking water, relaxed smile",
+      "start": [1, 1, 1],
+      "story": [
+        {
+          "speaker": "narr",
+          "text": {
+            "en": "Scorching air. Beyond the glow of the lava, almost nothing can be seen.",
+            "ja": "灼熱の空気。溶岩の明かりのほかは、ほとんど何も見えない。",
+            "zh": "灼热的空气。除了熔岩的光，几乎什么都看不见。"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "So dark... I'll light the way with Lumina.",
+            "ja": "暗い……。ルミナの魔法で照らしながら進もう。",
+            "zh": "好暗……用光明魔法照亮前路吧。"
+          }
+        }
+      ],
+      "map": [
+        "###############",
+        "#@........^T#H#",
+        "###.#.#.#####?#",
+        "#...#...#.....#",
+        "#.#.#P#.#B###.#",
+        "#.#.#.#.#S#H#.#",
+        "#.#.#.#.###^#.#",
+        "#.#H#....H#...#",
+        "#.###P#######.#",
+        "#..T#.....L.^.#",
+        "#.###.#.#.#####",
+        "#..F#.#...#..T#",
+        "#.###.#.###.###",
+        "#k#H.........T#",
+        "###############"
+      ],
+      "objects": {
+        "11,1": { "loot": "equip:silver_tiara" },
+        "13,11": { "loot": "equip:night_robe" },
+        "13,13": { "loot": "equip:golden_armor" },
+        "3,9": { "loot": "gem:amethyst", "mimic": "mimic4" },
+        "12,9": { "damage": 24 },
+        "11,6": { "damage": 24 },
+        "10,1": { "damage": 24 },
+        "9,4": {
+          "boss": "ifra",
+          "text": {
+            "en": "Shaking its mane of fire, the beast lets out a roar!",
+            "ja": "炎のたてがみを揺らし、魔獣が咆哮した!",
+            "zh": "魔兽甩动火焰鬃毛，发出了咆哮!"
+          },
+          "after": {
+            "en": "The beast's flames die out, and silence returns to the temple.",
+            "ja": "魔獣の炎が消え、神殿に静けさが戻った。",
+            "zh": "魔兽的火焰熄灭了，神殿恢复了宁静。"
+          },
+          "drops": ["equip:star_earrings", "treasure:coins"]
+        }
+      },
+      "encounters": {
+        "steps": [7, 14],
+        "groups": [["imp"], ["imp", "imp"], ["salamander"], ["flameskel"], ["salamander", "imp"], ["flameskel", "imp", "imp"]]
+      },
+      "affinity": ["dragon_armor", "thunder_spear", "night_robe"],
+      "affinity_hint": {
+        "en": "Dragon scales repel flame, and lightning numbs fire monsters.",
+        "ja": "竜のうろこは炎をはじいて、雷は炎の魔物をしびれさせるはず。",
+        "zh": "龙鳞能挡住火焰，雷电则能让火之魔物麻痹。"
+      }
+    },
+    {
+      "id": 5,
+      "theme": "star",
+      "name": { "en": "B5 Star Altar", "ja": "B5 星の祭壇", "zh": "B5 星之祭坛" },
+      "bg": "star altar, night sky full of stars, ancient ruins",
+      "boss_bg": "defeated dark witch fading into stardust in background, star altar, night sky, starfall",
+      "private_prompt": "lying on the grass under a starry sky, looking up at the stars, peaceful smile",
+      "start": [1, 1, 1],
+      "story": [
+        {
+          "speaker": "narr",
+          "text": {
+            "en": "A sky full of stars spreads across the ceiling. The deepest floor of the Star Well...",
+            "ja": "天井一面に星空が広がる。ここが星の井戸の最下層……。",
+            "zh": "天花板上铺满了星空。这里就是星之井的最深处……"
+          }
+        },
+        {
+          "speaker": "heroine",
+          "text": {
+            "en": "Power is welling up inside me... Is this the power of the stars?",
+            "ja": "体の奥から力が湧いてくる……。これが、星の力?",
+            "zh": "体内涌出了力量……这就是星星的力量吗?"
+          }
+        }
+      ],
+      "learn": "starfall",
+      "map": [
+        "###############",
+        "#@...R.....H#A#",
+        "###.#.#######B#",
+        "#...#...#.....#",
+        "#^#.#.#P#.#####",
+        "#...#...#.#...#",
+        "#.#P###.#.#.#?#",
+        "#....T#.#...#H#",
+        "#.#####.#.#.###",
+        "#.......L....F#",
+        "#.###.###.#.###",
+        "#T#k#.#T#H#...#",
+        "###.#.#.#####.#",
+        "#T......^..H#H#",
+        "###############"
+      ],
+      "objects": {
+        "1,13": { "loot": "equip:star_armor" },
+        "5,7": { "loot": "equip:star_sword" },
+        "1,11": { "loot": "ether" },
+        "7,11": { "loot": "gem:ruby", "mimic": "mimic5" },
+        "1,4": { "damage": 30 },
+        "8,13": { "damage": 30 },
+        "13,2": {
+          "boss": "nox",
+          "text": {
+            "en": "A witch in a black robe stands before the altar. \"The Star Heart is mine. I'll devour your star too!\"",
+            "ja": "祭壇の前に、黒いローブの魔女が立っていた。「星の心臓は渡さない。お前の星も喰らってやろう!」",
+            "zh": "祭坛前站着一位身披黑袍的魔女。“星之心不会交给你。连你的星星也一起吞掉吧!”"
+          },
+          "after": {
+            "en": "The witch scatters into stardust... On the altar, the Star Heart is shining.",
+            "ja": "魔女は星屑となって消えていった……。祭壇の上で、星の心臓が輝いている。",
+            "zh": "魔女化作星尘消失了……祭坛上，星之心正闪耀着光芒。"
+          },
+          "drops": []
+        }
+      },
+      "encounters": {
+        "steps": [7, 13],
+        "groups": [
+          ["darkknight"],
+          ["shadow", "shadow"],
+          ["starjelly"],
+          ["darkknight", "shadow"],
+          ["starjelly", "shadow", "starjelly"],
+          ["darkknight", "starjelly"]
+        ]
+      },
+      "affinity": ["star_armor", "star_sword", "star_earrings"],
+      "affinity_hint": {
+        "en": "Star gear should show its true power at the Star Altar.",
+        "ja": "星の装備なら、この祭壇で本当の力を出せる気がする。",
+        "zh": "星之装备在这座祭坛应该能发挥真正的力量。"
+      }
+    }
+  ],
+  "ending": [
+    {
+      "speaker": "narr",
+      "text": {
+        "en": "Sera reaches for the gem on the altar.",
+        "ja": "セラは祭壇の上の宝石に手を伸ばした。",
+        "zh": "塞拉向祭坛上的宝石伸出了手。"
+      }
+    },
+    {
+      "speaker": "narr",
+      "text": {
+        "en": "Warm light overflows, and the whole Star Well begins to shine.",
+        "ja": "あたたかな光があふれ、星の井戸全体が輝きはじめる。",
+        "zh": "温暖的光芒满溢而出，整座星之井开始闪耀。"
+      }
+    },
+    {
+      "speaker": "heroine",
+      "text": {
+        "en": "So this is... the Star Heart. Let's take it home!",
+        "ja": "これが……星の心臓。みんなのところへ持って帰ろう!",
+        "zh": "这就是……星之心。带它回去见大家吧!"
+      }
+    }
+  ],
+  "altar_locked": {
+    "en": "A strange power keeps you away from the altar.",
+    "ja": "ふしぎな力にはばまれて、祭壇に近づけない。",
+    "zh": "一股奇异的力量阻止你靠近祭坛。"
+  }
+}

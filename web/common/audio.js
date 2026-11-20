@@ -3,8 +3,13 @@
  *
  * 曲はトラッカー風の文字列で書く。1トークン = 16分音符1つ。
  *   "C5" 音を鳴らす / "." 直前の音を伸ばす / "-" 休符
- *   ドラムトラックは "k"(キック) "s"(スネア) "h"(ハイハット)
+ *   ドラムトラックは "k"(キック) "s"(スネア) "h"(ハイハット) "o"(オープンハット) "r"(リム) "c"(シェイカー) "p"(クラップ)
  * 1曲の全トラックは同じ長さにする。
+ *
+ * 追加の指定(どれも省略可):
+ *   曲: swing(裏の16分2つ目=8分の裏を何ステップ分遅らせるか。0.3 程度でハネる)
+ *   トラック: decay(秒。指定すると減衰する音=エレピ・ベル風) / vib(ビブラートの深さ。半音単位) / vibRate(Hz)
+ *             attack(秒) / echo: { time(秒), fb(0〜0.7), mix(0〜1) }(やまびこ)
  *
  * 一時停止は AudioContext.suspend() で行う(時間ごと止まるので予約済みの音もずれない)。
  */
@@ -98,7 +103,7 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
         else osc.type = wave || "square";
     }
 
-    function tone(dest, wave, freq, t, dur, vol, { slide = 0, attack = 0.004, release = 0.03 } = {}) {
+    function tone(dest, wave, freq, t, dur, vol, { slide = 0, attack = 0.004, release = 0.03, decay = 0, vib = 0, vibRate = 5.5 } = {}) {
         const o = ac.createOscillator();
         const g = ac.createGain();
         setWave(o, wave);
@@ -106,11 +111,29 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
         if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(30, freq * slide), t + dur);
         g.gain.setValueAtTime(0.0001, t);
         g.gain.linearRampToValueAtTime(vol, t + attack);
-        g.gain.setValueAtTime(vol, t + Math.max(attack, dur - release));
-        g.gain.linearRampToValueAtTime(0.0001, t + dur);
+        if (decay > 0) {
+            // 減衰する音(エレピ・ベル風): 鳴らした直後から小さくなっていく
+            g.gain.setTargetAtTime(0.0001, t + attack, decay);
+            g.gain.setTargetAtTime(0.0001, t + Math.max(attack, dur - release), release / 3);
+        } else {
+            g.gain.setValueAtTime(vol, t + Math.max(attack, dur - release));
+            g.gain.linearRampToValueAtTime(0.0001, t + dur);
+        }
+        let lfo = null;
+        if (vib > 0 && dur > 0.15) {
+            // 少し遅れてかかるビブラート
+            lfo = ac.createOscillator();
+            lfo.frequency.value = vibRate;
+            const lg = ac.createGain();
+            lg.gain.setValueAtTime(0, t);
+            lg.gain.linearRampToValueAtTime(freq * (Math.pow(2, vib / 12) - 1), t + Math.min(0.3, dur * 0.6));
+            lfo.connect(lg).connect(o.frequency);
+            lfo.start(t);
+            lfo.stop(t + dur + 0.05);
+        }
         o.connect(g).connect(dest);
         o.start(t);
-        o.stop(t + dur + 0.02);
+        o.stop(t + dur + (decay > 0 ? 0.05 : 0.02));
     }
 
     function noise(dest, t, dur, vol, hp) {
@@ -131,16 +154,38 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
         if (tok === "k") tone(dest, "sine", 150, t, 0.13, vol * 1.6, { slide: 0.28, attack: 0.002, release: 0.08 });
         else if (tok === "s") noise(dest, t, 0.13, vol * 0.9, 1200);
         else if (tok === "h") noise(dest, t, 0.04, vol * 0.4, 7000);
+        else if (tok === "o") noise(dest, t, 0.2, vol * 0.35, 6500);
+        else if (tok === "r") { tone(dest, "triangle", 1750, t, 0.025, vol * 0.7, { attack: 0.001, release: 0.015 }); noise(dest, t, 0.03, vol * 0.5, 3000); }
+        else if (tok === "c") noise(dest, t, 0.05, vol * 0.25, 8000);
+        else if (tok === "p") [0, 0.012, 0.024].forEach((dt, i) => noise(dest, t + dt, i === 2 ? 0.12 : 0.02, vol * 0.8, 1500));
+    }
+
+    /** やまびこ(ディレイ)。入口のノードを返す */
+    function makeEcho(out, { time = 0.3, fb = 0.35, mix = 0.35 } = {}) {
+        const input = ac.createGain();
+        input.connect(out);
+        const dl = ac.createDelay(2);
+        dl.delayTime.value = time;
+        const fbG = ac.createGain();
+        fbG.gain.value = Math.min(0.8, fb);
+        const wet = ac.createGain();
+        wet.gain.value = mix;
+        input.connect(dl);
+        dl.connect(fbG).connect(dl);
+        dl.connect(wet).connect(out);
+        return input;
     }
 
     function scheduleStep(step, t) {
-        for (const tr of cur.song.tracks) {
+        if (cur.song.swing && step % 4 === 2) t += cur.song.swing * cur.stepDur;
+        cur.song.tracks.forEach((tr, i) => {
             const ev = tr.byStep.get(step);
-            if (!ev) continue;
-            if (tr.wave === "drum") { drum(cur.gain, ev.tok, t, tr.vol); continue; }
+            if (!ev) return;
+            const dest = cur.dests?.[i] || cur.gain;
+            if (tr.wave === "drum") { drum(dest, ev.tok, t, tr.vol); return; }
             const f = noteFreq(ev.tok, tr.fixed ? 0 : cur.transpose);
-            if (f) tone(cur.gain, tr.wave, f, t, ev.len * cur.stepDur * (tr.gate ?? 0.9), tr.vol);
-        }
+            if (f) tone(dest, tr.wave, f, t, ev.len * cur.stepDur * (tr.gate ?? 0.9), tr.vol, { attack: tr.attack, decay: tr.decay, vib: tr.vib, vibRate: tr.vibRate });
+        });
     }
 
     function tick() {
@@ -191,7 +236,8 @@ export function createAudio({ sound = true, bgm = true, songs = {} } = {}) {
             const gain = ac.createGain();
             gain.gain.value = 1;
             gain.connect(musicGain);
-            cur = { name, song, transpose, stepDur: 60 / useBpm / 4, startTime: ac.currentTime + 0.06, nextStep: 0, gain, onEnd };
+            const dests = song.tracks.map((tr) => (tr.echo ? makeEcho(gain, tr.echo) : null));
+            cur = { name, song, transpose, stepDur: 60 / useBpm / 4, startTime: ac.currentTime + 0.06, nextStep: 0, gain, dests, onEnd };
             tick();
             timer = setInterval(tick, 25);
         },

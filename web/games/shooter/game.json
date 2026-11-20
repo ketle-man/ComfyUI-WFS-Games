@@ -1,18 +1,12 @@
 {
-  "name": {
-    "en": "Star Formation",
-    "ja": "スターフォーメーション",
-    "zh": "星际编队"
-  },
+  "name": { "en": "Star Formation", "ja": "スターフォーメーション", "zh": "星际编队" },
   "description": {
-    "en": "A 1980s-style vertical shooter (arcade / MSX2 / PC-8801 look, chiptune music). 5 stages, each with a boss. Navigator Rina guides you between stages; an image of her is generated at every stage clear, and the ending scene when you clear them all.",
-    "ja": "80年代(アーケード / MSX2 / PC-8801)風の縦シューティング。チップチューン風BGM付き、全5ステージ・各ステージにボス。ステージの合間にナビゲーターのリナが登場し、ステージクリアのたびに彼女の画像を、全クリアでエンディングシーンを生成します。",
-    "zh": "80年代(街机 / MSX2 / PC-8801)风格的纵向射击游戏，带芯片音乐风格的背景音乐。共 5 关，每关都有首领。关卡之间导航员莉娜会登场，每通过一关生成一张她的图像，全部通关后生成结局画面。"
+    "en": "A 1980s-style vertical shooter (arcade / MSX2 / PC-8801 look, chiptune music). 5 stages. Enemy squadrons fly in, line up and dive at you; shoot them all down and the stage boss appears. Navigator Rina talks to you between stages. In each stage, 5 flashing enemies drop hearts.\n[Controls] ← → / A D move, Space / Z shoot, Esc / P pause. Space / Z / Enter / click advances dialogue. A gamepad also works.\n[Images] A victory shot of Rina at every stage clear (a private photo if you catch all 5 hearts), the ending when you clear all stages, and a defeat scene on game over.",
+    "ja": "80年代(アーケード / MSX2 / PC-8801)風の縦シューティング(チップチューン風BGM付き)。全5ステージ。編隊を組んで飛んでくる敵を全部倒すと、ボスが登場します。ステージの合間にはナビゲーターのリナが話しかけてきます。各ステージで光っている敵5機がハートを落とします。\n【操作】← → / A D 移動、Space / Z ショット、Esc / P 一時停止。会話は Space / Z / Enter / クリックで進みます。ゲームパッドも使えます。\n【画像生成】ステージクリアごとにリナの勝利の記念カット(ハート5個を全部取るとプライベート写真)、全クリアでエンディング、ゲームオーバーで敗北シーンを生成します。",
+    "zh": "80年代(街机 / MSX2 / PC-8801)风格的纵向射击游戏(带芯片音乐风格的背景音乐)。共 5 关。把成编队飞来的敌人全部击落后，关底头目就会出现。关卡之间，领航员莉娜会和你对话。每关有 5 架闪光的敌机会掉落爱心。\n【操作】← → / A D 移动，Space / Z 射击，Esc / P 暂停。按 Space / Z / Enter / 点击推进对话。也可以使用手柄。\n【图像生成】每次通关生成莉娜的胜利纪念照(集齐 5 颗爱心则为私人照片)，全部通关生成结局，游戏结束生成失败画面。"
   },
   "version": "0.5.3",
   "entry": "index.js",
-  "modes": [
-    "clear"
-  ],
+  "modes": ["clear"],
   "order": 10
 }
