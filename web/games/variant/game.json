@@ -1,0 +1,12 @@
+{
+  "name": { "en": "Variant Heart", "ja": "ヴァリアントハート", "zh": "变形之心" },
+  "description": {
+    "en": "An all-direction shooter where everything - your transforming mech, the enemies, the bosses and the scenery - is drawn with voxel sprite stacking. Tsubasa flies the XV-7 Swallow, which switches between fighter mode (fast; ← → turn right / left only; machine gun and homing missiles that lock on to enemies ahead) and robot mode (slow but sturdy; piercing beam rifle and a 3-hit beam saber that also cuts enemy bullets). Shoot down the target number of enemies in each of 5 stages (Azure Sea, Dune Base, Neon Metropolis, Frozen Ridge, Orbit Line) to bring out the boss: a battle carrier, a desert crawler, the transforming rival ace Vesper, a mobile fortress and the enemy flagship. 5 hearts per stage are shown in pink on the radar. 3 lives (4 on easy).\n[Controls] Fighter: ← → / A D turn left / right (it always flies forward). Robot: ← → ↑ ↓ / WASD move, hold Z / Space main weapon, X sub weapon, C / Shift transform, Esc / P pause. Space / Z / Enter / click advances dialogue. A gamepad also works (A main, B sub, X/Y transform).\n[Images] A picture of Tsubasa at every stage clear (the weapon that finished the boss appears in it; a private photo if you collect all 5 hearts), the ending when you clear all stages, and a defeat scene when you give up.",
+    "ja": "変形メカも敵もボスも景色も、すべてボクセルのスプライトスタックで描く全方位シューティング。ツバサが乗る XV-7 スワローは、戦闘機形態(速い・← → の右旋回/左旋回だけで操縦・機銃と前方の敵を自動ロックするホーミングミサイル)と人型形態(遅いが硬い・貫通するビームライフルと、敵の弾も斬り払える3段ビームソード)を切り替えて戦います。全5ステージ(紺碧の洋上・砂丘の基地・ネオンの摩天楼・凍てつく尾根・衛星軌道)でノルマの数だけ敵を倒すとボスが登場(戦闘空母・砂漠戦機・変形する敵エースのヴェスパー・機動要塞・敵旗艦)。各ステージのハート5個はレーダーにピンクで出ます。残機3(かんたんでは4)。\n【操作】戦闘機は ← → / A D で左旋回・右旋回(常に前進)、人型は ← → ↑ ↓ / WASD で移動、Z / Space 押しっぱなしでメイン武器、X サブ武器、C / Shift 変形、Esc / P 一時停止。会話は Space / Z / Enter / クリックで進みます。ゲームパッドも使えます(A メイン、B サブ、X/Y 変形)。\n【画像生成】ステージクリアごとにツバサの画像(ボスにとどめを刺した武器が絵に入る。ハート5個でプライベート写真)、全クリアでエンディング、あきらめると敗北シーンを生成します。",
+    "zh": "变形机甲、敌人、头目和风景全部用体素“精灵堆叠”绘制的全方位射击游戏。翼驾驶的 XV-7 燕号可在战斗机形态(速度快;只用 ← → 左右转向;机枪和自动锁定前方敌人的追踪导弹)与人型形态(速度慢但坚固;贯穿的光束步枪和能劈开敌弹的三段光束剑)之间切换。在全部 5 关(碧蓝洋面、沙丘基地、霓虹摩天楼、冰冻山脊、卫星轨道)中击倒规定数量的敌人后，头目就会登场(战斗航母、沙漠战机、会变形的敌方王牌薇丝帕、机动要塞、敌方旗舰)。每关的 5 颗爱心会以粉色显示在雷达上。残机 3(简单难度为 4)。\n【操作】战斗机用 ← → / A D 左转・右转(始终向前飞)，人型用 ← → ↑ ↓ / WASD 移动，按住 Z / Space 主武器，X 副武器，C / Shift 变形，Esc / P 暂停。按 Space / Z / Enter / 点击推进对话。也可以使用手柄(A 主武器，B 副武器，X/Y 变形)。\n【图像生成】每次通关生成翼的图像(给头目最后一击的武器会出现在画面中;集齐 5 颗爱心则为私人照片)，全部通关生成结局，放弃时生成失败画面。"
+  },
+  "version": "0.1.0",
+  "entry": "index.js",
+  "modes": ["clear"],
+  "order": 90
+}

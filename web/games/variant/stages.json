@@ -1,0 +1,128 @@
+{
+  "heroine": { "name": { "en": "Tsubasa", "ja": "ツバサ", "zh": "翼" } },
+  "operator": { "name": { "en": "Haru", "ja": "ハル", "zh": "小春" } },
+  "rival": { "name": { "en": "Vesper", "ja": "ヴェスパー", "zh": "薇丝帕" } },
+  "prompts": {
+    "style": "retro artstyle, 1980s (style), anime screencap, cel shading, science fiction, mecha",
+    "character": "1girl, solo, adult, mecha pilot, short silver hair, teal eyes, white and teal pilot suit, bodysuit, orange accents",
+    "character_private": "1girl, solo, adult, short silver hair, teal eyes, oversized flight jacket, white tank top, denim shorts, relaxed smile",
+    "victory": "victory pose, holding helmet under arm, confident smile, looking at viewer",
+    "finish": {
+      "gun": "white and teal fighter jet strafing low behind her, tracer fire",
+      "missile": "white and teal fighter jet launching a volley of missiles behind her, spiraling missile trails, smoke",
+      "rifle": "giant white and teal humanoid mecha aiming a beam rifle behind her, pink beam",
+      "saber": "giant white and teal humanoid mecha swinging a glowing beam saber behind her, slash arc"
+    },
+    "worn": "battle-worn, scratches on pilot suit, sweat, tired but determined smile",
+    "gameover": "sitting in a damaged cockpit, sparks, cracked helmet visor, exhausted, tears, defeated",
+    "ending": "standing on the wing of a white and teal transforming fighter jet, sunrise, wind in hair, triumphant smile",
+    "negative": "realistic, photorealistic, 3d, blurry, nude, nsfw, nipples, child",
+    "private_negative": "pilot suit, helmet, cockpit",
+    "gameover_negative": "smile"
+  },
+  "intro": [
+    { "speaker": "narr", "text": { "en": "Year 2187. The rogue AI fleet 'Umbra' has seized the sky lanes.", "ja": "2187年。暴走AI艦隊〈アンブラ〉が空の航路を奪った。", "zh": "2187年。失控的AI舰队“暗影”夺走了天空航道。" } },
+    { "speaker": "op", "text": { "en": "Tsubasa, the XV-7 Swallow is ready. Fighter mode for speed, robot mode for firepower.", "ja": "ツバサ、XV-7 スワローの準備完了。速さは戦闘機、火力は人型で。", "zh": "翼，XV-7 燕号准备完毕。速度靠战斗机形态，火力靠人型形态。" } },
+    { "speaker": "op", "text": { "en": "Press C to transform. Gun and missiles in the air, beam rifle and beam saber on your feet. The saber cuts bullets, too.", "ja": "C で変形よ。戦闘機は機銃とミサイル、人型はビームライフルとビームソード。ソードは弾も斬り払えるわ。", "zh": "按 C 变形。战斗机用机枪和导弹，人型用光束步枪和光束剑。光束剑还能劈开子弹。" } },
+    { "speaker": "heroine", "text": { "en": "Got it. Swallow, launching!", "ja": "了解。スワロー、出ます!", "zh": "明白。燕号，出击！" } }
+  ],
+  "ending": [
+    { "speaker": "op", "text": { "en": "Umbra's flagship is down... Tsubasa, you did it!", "ja": "アンブラ旗艦、沈黙……。やったわね、ツバサ!", "zh": "暗影旗舰沉默了……翼，你做到了！" } },
+    { "speaker": "rival", "text": { "en": "...So the sky chose you. Fly well, Swallow.", "ja": "……空はお前を選んだか。いい飛び方だった、スワロー。", "zh": "……天空选择了你啊。飞得漂亮，燕号。" } },
+    { "speaker": "heroine", "text": { "en": "Swallow, returning to base. Look, Haru - the sun is coming up.", "ja": "スワロー、帰投します。見て、ハル。夜明けよ。", "zh": "燕号，返航。你看，小春——天亮了。" } }
+  ],
+  "stages": [
+    {
+      "id": 1, "theme": "ocean",
+      "name": { "en": "STAGE 1  Azure Sea", "ja": "STAGE 1  紺碧の洋上", "zh": "STAGE 1  碧蓝洋面" },
+      "bg": "aircraft carrier deck, ocean, blue sky, seagulls",
+      "boss_bg": "burning enemy battleship sinking in the ocean in background, black smoke, blue sky",
+      "private_prompt": "relaxing on a tropical beach, sitting on the sand, sea breeze, holding a drink",
+      "quota": 26,
+      "mix": { "drone": 6, "lancer": 2, "mine": 1 },
+      "ground": { "turret": 4, "tank": 0, "walker": 0 },
+      "props": [["island", 14], ["rock", 8], ["wreck", 3]],
+      "boss": { "type": "carrier", "name": { "en": "Battle Carrier LEVIATHAN", "ja": "戦闘空母 リヴァイアサン", "zh": "战斗航母 利维坦" }, "hint": { "en": "Destroy the turrets first - the bridge armor weakens when they are gone.", "ja": "先に砲台を壊すと、艦橋の装甲が弱まるわ。", "zh": "先摧毁炮台，舰桥的装甲就会变弱。" } },
+      "story": [
+        { "speaker": "op", "text": { "en": "Enemy drones over the Azure Sea. Clear the area, then their carrier will show up.", "ja": "紺碧の洋上に敵ドローン。一掃すれば、母艦が出てくるはずよ。", "zh": "碧蓝洋面上有敌方无人机。清扫干净后，母舰应该会现身。" } },
+        { "speaker": "op", "text": { "en": "There are 5 hearts drifting somewhere - pink marks on the radar. Fly fast in fighter mode to collect them!", "ja": "どこかにハートが5つ漂ってる。レーダーのピンクの印よ。戦闘機の速さで集めて!", "zh": "某处飘着5颗爱心，就是雷达上的粉色标记。用战斗机的速度去收集吧！" } }
+      ],
+      "clear": [
+        { "speaker": "heroine", "text": { "en": "Carrier down. The sea is quiet again.", "ja": "空母撃沈。海が静かになったね。", "zh": "航母击沉。大海又安静下来了。" } }
+      ]
+    },
+    {
+      "id": 2, "theme": "desert",
+      "name": { "en": "STAGE 2  Dune Base", "ja": "STAGE 2  砂丘の基地", "zh": "STAGE 2  沙丘基地" },
+      "bg": "desert military base, sand dunes, heat haze, hangars",
+      "boss_bg": "giant wrecked scorpion-like mecha smoking in the desert in background, sand dunes",
+      "private_prompt": "resting in the shade of a hangar, sitting on a crate, wiping sweat, sunset over the desert",
+      "quota": 30,
+      "mix": { "drone": 4, "lancer": 3 },
+      "ground": { "turret": 6, "tank": 6, "walker": 0 },
+      "props": [["mesa", 9], ["rock", 12], ["hangar", 5]],
+      "boss": { "type": "crawler", "name": { "en": "Desert Crawler SCORPIUS", "ja": "砂漠戦機 スコーピウス", "zh": "沙漠战机 天蝎" }, "hint": { "en": "Its tail cannon is the weak point. Get behind it!", "ja": "弱点は尾の砲台。後ろに回り込んで!", "zh": "弱点是尾部炮台。绕到它后面去！" } },
+      "story": [
+        { "speaker": "op", "text": { "en": "Tanks and turrets on the ground. Robot mode's beam rifle pierces through them.", "ja": "地上に戦車と砲台。人型のビームライフルなら貫通できるわ。", "zh": "地面有坦克和炮台。人型的光束步枪可以贯穿它们。" } }
+      ],
+      "clear": [
+        { "speaker": "heroine", "text": { "en": "Phew... sand everywhere. Let's move on.", "ja": "ふう……砂だらけ。次に行こう。", "zh": "呼……到处都是沙子。去下一个地方吧。" } }
+      ]
+    },
+    {
+      "id": 3, "theme": "city",
+      "name": { "en": "STAGE 3  Neon Metropolis", "ja": "STAGE 3  ネオンの摩天楼", "zh": "STAGE 3  霓虹摩天楼" },
+      "bg": "futuristic city at night, neon lights, skyscrapers, rain",
+      "boss_bg": "night city skyline, neon lights, a damaged black and crimson mecha retreating in background",
+      "private_prompt": "rooftop at night, leaning on a railing, city lights bokeh, eating a crepe, gentle smile",
+      "quota": 32,
+      "mix": { "drone": 4, "lancer": 3, "walker": 2 },
+      "ground": { "turret": 5, "tank": 3, "walker": 4 },
+      "props": [["building", 120]],
+      "boss": { "type": "rival", "name": { "en": "Umbra Ace VESPER", "ja": "アンブラのエース ヴェスパー", "zh": "暗影王牌 薇丝帕" }, "hint": { "en": "She transforms too! Use the saber to cut her shots when she is in robot mode.", "ja": "相手も変形するわ! 人型のときはソードで弾を斬り払って。", "zh": "她也会变形！对方是人型时，用光束剑劈开她的子弹。" } },
+      "story": [
+        { "speaker": "op", "text": { "en": "Enemy mechs among the skyscrapers. Their shields block bullets from the front.", "ja": "摩天楼に敵の人型機。盾は正面の弾を防ぐわ。", "zh": "摩天楼里有敌方人型机。盾牌能挡住正面的子弹。" } },
+        { "speaker": "rival", "text": { "en": "A transformer like mine? Interesting. Show me what you've got.", "ja": "私と同じ可変機? 面白い。腕前を見せてもらう。", "zh": "和我一样的可变机？有意思。让我看看你的本事。" } }
+      ],
+      "clear": [
+        { "speaker": "rival", "text": { "en": "Tch... Next time, Swallow.", "ja": "チッ……次は負けない、スワロー。", "zh": "啧……下次不会输了，燕号。" } },
+        { "speaker": "heroine", "text": { "en": "She was strong... but I won't lose.", "ja": "強かった……でも負けない。", "zh": "她很强……但我不会输。" } }
+      ]
+    },
+    {
+      "id": 4, "theme": "snow",
+      "name": { "en": "STAGE 4  Frozen Ridge", "ja": "STAGE 4  凍てつく尾根", "zh": "STAGE 4  冰冻山脊" },
+      "bg": "snowy mountain ridge, pine forest, falling snow, cold blue sky",
+      "boss_bg": "giant dome fortress exploding in snowy mountains in background, falling snow",
+      "private_prompt": "in a cozy mountain lodge, wrapped in a blanket, holding a mug of hot cocoa, fireplace, rosy cheeks",
+      "quota": 34,
+      "mix": { "drone": 4, "lancer": 4, "mine": 2, "walker": 1 },
+      "ground": { "turret": 7, "tank": 5, "walker": 3 },
+      "props": [["pine", 110], ["snowrock", 14]],
+      "boss": { "type": "fortress", "name": { "en": "Mobile Fortress BASTION", "ja": "機動要塞 バスティオン", "zh": "机动要塞 堡垒" }, "hint": { "en": "Eight turrets around the dome. Keep moving and peel them off one by one.", "ja": "ドームの周りに砲台が8つ。動き続けて1つずつ削って。", "zh": "穹顶周围有8座炮台。保持移动，一座一座拆掉。" } },
+      "story": [
+        { "speaker": "op", "text": { "en": "Umbra's fortress is hiding in the mountains. It's cold out there, Tsubasa.", "ja": "アンブラの要塞が山に隠れてる。寒いから気をつけてね、ツバサ。", "zh": "暗影的要塞藏在山里。外面很冷，小心点，翼。" } }
+      ],
+      "clear": [
+        { "speaker": "heroine", "text": { "en": "Fortress down. Only the flagship is left.", "ja": "要塞撃破。残るは旗艦だけ。", "zh": "要塞击破。只剩旗舰了。" } }
+      ]
+    },
+    {
+      "id": 5, "theme": "space",
+      "name": { "en": "STAGE 5  Orbit Line", "ja": "STAGE 5  衛星軌道", "zh": "STAGE 5  卫星轨道" },
+      "bg": "outer space, earth in background, asteroid field, stars",
+      "boss_bg": "huge enemy flagship breaking apart in space in background, earth, explosions",
+      "private_prompt": "floating in a space station observation deck, earth through the window, hair floating, peaceful smile",
+      "quota": 36,
+      "mix": { "diver": 5, "drone": 4, "lancer": 3, "mine": 2 },
+      "ground": { "turret": 6, "tank": 0, "walker": 4 },
+      "props": [["asteroid", 26], ["debris", 12]],
+      "boss": { "type": "flagship", "name": { "en": "Umbra Flagship ZENITH", "ja": "アンブラ旗艦 ゼニス", "zh": "暗影旗舰 天顶" }, "hint": { "en": "When the core glows, giant beams fire from both the bow and the stern. Get off that line, front and back!", "ja": "コアが光ったら艦首と艦尾から極太ビームが来る。前後の射線から逃げて!", "zh": "核心发光时，舰首和舰尾都会射出巨型光束。快离开前后的射线！" } },
+      "story": [
+        { "speaker": "op", "text": { "en": "The flagship is in orbit. This is it, Tsubasa!", "ja": "旗艦は衛星軌道に。これが最後よ、ツバサ!", "zh": "旗舰就在卫星轨道上。这是最后一战了，翼！" } },
+        { "speaker": "rival", "text": { "en": "I'll cover the left flank. Don't get the wrong idea - I just hate that fleet more than you.", "ja": "左翼は私が引き受ける。勘違いするな、あの艦隊がもっと嫌いなだけだ。", "zh": "左翼交给我。别误会，我只是更讨厌那支舰队而已。" } }
+      ],
+      "clear": []
+    }
+  ]
+}
