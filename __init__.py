@@ -18,7 +18,7 @@ from pathlib import Path
 logger = logging.getLogger(__name__)
 
 API_VERSION = 1
-PACKAGE_VERSION = "0.6.0"
+PACKAGE_VERSION = "0.6.1"
 
 WEB_DIR = Path(__file__).parent / "web"
 GAMES_DIR = WEB_DIR / "games"

@@ -279,6 +279,8 @@ export async function mount(container, host = {}) {
     const lang = TEXT[host.lang] ? host.lang : "en";
     const tr = (k, ...a) => { const v = TEXT[lang][k] ?? TEXT.en[k] ?? k; return typeof v === "function" ? v(...a) : v; };
     const loc = (obj) => (obj && (obj[lang] || obj.en)) || "";
+    /** 結果カード用のステージ名(WFS が「STAGE n」を付けるので、名前の頭の「STAGE n」は外す) */
+    const cardName = (def) => loc(def.name).replace(/^STAGE\s*\d+\s*/, "");
     const settings = { difficulty: "normal", sound: true, bgm: true, ...(host.settings || {}) };
     const [data] = await Promise.all([loadData(), loadFont()]);
     const stages = data.stages;
@@ -1304,7 +1306,7 @@ export async function mount(container, host = {}) {
             : buildRewards([worn, P.finish?.[w]].filter(Boolean).join(", "), def.boss_bg || def.bg, P.character);
         return {
             gameId: GAME_ID, kind: "stage", cleared: true, score: run.score, bonus,
-            items: run.hearts[idx] || 0, itemsTotal: 5, stage: idx + 1, stagesTotal: stages.length, stageName: loc(def.name),
+            items: run.hearts[idx] || 0, itemsTotal: 5, stage: idx + 1, stagesTotal: stages.length, stageName: cardName(def),
             negative: [P.negative, bonus ? P.private_negative : ""].filter(Boolean).join(", "), rewards,
         };
     }
@@ -1370,7 +1372,7 @@ export async function mount(container, host = {}) {
         try {
             host.finish?.({
                 gameId: GAME_ID, kind: "gameover", cleared: false, score: run.score, bonus: false,
-                stage: run.stage + 1, stagesTotal: stages.length, stageName: loc(def.name),
+                stage: run.stage + 1, stagesTotal: stages.length, stageName: cardName(def),
                 negative: [P.negative, P.gameover_negative].filter(Boolean).join(", "),
                 rewards: buildRewards(P.gameover, def.bg, P.character),
             });
